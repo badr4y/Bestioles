@@ -1,3 +1,3 @@
 # Bestioles
 
-Ceci est le Read Me
+Ceci est le Read Me capteurs-accessoires-feature
