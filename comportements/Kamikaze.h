@@ -8,19 +8,19 @@
 #include <iostream>
 using namespace std;
 
-class Kamikaz : public virtual Comportement{
+class Kamikaze : public virtual Comportement{
 
 private :
-   Kamikaze kamikaze;
+   static Kamikaze* kamikaze;
 
 private :
    Kamikaze();
 public :                                           
-   static Kamikaze getKamikaze();    
+   static Kamikaze* getKamikaze();    
 
 public : 
-   Bestiole getPlusProche();
-   void execute(Bestiole, Milieu);
+   const Bestiole& getPlusProche();
+   void execute(const Bestiole&, const Milieu&);
    
    ~Kamikaze();                              
 };
