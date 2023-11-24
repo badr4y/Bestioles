@@ -18,3 +18,5 @@ public:
     virtual int,int getDirectionMoyenne()=0; 
     virtual ~Comportement{};
 };
+
+#endif
