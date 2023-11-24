@@ -11,6 +11,9 @@
 using namespace std;
 
 
+
+
+
 class Milieu : public UImg
 {
 
@@ -26,10 +29,11 @@ public :
 
    int getWidth( void ) const { return width; };
    int getHeight( void ) const { return height; };
+   std::vector<Bestiole> getListeBestioles() const {return listeBestioles; };
 
    void step( void );
 
-   void addMember( const Bestiole & b ) { listeBestioles.push_back(b); listeBestioles.back().initCoords(width, height); }
+   void addMember( const Bestiole & b ){ listeBestioles.push_back(b); listeBestioles.back().initCoords(width, height); };
    int nbVoisins( const Bestiole & b );
 
 };

@@ -3,6 +3,8 @@
 #include <cstdlib>
 #include <ctime>
 
+#include "Bestiole.h"
+
 
 const T    Milieu::white[] = { (T)255, (T)255, (T)255 };
 
@@ -54,3 +56,5 @@ int Milieu::nbVoisins( const Bestiole & b )
    return nb;
 
 }
+
+

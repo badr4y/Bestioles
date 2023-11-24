@@ -4,7 +4,12 @@
 
 #include "UImg.h"
 
+#include <memory>
 #include <iostream>
+#include <vector>
+#include <utility>
+#include "Upgrades/Upgrade.h"
+
 
 using namespace std;
 
@@ -31,11 +36,13 @@ private :
 
    T               * couleur;
 
+   std::vector<std::shared_ptr<Upgrade>> upgrades;
+
 private :
    void bouge( int xLim, int yLim );
 
 public :                                           // Forme canonique :
-   Bestiole( void );                               // Constructeur par defaut
+   Bestiole();                         // Constructeur par defaut
    Bestiole( const Bestiole & b );                 // Constructeur de copies
    ~Bestiole( void );                              // Destructeur
                                                    // Operateur d'affectation binaire par defaut
@@ -47,6 +54,12 @@ public :                                           // Forme canonique :
    void initCoords( int xLim, int yLim );
 
    friend bool operator==( const Bestiole & b1, const Bestiole & b2 );
+
+   int getCoordx() const;
+   int getCoordy() const;
+
+   std::vector<Bestiole> capteBestioles( Milieu & monMilieu );
+   double getCamouflage();
 
 };
 
