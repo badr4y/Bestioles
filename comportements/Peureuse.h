@@ -27,7 +27,7 @@ public :
 	int getDensiteBestioles(std::vector<Bestiole>);
 	void execute(Bestiole,Milieu);
 	double getOrientationMoyenne(std::vector<Bestiole>);
-	std::pair<int, int> getDirectionMoyenne(std::vector<Bestiole);
+	double getNouvelleDirection(std::vector<Bestiole);
 
 
 }

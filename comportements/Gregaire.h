@@ -20,7 +20,7 @@ public :
 
 public : 
    double getOrientationMoyenneVoisins();                            
-   int,int getDirectionMoyenne(); 
+   double getNouvelleOrientation(); 
 
    void execute(Bestiole, Milieu)
    ~Gregaire();                              
