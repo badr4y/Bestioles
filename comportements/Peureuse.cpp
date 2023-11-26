@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <cmath>
+#include <memory>
 
 const double Peureuse::COEFFPEUR = 3. ;
 const int Peureuse::DENSITEBESTIOLE = 5;
@@ -12,34 +13,38 @@ Peureuse::Peureuse() {
 }
 
 Peureuse Peureuse::getPeureuse() {
-	std::cout << "Voici le comportement peureuse" <<std::endl;
-	if (peureuse==null)  {
-		peureuse = new Peureuse();
+	if ((peureuse)==nullptr)  {
+		std::unique_ptr<Peureuse> peureuse(new Peureuse());
 	}
-	return peureuse;
+	return (*peureuse);
 }
 
-int Peureuse::getDensiteBestioles(std::vector<Bestiole> * bestioles) {
-	return bestioles.size();
+int Peureuse::getDensiteBestioles(std::vector<Bestiole> const *bestioles) {
+	return bestioles->size();
 }
 
-double Peureuse::getOrientationMoyenne(std::vector<Bestiole> * bestioles) {
+double Peureuse::getOrientationMoyenneVoisins(std::vector<Bestiole> const *bestioles) {
 	double result = 0;
-	if (bestioles.size() != 0) {
-		for (size_t i = 0; i < bestioles.size(); ++i) {
+	if (bestioles->size() != 0) {
+		for (size_t i = 0; i < bestioles->size(); ++i) {
 			result+= bestioles[i].getOrientation();
-}
-		result = result%(2*M_PI);
-		return result/bestioles.size();
+	}
+		while (result >= 2*M_PI) {
+			result = result - 2*M_PI;
+		}
+		while (result <0) {
+			result += 2*M_PI;
+		}
+		return result / bestioles->size();
 	}
 	else {
-		return result
+		return result;
 	}
 }
 
-double Peureuse::getNouvelleDirection(std::vector<Bestiole> *bestioles) {
-	if (this.getDensiteBestioles >= this.DENSITEBESTIOLE) {
-		return - this.getOrientationMoyenne;
+double Peureuse::getNouvelleDirection(const std::vector<Bestiole> *bestioles) {
+	if (this->getDensiteBestioles(bestioles) >= this->DENSITEBESTIOLE) {
+		return - this->getOrientationMoyenneVoisins(bestioles);
 	} 
 	else {
 		return 0;

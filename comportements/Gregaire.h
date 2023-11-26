@@ -2,28 +2,29 @@
 #define _GREGAIRE_H_
 
 #include "Comportement.h"
-#include "Bestiole.h"
-#include "Milieu.h"
+#include "../Bestiole.h"
+#include "../Milieu.h"
 
+#include <memory>
 #include <iostream>
 using namespace std;
 
-class Gregaire : public virtual Comportement{
+class Gregaire : public Comportement{
 
 private :
-   Gregaire gregaire;
+   static std::unique_ptr<Gregaire> gregaire;
 
 private :
    Gregaire();
+
 public :                                           
    static Gregaire getGregaire();    
 
 public : 
-   double getOrientationMoyenneVoisins();                            
-   double getNouvelleOrientation(); 
+   double getOrientationMoyenneVoisins(const std::vector<Bestiole>*);                            
+   double getNouvelleOrientation(const std::vector<Bestiole>*); 
 
-   void execute(Bestiole, Milieu)
-   ~Gregaire();                              
+   void execute(Bestiole*, Milieu *);                            
 };
 
 
