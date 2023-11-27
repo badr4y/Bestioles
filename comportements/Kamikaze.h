@@ -2,8 +2,8 @@
 #define _KAMIKAZE_H_
 
 #include "Comportement.h"
-#include "Bestiole.h"
-#include "Milieu.h"
+#include "../Bestiole.h"
+#include "../Milieu.h"
 
 #include <iostream>
 using namespace std;
