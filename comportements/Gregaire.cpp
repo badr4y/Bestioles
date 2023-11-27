@@ -1,25 +1,44 @@
-#include "gregaire.h"
+#include "Gregaire.h"
 
-Gregaire :: Gregaire() {
-    
-}
-Gregaire getGregaire (){
-    
-}
-double Gregaire::getOrientationMoyenneVoisins() {
-    
-    return 0.0; 
+#include <memory>
+#include <iostream>
+#include <cmath>
+
+Gregaire::Gregaire() {
+    std::cout << "Création du comportement Grégaire" << std::endl;
 }
 
-std::pair<int, int> Gregaire::getDirectionMoyenne() {
-    
-    return std::make_pair(0, 0); 
+Gregaire Gregaire::getGregaire (){
+    if (gregaire ==nullptr) {
+        std::unique_ptr<Gregaire> gregaire(new Gregaire());
+    }
+    return (*gregaire);
 }
 
-void Gregaire::execute(Bestiole b, Milieu m){
+double Gregaire::getOrientationMoyenneVoisins(std::vector<Bestiole> const *bestioles) {
+    double result = 0;
+    if (bestioles->size() != 0) {
+        for (size_t i = 0; i < bestioles->size(); ++i) {
+            result+= bestioles[i].getOrientation();
+    }
+        while (result >= 2*M_PI) {
+            result = result - 2*M_PI;
+        }
+        while (result <0) {
+            result += 2*M_PI;
+        }
+        return result / bestioles->size();
+    }
+    else {
+        return result;
+    }
+}
+
+double Gregaire::getNouvelleOrientation(std::vector<Bestiole> const *bestioles) {
+    return this->getOrientationMoyenneVoisins(bestioles);
+}
+
+void Gregaire::execute(Bestiole *bestiole, Milieu *milieu){
 
 }
 
-Gregaire::~Gregaire() {
-    
-}
