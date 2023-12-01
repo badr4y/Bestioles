@@ -18,7 +18,7 @@ private :
    Gregaire();
 
 public :                                           
-   static Gregaire getGregaire();    
+   static Gregaire* getGregaire();    
 
 public : 
    double getOrientationMoyenneVoisins(const std::vector<Bestiole>*);                            

@@ -12,11 +12,11 @@ Peureuse::Peureuse() {
 	std::cout << "Comportement peureuse créé" << std::endl;
 }
 
-Peureuse Peureuse::getPeureuse() {
+Peureuse* Peureuse::getPeureuse() {
 	if ((peureuse)==nullptr)  {
 		std::unique_ptr<Peureuse> peureuse(new Peureuse());
 	}
-	return (*peureuse);
+	return (peureuse*);
 }
 
 int Peureuse::getDensiteBestioles(std::vector<Bestiole> const *bestioles) {

@@ -22,7 +22,7 @@ private :
 	Peureuse();
 
 public :
-	static Peureuse getPeureuse();
+	static Peureuse* getPeureuse();
 
 public :
 	int getDensiteBestioles(const std::vector<Bestiole>*);

@@ -8,11 +8,11 @@ Gregaire::Gregaire() {
     std::cout << "Création du comportement Grégaire" << std::endl;
 }
 
-Gregaire Gregaire::getGregaire (){
+Gregaire* Gregaire::getGregaire (){
     if (gregaire ==nullptr) {
         std::unique_ptr<Gregaire> gregaire(new Gregaire());
     }
-    return (*gregaire);
+    return (gregaire);
 }
 
 double Gregaire::getOrientationMoyenneVoisins(std::vector<Bestiole> const *bestioles) {

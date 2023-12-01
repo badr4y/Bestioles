@@ -3,6 +3,8 @@
 
 #include "Comportement.h"
 
+#include <memory>
+
 class PersonnalitesMultiples : public Comportement{
 
 private :
@@ -12,11 +14,11 @@ private :
 	static const double PROPORTIONPREVOYANTE;
 
 private :
-	Comportement currentComportement;
+	Comportement* currentComportement;
 
 public :
 	PersonnalitesMultiples();
-	void setComportement(const * newComportement);
+	void setComportement( Comportement * );
 	void changeComportement();
 	void execute();
 
