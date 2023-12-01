@@ -24,6 +24,7 @@ private :
    static const double     AFF_SIZE;
    static const double     MAX_VITESSE;
    static const double     LIMITE_VUE;
+   static const double     P_MORT_COLLISION;
 
    static int              next;
 
@@ -60,6 +61,7 @@ public :                                           // Forme canonique :
 
    std::vector<Bestiole> capteBestioles( Milieu & monMilieu ) const;
    double getCamouflage() const;
+   double getProbaMortCollision() const;
 
 };
 

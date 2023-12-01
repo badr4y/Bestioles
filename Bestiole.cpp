@@ -13,12 +13,14 @@
 #include "Upgrades/Yeux.h"
 #include "Upgrades/Oreilles.h"
 #include "Upgrades/Camouflage.h"
+#include "Upgrades/Carapace.h"
+#include "Upgrades/Nageoire.h"
 
 
 const double      Bestiole::AFF_SIZE = 8.;
 const double      Bestiole::MAX_VITESSE = 10.;
 const double      Bestiole::LIMITE_VUE = 30.;
-
+const double      Bestiole::P_MORT_COLLISION = 0.1; 
 int               Bestiole::next = 0;
 
 
@@ -282,4 +284,27 @@ double Bestiole::getCamouflage() const
       }
    }
    return camouflageValue;
+}
+
+
+double Bestiole::getProbaMortCollision() const
+{
+   double probaMortCollision = Bestiole::P_MORT_COLLISION;
+   double newValue;
+
+   for (const std::shared_ptr<Upgrade>& u : upgrades) {
+      Upgrade& upgrade = *u;
+
+      if (upgrade.isCarapace()) {
+
+         if (Carapace* carapacePtr = dynamic_cast<Carapace*>(&upgrade)) {
+            newValue = carapacePtr->getOmega();
+            probaMortCollision = probaMortCollision/newValue;
+
+         } else {
+            cout << "Dynamic cast failed..." << endl; 
+         }
+      }
+   }
+   return probaMortCollision;
 }

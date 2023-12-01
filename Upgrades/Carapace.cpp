@@ -35,3 +35,11 @@ bool Carapace::isNageoire() {
 bool Carapace::isOreille() {
     return false;
 }
+
+double Carapace::getEta() {
+    return eta;
+}
+
+double Carapace::getOmega() {
+    return omega;
+}

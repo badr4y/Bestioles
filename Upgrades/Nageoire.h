@@ -19,6 +19,8 @@ public:
 	bool isNageoire();
 	bool isOreille();
 
+	double getNu();
+
 };
 
 #endif

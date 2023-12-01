@@ -20,6 +20,9 @@ public:
 	bool isCarapace();
 	bool isNageoire();
 	bool isOreille();
+
+	double getEta();
+	double getOmega();
 };
 
 #endif

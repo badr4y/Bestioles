@@ -30,3 +30,7 @@ bool Nageoire::isNageoire() {
 bool Nageoire::isOreille() {
     return false;
 }
+
+double Nageoire::getNu() {
+    return nu;
+}
