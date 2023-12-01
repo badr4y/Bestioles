@@ -1,6 +1,7 @@
 #include "Capteur.h"
 #include "Yeux.h"
 #include "Oreilles.h"
+#include "Camouflage.h"
 
 #include <cstdlib>
 #include <cmath>
@@ -17,8 +18,6 @@ bool Capteur::capte(const Bestiole& b, int x, int y, double orientation) {
 
     dist = std::sqrt((x - bx) * (x - bx) + (y - by) * (y - by));
 
-    cout << "dist" << dist << endl;
-
     double delta;
     if (isOreilles()) {
         Oreilles* o = dynamic_cast<Oreilles*>(this);
@@ -28,13 +27,12 @@ bool Capteur::capte(const Bestiole& b, int x, int y, double orientation) {
         delta = y->getDelta();
     }
 
-    cout << "delta" << delta << endl;
-
     if (dist != 0. && dist <= delta) {
-    	cout << "distance smaller than delta" << endl;
         // Distance not too large (within delta)
 
-        double angle = std::atan2(by - y, bx - x);
+        cout << orientation << endl;
+
+        double angle = std::atan2(-(by - y), bx - x);
 
         double alpha;
         if (isYeux()) {
@@ -46,16 +44,23 @@ bool Capteur::capte(const Bestiole& b, int x, int y, double orientation) {
         double ecartAngulaire = std::abs(orientation - angle);
         while (ecartAngulaire > 2 * M_PI)
             ecartAngulaire -= 2 * M_PI;
-        while (ecartAngulaire < 0)
-            ecartAngulaire += 2 * M_PI;
 
         if (isOreilles() || ecartAngulaire <= (alpha / 2)) {
-            // If the angular deviation is within the field of vision with angular sector alpha, the bestiole is seen
-            
-            // camouflage à prendre en compte avec b.getCamouflage() a utiliser quand elle sera programmee
 
+        	double gamma;
+		    if (isOreilles()) {
+		        Oreilles* o = dynamic_cast<Oreilles*>(this);
+		        gamma = o->getGamma();
+		    } else {
+		        Yeux* y = dynamic_cast<Yeux*>(this);
+		        gamma = y->getGamma();
+		    }        	
 
-            return true;
+            if (b.getCamouflage() < gamma){
+
+            	return true;
+
+            }
         }
     }
 

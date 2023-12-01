@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <cmath>
 
-const double Camouflage::NU_MAX = 3;
+const double Nageoire::NU_MAX = 3;
 double nu;
 
 // CONSTRUCTEUR

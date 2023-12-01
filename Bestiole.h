@@ -58,8 +58,8 @@ public :                                           // Forme canonique :
    int getCoordx() const;
    int getCoordy() const;
 
-   std::vector<Bestiole> capteBestioles( Milieu & monMilieu );
-   double getCamouflage();
+   std::vector<Bestiole> capteBestioles( Milieu & monMilieu ) const;
+   double getCamouflage() const;
 
 };
 

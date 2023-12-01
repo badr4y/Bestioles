@@ -12,6 +12,7 @@
 #include "Upgrades/Capteur.h"
 #include "Upgrades/Yeux.h"
 #include "Upgrades/Oreilles.h"
+#include "Upgrades/Camouflage.h"
 
 
 const double      Bestiole::AFF_SIZE = 8.;
@@ -43,8 +44,11 @@ Bestiole::Bestiole()
 
    Yeux yeux;
    Oreilles oreilles;
+   //Camouflage camouflage;
    upgrades.push_back(std::make_shared<Yeux>(yeux));
    upgrades.push_back(std::make_shared<Oreilles>(oreilles));
+   //upgrades.push_back(std::make_shared<Camouflage>(camouflage));
+
 
 }
 
@@ -127,10 +131,9 @@ void Bestiole::bouge( int xLim, int yLim )
 void Bestiole::action( Milieu & monMilieu )
 {
 
-   bouge( monMilieu.getWidth(), monMilieu.getHeight() );
-   
+   std::vector<Bestiole> bestiolesCaptees = capteBestioles(monMilieu);
 
-   if (capteBestioles(monMilieu).size() == 0 ){ // devient noir si il ne voit aucune bestiole et devient rouge si il voit une ou plusieurs bestioles
+   if (bestiolesCaptees.size() == 0 ){ // devient noir si il ne voit aucune bestiole et devient rouge si il voit une ou plusieurs bestioles
       couleur[ 0 ] = static_cast<int>( 10. );
       couleur[ 1 ] = static_cast<int>( 10. );
       couleur[ 2 ] = static_cast<int>( 10. );
@@ -140,6 +143,10 @@ void Bestiole::action( Milieu & monMilieu )
       couleur[ 2 ] = static_cast<int>( 10. );
    }
 
+
+
+   bouge( monMilieu.getWidth(), monMilieu.getHeight() );
+   
 }
 
 
@@ -152,6 +159,36 @@ void Bestiole::draw( UImg & support )
 
    support.draw_ellipse( x, y, AFF_SIZE, AFF_SIZE/5., -orientation/M_PI*180., couleur );
    support.draw_circle( xt, yt, AFF_SIZE/2., couleur );
+
+   for (const std::shared_ptr<Upgrade>& u : upgrades) {
+      
+      Upgrade& upgrade = *u;
+
+      if (upgrade.isYeux()) {
+         if (Yeux* yeuxPtr = dynamic_cast<Yeux*>(&upgrade)) {
+            double delta = yeuxPtr->getDelta();
+            double angle = yeuxPtr->getAlpha()/2;
+            //support.draw_line(x, y, x+cos(orientation)*delta, y-sin(orientation)*delta,couleur);
+            support.draw_line(x, y, x+cos(orientation+angle)*delta, y-sin(orientation+angle)*delta,couleur);
+            support.draw_line(x, y, x+cos(orientation-angle)*delta, y-sin(orientation-angle)*delta,couleur);
+         }
+      } else {
+
+         if (upgrade.isOreilles()) {
+            if (Oreilles* oreillesPtr = dynamic_cast<Oreilles*>(&upgrade)) {
+               support.draw_circle(x, y, oreillesPtr->getDelta(), couleur, 1, 0xFFFFFFFF); // opacity, outline (0=none, 1=dots, 0xFFFFFFFF=full)
+            }
+         }
+
+      }
+
+   }
+
+   //support.draw_line(x, y, x+cos(orientation)*200, y-sin(orientation)*200,couleur);
+   //support.draw_line(x, y, x+cos(orientation+0.25)*200, y-sin(orientation+0.25)*200,couleur);
+   //support.draw_line(x, y, x+cos(orientation-0.25)*200, y-sin(orientation-0.25)*200,couleur);
+
+   //support.draw_circle(x, y, 100, couleur, 1, 0xFFFFFFFF); // opacity, outline (0=none, 1=dots, 0xFFFFFFFF=full)
 
 }
 
@@ -187,12 +224,11 @@ int Bestiole::getCoordy() const
 }
 
 
-std::vector<Bestiole> Bestiole::capteBestioles( Milieu & monMilieu )
+std::vector<Bestiole> Bestiole::capteBestioles( Milieu & monMilieu ) const
 {
    std::vector<Bestiole> bestiolesCaptees;
 
    for (const std::shared_ptr<Upgrade>& u : upgrades) {
-      
       Upgrade& upgrade = *u;
 
       if (upgrade.isYeux() || upgrade.isOreilles()) {
@@ -206,7 +242,6 @@ std::vector<Bestiole> Bestiole::capteBestioles( Milieu & monMilieu )
                   if ((std::find(bestiolesCaptees.begin(), bestiolesCaptees.end(), b) == bestiolesCaptees.end())) { // if not in bestiolesCaptees already
 
                      if (capteurPtr->capte(b, x, y, orientation)) {
-                        //cout << "CAPTE" << endl;
                         bestiolesCaptees.push_back(b);
                      }
                   }
@@ -217,22 +252,34 @@ std::vector<Bestiole> Bestiole::capteBestioles( Milieu & monMilieu )
          }
       }
    }
-
    return bestiolesCaptees;
 }
 
 
 
 
-
-
-/*double Bestiole::getCamouflage()
+double Bestiole::getCamouflage() const
 {
-   double camouflage = 0;
-   for (Upgrade u : upgrades) { // retourne la valeur du dernier camouflage trouvé (si plusieurs)
-      if(u.isCamouflage()) {
-         camouflage = u.getPsi();
+   double camouflageValue = 0;
+   double newValue;
+
+   for (const std::shared_ptr<Upgrade>& u : upgrades) {
+      Upgrade& upgrade = *u;
+
+      if (upgrade.isCamouflage()) {
+
+         if (Camouflage* camouflagePtr = dynamic_cast<Camouflage*>(&upgrade)) {
+            newValue = camouflagePtr->getPsi();
+
+            if (newValue > camouflageValue){
+               camouflageValue = newValue;
+
+            }
+
+         } else {
+            cout << "Dynamic cast failed..." << endl; 
+         }
       }
    }
-   return camouflage;
-}*/
+   return camouflageValue;
+}

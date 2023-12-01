@@ -5,17 +5,17 @@
 #include <cmath>
 
 const double Oreilles::GAMMA_OREILLES_MAX = 1.;
-const double Oreilles::GAMMA_OREILLES_MIN = 0;
-const double Oreilles::DELTA_OREILLES_MAX = 10.;
-const double Oreilles::DELTA_OREILLES_MIN = 2.;
+const double Oreilles::GAMMA_OREILLES_MIN = 0.5;
+const double Oreilles::DELTA_OREILLES_MAX = 60.;
+const double Oreilles::DELTA_OREILLES_MIN = 10.;
 
 Oreilles::Oreilles(){
-	double rand1 = (rand() % 1000)/1000;  // rand() entre 0 et RAND_MAX ; (rand() % 1000) entre 0 et 1000 ; (rand() % 1000)/1000 entre 0.000 et 1.000 
-	double rand2 = (rand() % 1000)/1000;  // rand() entre 0 et RAND_MAX ; (rand() % 1000) entre 0 et 1000 ; (rand() % 1000)/1000 entre 0.000 et 1.000 
-	//gamma = GAMMA_OREILLES_MIN + rand1*(GAMMA_OREILLES_MAX - GAMMA_OREILLES_MIN);
-	//delta = DELTA_OREILLES_MIN + rand2*(DELTA_OREILLES_MAX - DELTA_OREILLES_MIN);
-	gamma = 1.;
-	delta = 0.;
+	double rand1 = (rand() % 1000)/1000.;  // rand() entre 0 et RAND_MAX ; (rand() % 1000) entre 0 et 1000 ; (rand() % 1000)/1000 entre 0.000 et 1.000 
+	double rand2 = (rand() % 1000)/1000.;  // rand() entre 0 et RAND_MAX ; (rand() % 1000) entre 0 et 1000 ; (rand() % 1000)/1000 entre 0.000 et 1.000 
+	gamma = GAMMA_OREILLES_MIN + rand1*(GAMMA_OREILLES_MAX - GAMMA_OREILLES_MIN);
+	delta = DELTA_OREILLES_MIN + rand2*(DELTA_OREILLES_MAX - DELTA_OREILLES_MIN);
+	//gamma = 1.;
+	//delta = 100.;
 }
 
 Oreilles::Oreilles( const Oreilles & o )

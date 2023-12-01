@@ -1,7 +1,7 @@
 #ifndef _CAMOUFLAGE_H_
 #define _CAMOUFLAGE_H_
 
-#include "Acessoire.h"
+#include "Accessoire.h"
 
 class Camouflage :public Accessoire {
 private:
@@ -18,7 +18,9 @@ public:
 	bool isCamouflage();
 	bool isCarapace();
 	bool isNageoire();
-	bool isOreille();
+	bool isOreilles();
+
+	double getPsi();
 };
 
 #endif
