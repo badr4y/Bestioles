@@ -62,7 +62,7 @@ public :                                           // Forme canonique :
    std::vector<Bestiole> capteBestioles( Milieu & monMilieu ) const;
    double getCamouflage() const;
    double getProbaMortCollision() const;
-
+   double getVitesse() const;
 };
 
 

@@ -286,6 +286,36 @@ double Bestiole::getCamouflage() const
    return camouflageValue;
 }
 
+double Bestiole::getVitesse() const
+{   
+    double vitesse;
+    double newNu;
+    double newEta;
+
+    for (const std::shared_ptr<Upgrade>& u : upgrades) {
+        Upgrade& upgrade = *u;
+
+        if (upgrade.isNageoire()) {
+            if (Nageoire* nageoirePtr = dynamic_cast<Nageoire*>(&upgrade)) {
+                newNu = nageoirePtr->getNu();
+
+                vitesse = vitesse * newNu;
+            }
+        }
+
+        if (upgrade.isCarapace()) {
+            if (Carapace* carapacePtr = dynamic_cast<Carapace*>(&upgrade)) {
+                newEta = carapacePtr->getEta();
+
+                vitesse = vitesse / newEta;
+            }
+        }
+
+    }
+    return vitesse;
+
+}
+
 
 double Bestiole::getProbaMortCollision() const
 {
