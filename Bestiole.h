@@ -29,13 +29,15 @@ private :
    double            orientation;
    double            vitesse;
 
+   Comportement      comportement;
+
    T               * couleur;
 
 private :
    void bouge( int xLim, int yLim );
 
 public :                                           // Forme canonique :
-   Bestiole( void );                               // Constructeur par defaut
+   Bestiole( Comportement comportement );                               // Constructeur par defaut
    Bestiole( const Bestiole & b );                 // Constructeur de copies
    ~Bestiole( void );                              // Destructeur
                                                    // Operateur d'affectation binaire par defaut
