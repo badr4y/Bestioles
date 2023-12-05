@@ -9,6 +9,12 @@ public:
   static BestioleFactory getFactory();
   void createPopulation();
   void createCreature();
+  void cloneBestiole(Bestiole b);
+  double getPROPORTIONGREGAIRE() const;
+  double getPROPORTIONPEUREUSE() const;
+  double getPROPORTIONKAMIKAZE() const;
+  double getPROPORTIONPREVOYANT() const;
+  double getPROPORTIONMULTIPLE() const;
 
 private:
   const double PROPORTIONGREGAIRE;

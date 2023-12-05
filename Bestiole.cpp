@@ -4,6 +4,7 @@
 
 #include <cstdlib>
 #include <cmath>
+#include "comportements/Comportement.h"
 
 
 const double      Bestiole::AFF_SIZE = 8.;
@@ -13,7 +14,7 @@ const double      Bestiole::LIMITE_VUE = 30.;
 int               Bestiole::next = 0;
 
 
-Bestiole::Bestiole( Comportement comportement )
+Bestiole::Bestiole(ComportementEnum comportementEnum)
 {
 
    identite = ++next;
@@ -24,6 +25,23 @@ Bestiole::Bestiole( Comportement comportement )
    cumulX = cumulY = 0.;
    orientation = static_cast<double>( rand() )/RAND_MAX*2.*M_PI;
    vitesse = static_cast<double>( rand() )/RAND_MAX*MAX_VITESSE;
+   switch (comportementEnum) {
+   case ComportementEnum::gregaire :
+       this->comportement = Gregaire.getGregaire();
+       break;
+   case ComportementEnum::peureuse:
+       this->comportement = Peureuse.getPeureuse();
+       break;
+   case ComportementEnum::kamikaze:
+       this->comportement = Kamikaze.getKamikaze();
+       break;
+   case ComportementEnum::prevoyante:
+       this->comportement = Prevoyante.getPrevoyante();
+       break;
+   case ComportementEnum::personnalitesMultiples:
+       this->comportement = PersonnaliteMultiples.getPersonnalitesMultiples();
+       break;
+   }
 
    couleur = new T[ 3 ];
    couleur[ 0 ] = static_cast<int>( static_cast<double>( rand() )/RAND_MAX*230. );
@@ -42,11 +60,12 @@ Bestiole::Bestiole( const Bestiole & b )
 
    cout << "const Bestiole (" << identite << ") par copie" << endl;
 
-   x = b.x;
+   x = b.x + 1;
    y = b.y;
    cumulX = cumulY = 0.;
    orientation = b.orientation;
    vitesse = b.vitesse;
+   comportement = b->comportement;
    couleur = new T[ 3 ];
    memcpy( couleur, b.couleur, 3*sizeof(T) );
 

@@ -14,15 +14,28 @@ BestioleFactory::BestioleFactory(double gregaire, double peureuse, double kamika
 {
 }
 
+double BestioleFactory::getPROPORTIONGREGAIRE() const {
+    return PROPORTIONGREGAIRE;
+}
+double BestioleFactory::getPROPORTIONPEUREUSE() const {
+    return PROPORTIONPEUREUSE;
+}
+double BestioleFactory::getPROPORTIONKAMIKAZE() const {
+    return PROPORTIONKAMIKAZE;
+}
+double BestioleFactory::getPROPORTIONPREVOYANT() const {
+    return PROPORTIONPREVOYANT;
+}
+double BestioleFactory::getPROPORTIONMULTIPLE() const {
+    return PROPORTIONMULTIPLE;
+}
+
+
 static BestioleFactory &BestioleFactory::getFactory()
 {
     if (factoryInstance == nullptr)
     {
-        double gregaire;
-        double peureuse;
-        double kamikaze;
-        double prevoyant;
-        double multiple;
+        double gregaire, peureuse, kamikaze, prevoyant, multiple;
         int population;
         std::cout << "Enter Proportion of Gregaire: ";
         std::cin >> gregaire;
@@ -76,4 +89,9 @@ void BestioleFactory::createPopulation()
 void BestioleFactory::createCreature()
 {
     Aquarium.getMilieu.addMember(Bestiole());
+}
+
+void BestioleFactory::cloneBestiole(Bestiole b) 
+{
+    Aquarium.getMilieu.addMember(Bestiole( const Bestiole & b));
 }
