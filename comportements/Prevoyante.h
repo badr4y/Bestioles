@@ -19,11 +19,10 @@ public :
    static Prevoyante* getPrevoyante();    
 
 public : 
-   double estimeTrajectoire();
-   double calculNouvelleDirection();
+   double estimeTrajectoire(const Bestiole&, const Bestiole&);
+   double calculNouvelleDirection(const Bestiole&, const Milieu&);
    void execute(const Bestiole&, const Milieu&);
-   
-   ~Prevoyante();                              
+                                
 };
 
 

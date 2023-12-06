@@ -12,7 +12,7 @@ using namespace std;
 class Gregaire : public Comportement{
 
 private :
-   static std::unique_ptr<Gregaire> gregaire;
+   static Gregaire* gregaire;
 
 private :
    Gregaire();
@@ -21,10 +21,10 @@ public :
    static Gregaire* getGregaire();    
 
 public : 
-   double getOrientationMoyenneVoisins(const std::vector<Bestiole>*);                            
-   double getNouvelleOrientation(const std::vector<Bestiole>*); 
+   double getOrientationMoyenneVoisins(const std::vector<Bestiole>&);                            
+   double getNouvelleOrientation(const std::vector<Bestiole>&); 
 
-   void execute(Bestiole*, Milieu *);                            
+   void execute(Bestiole&, Milieu &);                            
 };
 
 

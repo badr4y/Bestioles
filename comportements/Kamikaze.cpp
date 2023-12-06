@@ -2,6 +2,8 @@
 #include "../Bestiole.h"
 #include "../Milieu.h"
 
+#include <limits>
+
 
 // initialisation du singleton kamikaze
 //pointeur statique ==> unique ==> sûr 
@@ -16,11 +18,11 @@ Kamikaze* Kamikaze::getKamikaze() {
     return kamikaze;
     }
 
-Bestiole Kamikaze::getPlusProche(Bestiole b) {
+const Bestiole& Kamikaze::getPlusProche(const Bestiole & b) {
     std::vector<Bestiole> listeBestioles = b.capteBestioles();
 
     if (listeBestioles.empty()) {
-        return Bestiole();  
+        return b;  
     }
 
     double distanceMin = std::numeric_limits<double>::max();
@@ -37,12 +39,12 @@ Bestiole Kamikaze::getPlusProche(Bestiole b) {
             plusProche = autreBestiole;
         }
     }
-    return plusProche;
+    return plusProche&;
 }
 
 
 
-void Kamikaze::execute(Bestiole& bestiole, Milieu& milieu) {
+void Kamikaze::execute(const Bestiole & bestiole,const Milieu & milieu) {
     // Obtenir la bestiole la plus proche
     Bestiole proie = getPlusProche(bestiole);
 
@@ -82,7 +84,7 @@ void Kamikaze::execute(Bestiole& bestiole, Milieu& milieu) {
 
 
     // Mettre à jour la position si aucune collision n'a eu lieu
-    if (nx < 0 || nx > milieu.getXLim() - 1) {
+    if ((nx < 0 ) || (nx > milieu.getXLim() - 1)) {
         bestiole.setOrientation(M_PI - bestiole.getOrientation());
         bestiole.setCumulX(0.0);
     } else {
@@ -90,7 +92,7 @@ void Kamikaze::execute(Bestiole& bestiole, Milieu& milieu) {
         bestiole.setCumulX(bestiole.getCumulX() + nx - bestiole.getX());
     }
 
-    if (ny < 0 || ny > milieu.getYLim() - 1) {
+    if ((ny < 0) || (ny > milieu.getYLim() - 1)) {
         bestiole.setOrientation(-bestiole.getOrientation());
         bestiole.setCumulY(0.0);
     } else {
@@ -98,7 +100,6 @@ void Kamikaze::execute(Bestiole& bestiole, Milieu& milieu) {
         bestiole.setCumulY(bestiole.getCumulY() + ny - bestiole.getY());
     }
 }
-
-Kamikaze::~Kamikaze() {
-    delete kamikaze;
 }
+
+

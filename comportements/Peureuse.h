@@ -16,7 +16,7 @@ private :
 	static const int DENSITEBESTIOLE;
 
 private :
-	static std::unique_ptr<Peureuse> peureuse;
+	static Peureuse* peureuse;
 
 private :
 	Peureuse();
@@ -25,10 +25,10 @@ public :
 	static Peureuse* getPeureuse();
 
 public :
-	int getDensiteBestioles(const std::vector<Bestiole>*);
-	void execute(Bestiole *,Milieu *);
-	double getOrientationMoyenneVoisins(const std::vector<Bestiole>*);
-	double getNouvelleDirection(const std::vector<Bestiole>*);
+	int getDensiteBestioles(const std::vector<Bestiole>&);
+	void execute(Bestiole &,Milieu &);
+	double getOrientationMoyenneVoisins(const std::vector<Bestiole>&);
+	double getNouvelleDirection(const std::vector<Bestiole>&);
 
 
 };
