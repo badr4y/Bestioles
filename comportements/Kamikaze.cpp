@@ -30,8 +30,8 @@ const Bestiole& Kamikaze::getPlusProche(const Bestiole & b) {
 
     for (const auto& autreBestiole : listeBestioles) {
         // calculer la distance entre b et chaque autre bestiole
-        double distance = std::sqrt(std::pow(b.getCoord()[0] - autreBestiole.getCoord()[0], 2) +
-                                    std::pow(b.getCoord()[0] - autreBestiole.getCoord()[0], 2));
+        double distance = std::sqrt(std::pow(b.getCoordx() - autreBestiole.getCoordx(), 2) +
+                                    std::pow(b.getCoordy() - autreBestiole.getCoordy(), 2));
 
         // mettre à jour la bestiole la plus proche si la distance est plus petite
         if (distance < distanceMin) {
