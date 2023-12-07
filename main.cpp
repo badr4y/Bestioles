@@ -2,6 +2,9 @@
 #include "Milieu.h"
 #include "Bestiole.h"
 #include "factories/BestioleFactory.h"
+#include "Upgrades/Upgrade.h"
+#include "Upgrades/Capteur.h"
+#include "Upgrades/Yeux.h"
 
 #include <iostream>
 
@@ -10,7 +13,6 @@ using namespace std;
 
 int main()
 {
-
    Aquarium       ecosysteme( 640, 480, 30 );
 
    BestioleFactory.getFactory().createPopulation();

@@ -1,4 +1,6 @@
 #include "Milieu.h"
+#include "Bestiole.h"
+
 
 #include <cstdlib>
 #include <ctime>

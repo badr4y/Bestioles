@@ -66,23 +66,40 @@ void BestioleFactory::createPopulation()
 
     // Create Bestiole instances based on proportions
     for (int i = 0; i < gregaireCount; ++i)
-        Aquarium.getMilieu().addMember(Bestiole(/* parameters for Gregaire */));
+        Aquarium.getMilieu().addMember(Bestiole(ComportementEnum::gregaire));
 
     for (int i = 0; i < peureuseCount; ++i)
-        Aquarium.getMilieu().addMember(Bestiole(/* parameters for Peureuse */));
+        Aquarium.getMilieu().addMember(Bestiole(ComportementEnum::peureuse));
 
     for (int i = 0; i < kamikazeCount; ++i)
-        Aquarium.getMilieu().addMember(Bestiole(/* parameters for Kamikaze */));
+        Aquarium.getMilieu().addMember(Bestiole(ComportementEnum::kamikaze));
 
     for (int i = 0; i < prevoyantCount; ++i)
-        Aquarium.getMilieu().addMember(Bestiole(/* parameters for Prevoyant */));
+        Aquarium.getMilieu().addMember(Bestiole(ComportementEnum::prevoyante));
 
     for (int i = 0; i < multipleCount; ++i)
-        Aquarium.getMilieu().addMember(Bestiole(/* parameters for Multiple */));
+        Aquarium.getMilieu().addMember(Bestiole(ComportementEnum::personnalitesMultiples));
 
-    // Add remaining Bestiole instances randomly
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(0, 4);  // Distribution for indices 0 to 4
+
     for (int i = 0; i < remainingCount; ++i)
-        Aquarium.getMilieu().addMember(Bestiole(/* parameters for a random type */));
+    {
+        int randomIndex = dis(gen);
+        ComportementEnum randomComportement;
+
+        switch (randomIndex)
+        {
+        case 0: randomComportement = ComportementEnum::gregaire; break;
+        case 1: randomComportement = ComportementEnum::peureuse; break;
+        case 2: randomComportement = ComportementEnum::kamikaze; break;
+        case 3: randomComportement = ComportementEnum::prevoyante; break;
+        case 4: randomComportement = ComportementEnum::personnalitesMultiples; break;
+        }
+
+        Aquarium.getMilieu().addMember(Bestiole(randomComportement));
+    }
 }
 
 

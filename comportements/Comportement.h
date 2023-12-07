@@ -13,9 +13,9 @@ using namespace std;
 class Comportement {
 
 public:
-    virtual void execute(Bestiole*, Milieu*);
-    virtual double getOrientationMoyenneVoisins(const std::vector<Bestiole>*); 
-    virtual double getNouvelleOrientation(const std::vector<Bestiole>*); 
+    virtual void execute(Bestiole*, Milieu*)=0;
+    virtual double getOrientationMoyenneVoisins(const std::vector<Bestiole>*)=0; 
+    virtual double getNouvelleOrientation(const std::vector<Bestiole>*)=0; 
 };
 
 #endif

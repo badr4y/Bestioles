@@ -19,10 +19,11 @@ public :
    static Kamikaze* getKamikaze();    
 
 public : 
-   const Bestiole& getPlusProche();
-   void execute(const Bestiole&, const Milieu&);
+   const Bestiole& getPlusProche(Bestiole b);
+   void execute(const Bestiole& bestiole, const Milieu& milieu);
    
-   ~Kamikaze();                              
+   ~Kamikaze();    
+
 };
 
 

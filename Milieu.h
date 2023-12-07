@@ -26,6 +26,8 @@ public :
 
    int getWidth( void ) const { return width; };
    int getHeight( void ) const { return height; };
+   std::vector<Bestiole> getListeBestioles() const { return listeBestioles; };
+
 
    void step( void );
 

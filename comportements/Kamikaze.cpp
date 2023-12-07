@@ -42,7 +42,7 @@ Bestiole Kamikaze::getPlusProche(Bestiole b) {
 
 
 
-void Kamikaze::execute(Bestiole& bestiole, Milieu& milieu) {
+void Kamikaze::execute(const Bestiole& bestiole, const Milieu& milieu) {
     // Obtenir la bestiole la plus proche
     Bestiole proie = getPlusProche(bestiole);
 
