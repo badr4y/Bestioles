@@ -8,12 +8,12 @@
 #include <vector>
 #include <utility>
 #include "Upgrades/Upgrade.h"
+#include "comportements/Comportement.h"
+#include "ComportementEnum.h"
 
 using namespace std;
 
-enum ComportementEnum;
-
-class Milieu;
+class Comportement;
 
 class Bestiole
 {

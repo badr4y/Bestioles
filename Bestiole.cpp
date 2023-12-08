@@ -24,7 +24,7 @@ const double Bestiole::LIMITE_VUE = 30.;
 const double Bestiole::P_MORT_COLLISION = 0.1;
 int Bestiole::next = 0;
 
-Bestiole::Bestiole(ComportementEnum comportementEnum)
+Bestiole::Bestiole(ComportementEnum comportementEnum) : isDead(false)
 {
 
    identite = ++next;
@@ -46,7 +46,7 @@ Bestiole::Bestiole(ComportementEnum comportementEnum)
    couleur[1] = static_cast<int>(230.);
    couleur[2] = static_cast<int>(10.);
 
-   switch (comportementEnum) : isDead(false)
+   switch (comportementEnum) :
    {
    case ComportementEnum::gregaire:
       this->comportement = Gregaire::getGregaire();

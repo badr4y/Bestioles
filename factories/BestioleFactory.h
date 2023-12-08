@@ -2,8 +2,8 @@
 #define _BESTIOLEFACTORY_H_
 
 #include "CreatureFactory.h"
+#include "ComportementEnum.h"
 
-enum ComportementEnum;
 
 class Milieu;
 
