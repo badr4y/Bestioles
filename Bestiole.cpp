@@ -47,23 +47,23 @@ Bestiole::Bestiole(ComportementEnum comportementEnum) : isDead(false)
    couleur[2] = static_cast<int>(10.);
 
    switch (comportementEnum) :
-   {
-   case ComportementEnum::gregaire:
-      this->comportement = Gregaire::getGregaire();
-      break;
-   case ComportementEnum::peureuse:
-      this->comportement = Peureuse::getPeureuse();
-      break;
-   case ComportementEnum::kamikaze:
-      this->comportement = Kamikaze::getKamikaze();
-      break;
-   case ComportementEnum::prevoyante:
-      this->comportement = Prevoyante::getPrevoyante();
-      break;
-   case ComportementEnum::personnalitesMultiples:
-      this->comportement = PersonnaliteMultiples::getPersonnalitesMultiples();
-      break;
-   }
+      {
+      case ComportementEnum::gregaire:
+         this->comportement = Gregaire::getGregaire();
+         break;
+      case ComportementEnum::peureuse:
+         this->comportement = Peureuse::getPeureuse();
+         break;
+      case ComportementEnum::kamikaze:
+         this->comportement = Kamikaze::getKamikaze();
+         break;
+      case ComportementEnum::prevoyante:
+         this->comportement = Prevoyante::getPrevoyante();
+         break;
+      case ComportementEnum::personnalitesMultiples:
+         this->comportement = PersonnaliteMultiples::getPersonnalitesMultiples();
+         break;
+      }
 
    Yeux yeux;
    Oreilles oreilles;
@@ -146,13 +146,14 @@ void Bestiole::bouge(int xLim, int yLim)
    }
 }
 
-bool Bestiole::getIsDead() const {
-    return isDead;
+bool Bestiole::getIsDead() const
+{
+   return isDead;
 }
 
-
-void Bestiole::markAsDead() {
-    isDead = true;
+void Bestiole::markAsDead()
+{
+   isDead = true;
 }
 
 void Bestiole::action(Milieu &monMilieu)
@@ -175,8 +176,9 @@ void Bestiole::action(Milieu &monMilieu)
 
    bouge(monMilieu.getWidth(), monMilieu.getHeight());
    stepsToDeath = stepsToDeath - 1;
-   if (stepsToDeath == 0) {
-       markAsDead();
+   if (stepsToDeath == 0)
+   {
+      markAsDead();
    }
 }
 
@@ -240,6 +242,16 @@ bool Bestiole::jeTeVois(const Bestiole &b) const
    return (dist <= LIMITE_VUE);
 }
 
+void setOrientation(double o)
+{
+   orientation = o;
+}
+
+double getOrientation()
+{
+   return orientation;
+}
+
 int Bestiole::getCoordx() const
 {
    return x;
@@ -248,6 +260,16 @@ int Bestiole::getCoordx() const
 int Bestiole::getCoordy() const
 {
    return y;
+}
+
+int Bestiole::getVitesse() const
+{
+   return vitesse;
+}
+
+int Bestiole::setCurrentVitesse(double newVitesse) const
+{
+   currentVitesse = newVitesse;
 }
 
 std::vector<Bestiole> Bestiole::capteBestioles(Milieu &monMilieu) const
@@ -320,9 +342,9 @@ double Bestiole::getCamouflage() const
    return camouflageValue;
 }
 
-double Bestiole::getVitesse() const
+double Bestiole::getVitesseReelle() const
 {
-   double vitesse;
+   double vitesseReelle = currentVitesse;
    double newNu;
    double newEta;
 
@@ -336,7 +358,7 @@ double Bestiole::getVitesse() const
          {
             newNu = nageoirePtr->getNu();
 
-            vitesse = vitesse * newNu;
+            vitesseReelle = vitesseReelle * newNu;
          }
       }
 
@@ -346,11 +368,11 @@ double Bestiole::getVitesse() const
          {
             newEta = carapacePtr->getEta();
 
-            vitesse = vitesse / newEta;
+            vitesseReelle = vitesseReelle / newEta;
          }
       }
    }
-   return vitesse;
+   return vitesseReelle;
 }
 
 double Bestiole::getProbaMortCollision() const
