@@ -34,11 +34,12 @@ double Gregaire::getOrientationMoyenneVoisins(std::vector<Bestiole> const & best
     }
 }
 
-double Gregaire::getNouvelleOrientation(std::vector<Bestiole> const &bestioles) {
+double Gregaire::getNouvelleOrientation(std::vector<Bestiole> const &bestioles, const Bestiole&) {
     return this->getOrientationMoyenneVoisins(bestioles);
 }
 
 void Gregaire::execute(Bestiole &bestiole, Milieu &milieu){
-
+    direction = this->getNouvelleOrientation(bestiole.capteBestioles())
+    bestiole.setOrientation(direction);
 }
 

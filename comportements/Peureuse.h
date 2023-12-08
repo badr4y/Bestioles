@@ -27,8 +27,7 @@ public :
 public :
 	int getDensiteBestioles(const std::vector<Bestiole>&);
 	void execute(Bestiole &,Milieu &);
-	double getOrientationMoyenneVoisins(const std::vector<Bestiole>&);
-	double getNouvelleDirection(const std::vector<Bestiole>&);
+	double getNouvelleDirection(const std::vector<Bestiole>&, const Bestiole&);
 
 
 };

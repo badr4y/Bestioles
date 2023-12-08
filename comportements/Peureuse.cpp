@@ -23,32 +23,39 @@ int Peureuse::getDensiteBestioles(std::vector<Bestiole> const &bestioles) {
 	return bestioles.size();
 }
 
-double Peureuse::getOrientationMoyenneVoisins(std::vector<Bestiole> const &bestioles) {
+
+double Peureuse::getNouvelleDirection(const std::vector<Bestiole> &bestioles, const Bestiole & bestiole) {
+	double moyenneX = 0;
+	double moyenneY = 0;
 	double result = 0;
 	if (bestioles.size() != 0) {
 		for (size_t i = 0; i < bestioles.size(); ++i) {
-			result+= bestioles[i].getOrientation();
-	}
-		while (result >= 2*M_PI) {
-			result = result - 2*M_PI;
+			moyenneX += bestioles[i].getCoordx();
+			moyenneY += bestioles[i].getCoordy();
 		}
-		while (result <0) {
-			result += 2*M_PI;
-		}
-		return result / bestioles.size();
+		moyenneX = moyenneX/bestioles.size();
+		moyenneY = moyenneY/bestioles.size();
+		result = (M_PI/2) - std::atan((moyenneX-bestiole.getCoordx())/(moyenneY -bestiole.getCoordy()));
 	}
 	else {
-		return result;
-	}
+		result = bestiole.getOrientation();
+	}	
+	return result;
+
+
 }
 
-double Peureuse::getNouvelleDirection(const std::vector<Bestiole> &bestioles) {
-	if (this->getDensiteBestioles(bestioles) >= this->DENSITEBESTIOLE) {
-		return - this->getOrientationMoyenneVoisins(bestioles);
-	} 
+void Peureuse::execute(Bestiole & bestiole, Milieu & milieu)  {
+	direction = this.getNouvelleDirection(bestiole.capteBestioles(),bestiole);
+	if (this.getDensiteBestioles(bestiole.capteBestioles())>= DENSITEBESTIOLE) {
+		bestiole.setOrientation(direction);
+		bestiole.setCurrentVitesse(bestiole.getVitesse() * COEFFPEUR);
+	}
 	else {
-		return 0;
-	}
+		bestiole.setOrientation(direction);
+		bestiole.setCurrentVitesse(bestiole.getVitesse());
 }
 
-/* méthode execute à implémenter */
+
+}
+
