@@ -8,12 +8,12 @@
 #include <vector>
 #include <utility>
 #include "Upgrades/Upgrade.h"
+#include "comportements/Comportement.h"
+#include "ComportementEnum.h"
 
 using namespace std;
 
-enum ComportementEnum;
-
-class Milieu;
+class Comportement;
 
 class Bestiole
 {
@@ -26,14 +26,14 @@ private:
 
    static int next;
 
-private :
-   int               identite;
-   int               x, y;
-   double            cumulX, cumulY;
-   double            orientation;
-   double            vitesse;
-   double            currentVitesse;
-   Comportement* comportement;
+private:
+   int identite;
+   int x, y;
+   double cumulX, cumulY;
+   double orientation;
+   double vitesse;
+   double currentVitesse;
+   Comportement *comportement;
    int stepsToDeath;
    bool isDead;
 
