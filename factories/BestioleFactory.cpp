@@ -1,6 +1,7 @@
 #include "BestioleFactory.h"
 #include "Milieu.h"
 #include "Aquarium.h"
+#include "ComportementEnum.h"
 
 BestioleFactory *BestioleFactory::factoryInstance = nullptr;
 
@@ -76,19 +77,19 @@ void BestioleFactory::createPopulation()
         Aquarium::getMilieu().addMember(Bestiole(ComportementEnum::peureuse));
 
     for (int i = 0; i < kamikazeCount; ++i)
-        Aquarium::getMilieu().addMember(Bestiole(ComportementEnum::kamikaze)));
+        Aquarium::getMilieu().addMember(Bestiole(ComportementEnum::kamikaze));
 
-        for (int i = 0; i < prevoyantCount; ++i)
-            Aquarium::getMilieu().addMember(Bestiole(ComportementEnum::peureuse));
+    for (int i = 0; i < prevoyantCount; ++i)
+        Aquarium::getMilieu().addMember(Bestiole(ComportementEnum::peureuse));
 
-        for (int i = 0; i < multipleCount; ++i)
-            Aquarium::getMilieu().addMember(Bestiole(ComportementEnum::peureuse));
+    for (int i = 0; i < multipleCount; ++i)
+        Aquarium::getMilieu().addMember(Bestiole(ComportementEnum::peureuse));
 
-        std::random_device rd;
-        std::mt19937 gen(rd());
-        std::uniform_int_distribution<> dis(0, 4); // Distribution for indices 0 to 4
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(0, 4); // Distribution for indices 0 to 4
 
-        for (int i = 0; i < remainingCount; ++i)
+    for (int i = 0; i < remainingCount; ++i)
         {
             int randomIndex = dis(gen);
             ComportementEnum randomComportement;
@@ -124,5 +125,5 @@ void BestioleFactory::createPopulation()
 
   void BestioleFactory::cloneBestiole(const Bestiole& b)
   {
-    Aquarium::getMilieu.addMember(Bestiole(Bestiole(b));
+    Aquarium::getMilieu.addMember(Bestiole(b));
   }

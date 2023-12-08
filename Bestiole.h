@@ -8,12 +8,12 @@
 #include <vector>
 #include <utility>
 #include "Upgrades/Upgrade.h"
+#include "comportements/Comportement.h"
+#include "ComportementEnum.h"
 
 using namespace std;
 
-enum ComportementEnum;
-
-class Milieu;
+class Comportement;
 
 class Bestiole
 {
@@ -32,7 +32,8 @@ private:
    double cumulX, cumulY;
    double orientation;
    double vitesse;
-   Comportement* comportement;
+   double currentVitesse;
+   Comportement *comportement;
    int stepsToDeath;
    bool isDead;
 
@@ -59,6 +60,10 @@ public:                                         // Forme canonique :
 
    int getCoordx() const;
    int getCoordy() const;
+   double getVitesse();
+   void setCurrentVitesse(double newVitesse);
+   double getOrientation();
+   void setOrientation(double newOrientation);
 
    bool getIsDead() const;
    void markAsDead();
@@ -66,7 +71,7 @@ public:                                         // Forme canonique :
    std::vector<Bestiole> capteBestioles(Milieu &monMilieu) const;
    double getCamouflage() const;
    double getProbaMortCollision() const;
-   double getVitesse() const;
+   double getVitesseReelle() const;
 };
 
 #endif

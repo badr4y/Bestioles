@@ -43,3 +43,4 @@ void Gregaire::execute(Bestiole &bestiole, Milieu &milieu){
     bestiole.setOrientation(direction);
 }
 
+
