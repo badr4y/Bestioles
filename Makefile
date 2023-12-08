@@ -31,5 +31,20 @@ Nageoire.o : Upgrades/Nageoire.h Upgrades/Nageoire.cpp
 BestioleFactory.o : factories/BestioleFactory.h factories/BestioleFactory.cpp factories/CreatureFactory.h
 	g++ -Wall -std=c++11 -c factories/BestioleFactory.cpp -I .
 
+Gregaire.o : comportements/Gregaire.h comportements/Gregaire.cpp
+	g++ -Wall -std=c++11 -c comportements/Gregaire.cpp -I .
+
+Kamikaze.o : comportements/Kamikaze.h comportements/Kamikaze.cpp
+	g++ -Wall -std=c++11 -c comportements/Kamikaze.cpp -I .
+
+Peureuse.o : comportements/Peureuse.h comportements/Peureuse.cpp
+	g++ -Wall -std=c++11 -c comportements/Peureuse.cpp -I .
+
+Prevoyante.o : comportements/Prevoyante.h comportements/Prevoyante.cpp
+	g++ -Wall -std=c++11 -c comportements/Prevoyante.cpp -I .
+
+PersonnalitesMultiples.o : comportements/PersonnalitesMultiples.h comportements/PersonnalitesMultiples.cpp
+	g++ -Wall -std=c++11 -c comportements/PersonnalitesMultiples.cpp -I .
+
 clean:
 	rm -rf *.o main
