@@ -214,6 +214,13 @@ bool Bestiole::jeTeVois( const Bestiole & b ) const
 
 }
 
+void setOrientation(double o){
+   orientation = o;
+}
+
+double getOrientation(){
+   return orientation;
+}
 
 int Bestiole::getCoordx() const
 {
@@ -223,6 +230,16 @@ int Bestiole::getCoordx() const
 int Bestiole::getCoordy() const
 {
    return y;
+}
+
+int Bestiole::getVitesse() const
+{
+   return vitesse;
+}
+
+int Bestiole::setCurrentVitesse(double newVitesse) const
+{
+   currentVitesse = newVitesse;
 }
 
 
@@ -286,9 +303,9 @@ double Bestiole::getCamouflage() const
    return camouflageValue;
 }
 
-double Bestiole::getVitesse() const
+double Bestiole::getVitesseReelle() const
 {   
-    double vitesse;
+    double vitesseReelle = currentVitesse;
     double newNu;
     double newEta;
 
@@ -299,7 +316,7 @@ double Bestiole::getVitesse() const
             if (Nageoire* nageoirePtr = dynamic_cast<Nageoire*>(&upgrade)) {
                 newNu = nageoirePtr->getNu();
 
-                vitesse = vitesse * newNu;
+                vitesseReelle = vitesseReelle * newNu;
             }
         }
 
@@ -307,12 +324,12 @@ double Bestiole::getVitesse() const
             if (Carapace* carapacePtr = dynamic_cast<Carapace*>(&upgrade)) {
                 newEta = carapacePtr->getEta();
 
-                vitesse = vitesse / newEta;
+                vitesseReelle = vitesseReelle / newEta;
             }
         }
 
     }
-    return vitesse;
+    return vitesseReelle;
 
 }
 

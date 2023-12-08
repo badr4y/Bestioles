@@ -34,6 +34,7 @@ private :
    double            cumulX, cumulY;
    double            orientation;
    double            vitesse;
+   double            currentVitesse;
 
    T               * couleur;
 
@@ -58,11 +59,15 @@ public :                                           // Forme canonique :
 
    int getCoordx() const;
    int getCoordy() const;
+   double getVitesse();
+   void setCurrentVitesse(double newVitesse);
+   double getOrientation();
+   void setOrientation(double newOrientation);
 
    std::vector<Bestiole> capteBestioles( Milieu & monMilieu ) const;
    double getCamouflage() const;
    double getProbaMortCollision() const;
-   double getVitesse() const;
+   double getVitesseReelle() const;
 };
 
 
