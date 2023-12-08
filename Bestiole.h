@@ -8,64 +8,56 @@
 #include <iostream>
 #include <vector>
 #include <utility>
-#include "Upgrades/Upgrade.h"
-#include "comportements/Comportement.h"
 
 using namespace std;
 
 
 class Milieu;
 
-
 class Bestiole
 {
 
-private :
-   static const double     AFF_SIZE;
-   static const double     MAX_VITESSE;
-   static const double     LIMITE_VUE;
-   static const double     P_MORT_COLLISION;
+private:
+	static const double AFF_SIZE;
+	static const double MAX_VITESSE;
+	static const double LIMITE_VUE;
+	static const double P_MORT_COLLISION;
 
-   static int              next;
+	static int next;
 
-private :
-   int               identite;
-   int               x, y;
-   double            cumulX, cumulY;
-   double            orientation;
-   double            vitesse;
+private:
+	int identite;
+	int x, y;
+	double cumulX, cumulY;
+	double orientation;
+	double vitesse;
+	int stepsToDeath;
+	bool isDead;
 
-   Comportement*      comportement;
+	T* couleur;
 
-   T               * couleur;
-   std::vector<std::shared_ptr<Upgrade>> upgrades;
+private:
+	void bouge(int xLim, int yLim);
 
-private :
-   void bouge( int xLim, int yLim );
+public:
+	// Forme canonique :
+	Bestiole();                        // Constructeur par defaut
+	Bestiole(const Bestiole& b);       // Constructeur de copies
+	~Bestiole(void);                   // Destructeur
 
-public :                                           // Forme canonique :
-   Bestiole(ComportementEnum comportementEnum);                               // Constructeur par defaut
-   Bestiole( const Bestiole & b );                 // Constructeur de copies
-   ~Bestiole( void );                              // Destructeur
-                                                   // Operateur d'affectation binaire par defaut
-   void action( Milieu & monMilieu );
-   void draw( UImg & support );
+	// Operateur d'affectation binaire par defaut
 
-   bool jeTeVois( const Bestiole & b ) const;
+	void action(Milieu& monMilieu);
+	void draw(UImg& support);
 
-   void initCoords( int xLim, int yLim );
+	bool jeTeVois(const Bestiole& b) const;
 
-   friend bool operator==( const Bestiole & b1, const Bestiole & b2 );
+	void initCoords(int xLim, int yLim);
 
-   int getCoordx() const;
-   int getCoordy() const;
+	bool getIsDead() const;
+	void markAsDead();
 
-   std::vector<Bestiole> capteBestioles(Milieu& monMilieu) const;
-   double getCamouflage() const;
-   double getProbaMortCollision() const;
-   double getVitesse() const;
-
+	friend bool operator==(const Bestiole& b1, const Bestiole& b2);
 };
-
 
 #endif

@@ -16,7 +16,7 @@ class Aquarium : public CImgDisplay
 {
 
 private :
-   Milieu       * flotte;
+	static Milieu* flotte; // Make it a static member
 
    int            delay;
 

@@ -28,9 +28,13 @@ void Milieu::step(void)
    cimg_forXY(*this, x, y) fillC(x, y, 0, white[0], white[1], white[2]);
    for (std::vector<Bestiole>::iterator it = listeBestioles.begin(); it != listeBestioles.end(); ++it)
    {
-
+        
       it->action(*this);
       it->draw(*this);
+
+      if (it->getIsDead())
+      {
+      }
 
    } // for
 }
