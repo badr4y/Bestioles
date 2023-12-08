@@ -16,15 +16,15 @@
 #include "Upgrades/Carapace.h"
 #include "Upgrades/Nageoire.h"
 
+#include "comportements/Comportement.h"
 
-const double      Bestiole::AFF_SIZE = 8.;
-const double      Bestiole::MAX_VITESSE = 10.;
-const double      Bestiole::LIMITE_VUE = 30.;
-const double      Bestiole::P_MORT_COLLISION = 0.1; 
-int               Bestiole::next = 0;
+const double Bestiole::AFF_SIZE = 8.;
+const double Bestiole::MAX_VITESSE = 10.;
+const double Bestiole::LIMITE_VUE = 30.;
+const double Bestiole::P_MORT_COLLISION = 0.1;
+int Bestiole::next = 0;
 
-
-Bestiole::Bestiole()
+Bestiole::Bestiole(ComportementEnum comportementEnum)
 {
 
    identite = ++next;
@@ -33,29 +33,47 @@ Bestiole::Bestiole()
 
    x = y = 0;
    cumulX = cumulY = 0.;
-   orientation = static_cast<double>( rand() )/RAND_MAX*2.*M_PI;
-   vitesse = static_cast<double>( rand() )/RAND_MAX*MAX_VITESSE;
+   orientation = static_cast<double>(rand()) / RAND_MAX * 2. * M_PI;
+   vitesse = static_cast<double>(rand()) / RAND_MAX * MAX_VITESSE;
 
-   couleur = new T[ 3 ];
-   //couleur[ 0 ] = static_cast<int>( static_cast<double>( rand() )/RAND_MAX*230. );
-   //couleur[ 1 ] = static_cast<int>( static_cast<double>( rand() )/RAND_MAX*230. );
-   //couleur[ 2 ] = static_cast<int>( static_cast<double>( rand() )/RAND_MAX*230. );
-   couleur[ 0 ] = static_cast<int>( 10. );  // est bleu au debut
-   couleur[ 1 ] = static_cast<int>( 230. );
-   couleur[ 2 ] = static_cast<int>( 10. );
+   stepsToDeath = rand() % (150 - 15 + 1) + 15;
+
+   couleur = new T[3];
+   // couleur[ 0 ] = static_cast<int>( static_cast<double>( rand() )/RAND_MAX*230. );
+   // couleur[ 1 ] = static_cast<int>( static_cast<double>( rand() )/RAND_MAX*230. );
+   // couleur[ 2 ] = static_cast<int>( static_cast<double>( rand() )/RAND_MAX*230. );
+   couleur[0] = static_cast<int>(10.); // est bleu au debut
+   couleur[1] = static_cast<int>(230.);
+   couleur[2] = static_cast<int>(10.);
+
+   switch (comportementEnum) : isDead(false)
+   {
+   case ComportementEnum::gregaire:
+      this->comportement = Gregaire::getGregaire();
+      break;
+   case ComportementEnum::peureuse:
+      this->comportement = Peureuse::getPeureuse();
+      break;
+   case ComportementEnum::kamikaze:
+      this->comportement = Kamikaze::getKamikaze();
+      break;
+   case ComportementEnum::prevoyante:
+      this->comportement = Prevoyante::getPrevoyante();
+      break;
+   case ComportementEnum::personnalitesMultiples:
+      this->comportement = PersonnaliteMultiples::getPersonnalitesMultiples();
+      break;
+   }
 
    Yeux yeux;
    Oreilles oreilles;
-   //Camouflage camouflage;
+   // Camouflage camouflage;
    upgrades.push_back(std::make_shared<Yeux>(yeux));
    upgrades.push_back(std::make_shared<Oreilles>(oreilles));
-   //upgrades.push_back(std::make_shared<Camouflage>(camouflage));
-
-
+   // upgrades.push_back(std::make_shared<Camouflage>(camouflage));
 }
 
-
-Bestiole::Bestiole( const Bestiole & b )
+Bestiole::Bestiole(const Bestiole &b)
 {
 
    identite = ++next;
@@ -67,151 +85,159 @@ Bestiole::Bestiole( const Bestiole & b )
    cumulX = cumulY = 0.;
    orientation = b.orientation;
    vitesse = b.vitesse;
-   couleur = new T[ 3 ];
-   memcpy( couleur, b.couleur, 3*sizeof(T) );
+   couleur = new T[3];
+   memcpy(couleur, b.couleur, 3 * sizeof(T));
+   stepsToDeath = b.stepsToDeath;
 
-   upgrades = b.upgrades; // deepcopy je crois 
-
+   upgrades = b.upgrades; // deepcopy je crois
 }
 
-
-Bestiole::~Bestiole( void )
+Bestiole::~Bestiole(void)
 {
 
    delete[] couleur;
 
    cout << "dest Bestiole" << endl;
-
 }
 
-
-void Bestiole::initCoords( int xLim, int yLim )
+void Bestiole::initCoords(int xLim, int yLim)
 {
 
    x = rand() % xLim;
    y = rand() % yLim;
-
 }
 
-
-void Bestiole::bouge( int xLim, int yLim )
+void Bestiole::bouge(int xLim, int yLim)
 {
 
-   double         nx, ny;
-   double         dx = cos( orientation )*vitesse;
-   double         dy = -sin( orientation )*vitesse;
-   int            cx, cy;
+   double nx, ny;
+   double dx = cos(orientation) * vitesse;
+   double dy = -sin(orientation) * vitesse;
+   int cx, cy;
 
-
-   cx = static_cast<int>( cumulX ); cumulX -= cx;
-   cy = static_cast<int>( cumulY ); cumulY -= cy;
+   cx = static_cast<int>(cumulX);
+   cumulX -= cx;
+   cy = static_cast<int>(cumulY);
+   cumulY -= cy;
 
    nx = x + dx + cx;
    ny = y + dy + cy;
 
-   if ( (nx < 0) || (nx > xLim - 1) ) {
+   if ((nx < 0) || (nx > xLim - 1))
+   {
       orientation = M_PI - orientation;
       cumulX = 0.;
    }
-   else {
-      x = static_cast<int>( nx );
+   else
+   {
+      x = static_cast<int>(nx);
       cumulX += nx - x;
    }
 
-   if ( (ny < 0) || (ny > yLim - 1) ) {
+   if ((ny < 0) || (ny > yLim - 1))
+   {
       orientation = -orientation;
       cumulY = 0.;
    }
-   else {
-      y = static_cast<int>( ny );
+   else
+   {
+      y = static_cast<int>(ny);
       cumulY += ny - y;
    }
+}
 
+bool Bestiole::getIsDead() const {
+    return isDead;
 }
 
 
-void Bestiole::action( Milieu & monMilieu )
+void Bestiole::markAsDead() {
+    isDead = true;
+}
+
+void Bestiole::action(Milieu &monMilieu)
 {
 
    std::vector<Bestiole> bestiolesCaptees = capteBestioles(monMilieu);
 
-   if (bestiolesCaptees.size() == 0 ){ // devient noir si il ne voit aucune bestiole et devient rouge si il voit une ou plusieurs bestioles
-      couleur[ 0 ] = static_cast<int>( 10. );
-      couleur[ 1 ] = static_cast<int>( 10. );
-      couleur[ 2 ] = static_cast<int>( 10. );
-   } else {
-      couleur[ 0 ] = static_cast<int>( 230. );
-      couleur[ 1 ] = static_cast<int>( 10. );
-      couleur[ 2 ] = static_cast<int>( 10. );
+   if (bestiolesCaptees.size() == 0)
+   { // devient noir si il ne voit aucune bestiole et devient rouge si il voit une ou plusieurs bestioles
+      couleur[0] = static_cast<int>(10.);
+      couleur[1] = static_cast<int>(10.);
+      couleur[2] = static_cast<int>(10.);
+   }
+   else
+   {
+      couleur[0] = static_cast<int>(230.);
+      couleur[1] = static_cast<int>(10.);
+      couleur[2] = static_cast<int>(10.);
    }
 
-
-
-   bouge( monMilieu.getWidth(), monMilieu.getHeight() );
-   
+   bouge(monMilieu.getWidth(), monMilieu.getHeight());
+   stepsToDeath = stepsToDeath - 1;
+   if (stepsToDeath == 0) {
+       markAsDead();
+   }
 }
 
-
-void Bestiole::draw( UImg & support )
+void Bestiole::draw(UImg &support)
 {
 
-   double         xt = x + cos( orientation )*AFF_SIZE/2.1;
-   double         yt = y - sin( orientation )*AFF_SIZE/2.1;
+   double xt = x + cos(orientation) * AFF_SIZE / 2.1;
+   double yt = y - sin(orientation) * AFF_SIZE / 2.1;
 
+   support.draw_ellipse(x, y, AFF_SIZE, AFF_SIZE / 5., -orientation / M_PI * 180., couleur);
+   support.draw_circle(xt, yt, AFF_SIZE / 2., couleur);
 
-   support.draw_ellipse( x, y, AFF_SIZE, AFF_SIZE/5., -orientation/M_PI*180., couleur );
-   support.draw_circle( xt, yt, AFF_SIZE/2., couleur );
+   for (const std::shared_ptr<Upgrade> &u : upgrades)
+   {
 
-   for (const std::shared_ptr<Upgrade>& u : upgrades) {
-      
-      Upgrade& upgrade = *u;
+      Upgrade &upgrade = *u;
 
-      if (upgrade.isYeux()) {
-         if (Yeux* yeuxPtr = dynamic_cast<Yeux*>(&upgrade)) {
+      if (upgrade.isYeux())
+      {
+         if (Yeux *yeuxPtr = dynamic_cast<Yeux *>(&upgrade))
+         {
             double delta = yeuxPtr->getDelta();
-            double angle = yeuxPtr->getAlpha()/2;
-            //support.draw_line(x, y, x+cos(orientation)*delta, y-sin(orientation)*delta,couleur);
-            support.draw_line(x, y, x+cos(orientation+angle)*delta, y-sin(orientation+angle)*delta,couleur);
-            support.draw_line(x, y, x+cos(orientation-angle)*delta, y-sin(orientation-angle)*delta,couleur);
+            double angle = yeuxPtr->getAlpha() / 2;
+            // support.draw_line(x, y, x+cos(orientation)*delta, y-sin(orientation)*delta,couleur);
+            support.draw_line(x, y, x + cos(orientation + angle) * delta, y - sin(orientation + angle) * delta, couleur);
+            support.draw_line(x, y, x + cos(orientation - angle) * delta, y - sin(orientation - angle) * delta, couleur);
          }
-      } else {
+      }
+      else
+      {
 
-         if (upgrade.isOreilles()) {
-            if (Oreilles* oreillesPtr = dynamic_cast<Oreilles*>(&upgrade)) {
+         if (upgrade.isOreilles())
+         {
+            if (Oreilles *oreillesPtr = dynamic_cast<Oreilles *>(&upgrade))
+            {
                support.draw_circle(x, y, oreillesPtr->getDelta(), couleur, 1, 0xFFFFFFFF); // opacity, outline (0=none, 1=dots, 0xFFFFFFFF=full)
             }
          }
-
       }
-
    }
 
-   //support.draw_line(x, y, x+cos(orientation)*200, y-sin(orientation)*200,couleur);
-   //support.draw_line(x, y, x+cos(orientation+0.25)*200, y-sin(orientation+0.25)*200,couleur);
-   //support.draw_line(x, y, x+cos(orientation-0.25)*200, y-sin(orientation-0.25)*200,couleur);
+   // support.draw_line(x, y, x+cos(orientation)*200, y-sin(orientation)*200,couleur);
+   // support.draw_line(x, y, x+cos(orientation+0.25)*200, y-sin(orientation+0.25)*200,couleur);
+   // support.draw_line(x, y, x+cos(orientation-0.25)*200, y-sin(orientation-0.25)*200,couleur);
 
-   //support.draw_circle(x, y, 100, couleur, 1, 0xFFFFFFFF); // opacity, outline (0=none, 1=dots, 0xFFFFFFFF=full)
-
+   // support.draw_circle(x, y, 100, couleur, 1, 0xFFFFFFFF); // opacity, outline (0=none, 1=dots, 0xFFFFFFFF=full)
 }
 
-
-bool operator==( const Bestiole & b1, const Bestiole & b2 )
+bool operator==(const Bestiole &b1, const Bestiole &b2)
 {
 
-   return ( b1.identite == b2.identite );
-
+   return (b1.identite == b2.identite);
 }
 
-
-bool Bestiole::jeTeVois( const Bestiole & b ) const
+bool Bestiole::jeTeVois(const Bestiole &b) const
 {
 
-   double         dist;
+   double dist;
 
-
-   dist = std::sqrt( (x-b.x)*(x-b.x) + (y-b.y)*(y-b.y) );
-   return ( dist <= LIMITE_VUE );
-
+   dist = std::sqrt((x - b.x) * (x - b.x) + (y - b.y) * (y - b.y));
+   return (dist <= LIMITE_VUE);
 }
 
 void setOrientation(double o){
@@ -242,61 +268,70 @@ int Bestiole::setCurrentVitesse(double newVitesse) const
    currentVitesse = newVitesse;
 }
 
-
-std::vector<Bestiole> Bestiole::capteBestioles( Milieu & monMilieu ) const
+std::vector<Bestiole> Bestiole::capteBestioles(Milieu &monMilieu) const
 {
    std::vector<Bestiole> bestiolesCaptees;
 
-   for (const std::shared_ptr<Upgrade>& u : upgrades) {
-      Upgrade& upgrade = *u;
+   for (const std::shared_ptr<Upgrade> &u : upgrades)
+   {
+      Upgrade &upgrade = *u;
 
-      if (upgrade.isYeux() || upgrade.isOreilles()) {
+      if (upgrade.isYeux() || upgrade.isOreilles())
+      {
 
-         if (Capteur* capteurPtr = dynamic_cast<Capteur*>(&upgrade)) {
+         if (Capteur *capteurPtr = dynamic_cast<Capteur *>(&upgrade))
+         {
 
-            for (const Bestiole& b : monMilieu.getListeBestioles()) {
+            for (const Bestiole &b : monMilieu.getListeBestioles())
+            {
 
-               if (!(b == *this)) { // if not the current bestiole
+               if (!(b == *this))
+               { // if not the current bestiole
 
-                  if ((std::find(bestiolesCaptees.begin(), bestiolesCaptees.end(), b) == bestiolesCaptees.end())) { // if not in bestiolesCaptees already
+                  if ((std::find(bestiolesCaptees.begin(), bestiolesCaptees.end(), b) == bestiolesCaptees.end()))
+                  { // if not in bestiolesCaptees already
 
-                     if (capteurPtr->capte(b, x, y, orientation)) {
+                     if (capteurPtr->capte(b, x, y, orientation))
+                     {
                         bestiolesCaptees.push_back(b);
                      }
                   }
                }
             }
-         } else {
-            cout << "Dynamic cast failed..." << endl; 
+         }
+         else
+         {
+            cout << "Dynamic cast failed..." << endl;
          }
       }
    }
    return bestiolesCaptees;
 }
 
-
-
-
 double Bestiole::getCamouflage() const
 {
    double camouflageValue = 0;
    double newValue;
 
-   for (const std::shared_ptr<Upgrade>& u : upgrades) {
-      Upgrade& upgrade = *u;
+   for (const std::shared_ptr<Upgrade> &u : upgrades)
+   {
+      Upgrade &upgrade = *u;
 
-      if (upgrade.isCamouflage()) {
+      if (upgrade.isCamouflage())
+      {
 
-         if (Camouflage* camouflagePtr = dynamic_cast<Camouflage*>(&upgrade)) {
+         if (Camouflage *camouflagePtr = dynamic_cast<Camouflage *>(&upgrade))
+         {
             newValue = camouflagePtr->getPsi();
 
-            if (newValue > camouflageValue){
+            if (newValue > camouflageValue)
+            {
                camouflageValue = newValue;
-
             }
-
-         } else {
-            cout << "Dynamic cast failed..." << endl; 
+         }
+         else
+         {
+            cout << "Dynamic cast failed..." << endl;
          }
       }
    }
@@ -309,12 +344,15 @@ double Bestiole::getVitesseReelle() const
     double newNu;
     double newEta;
 
-    for (const std::shared_ptr<Upgrade>& u : upgrades) {
-        Upgrade& upgrade = *u;
+   for (const std::shared_ptr<Upgrade> &u : upgrades)
+   {
+      Upgrade &upgrade = *u;
 
-        if (upgrade.isNageoire()) {
-            if (Nageoire* nageoirePtr = dynamic_cast<Nageoire*>(&upgrade)) {
-                newNu = nageoirePtr->getNu();
+      if (upgrade.isNageoire())
+      {
+         if (Nageoire *nageoirePtr = dynamic_cast<Nageoire *>(&upgrade))
+         {
+            newNu = nageoirePtr->getNu();
 
                 vitesseReelle = vitesseReelle * newNu;
             }
@@ -330,26 +368,28 @@ double Bestiole::getVitesseReelle() const
 
     }
     return vitesseReelle;
-
 }
-
 
 double Bestiole::getProbaMortCollision() const
 {
    double probaMortCollision = Bestiole::P_MORT_COLLISION;
    double newValue;
 
-   for (const std::shared_ptr<Upgrade>& u : upgrades) {
-      Upgrade& upgrade = *u;
+   for (const std::shared_ptr<Upgrade> &u : upgrades)
+   {
+      Upgrade &upgrade = *u;
 
-      if (upgrade.isCarapace()) {
+      if (upgrade.isCarapace())
+      {
 
-         if (Carapace* carapacePtr = dynamic_cast<Carapace*>(&upgrade)) {
+         if (Carapace *carapacePtr = dynamic_cast<Carapace *>(&upgrade))
+         {
             newValue = carapacePtr->getOmega();
-            probaMortCollision = probaMortCollision/newValue;
-
-         } else {
-            cout << "Dynamic cast failed..." << endl; 
+            probaMortCollision = probaMortCollision / newValue;
+         }
+         else
+         {
+            cout << "Dynamic cast failed..." << endl;
          }
       }
    }

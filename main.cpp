@@ -13,14 +13,14 @@ using namespace std;
 int main()
 {
 
-   Yeux yeux;
-   cout << "test bool isYeux(), isCarapace(), ... : " << yeux.isYeux() << yeux.isCarapace() << yeux.isNageoire() << endl;
+    Aquarium       ecosysteme(640, 480, 30);
 
-   Aquarium       ecosysteme( 640, 480, 30 );
+    BestioleFactory::getFactory().createPopulation();
 
-   for ( int i = 1; i <= 5; ++i )
-      ecosysteme.getMilieu().addMember( Bestiole() );
-   ecosysteme.run();
+    /*for (int i = 1; i <= 20; ++i)
+       ecosysteme.getMilieu().addMember( Bestiole() );*/
+    ecosysteme.run();
+
 
 
    return 0;
