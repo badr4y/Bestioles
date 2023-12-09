@@ -17,6 +17,7 @@
 #include "Upgrades/Nageoire.h"
 
 #include "comportements/Comportement.h"
+#include "Milieu.h"
 
 const double Bestiole::AFF_SIZE = 8.;
 const double Bestiole::MAX_VITESSE = 10.;

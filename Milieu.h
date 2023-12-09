@@ -12,7 +12,7 @@ using namespace std;
 
 
 
-
+class Bestiole;
 
 class Milieu : public UImg
 {

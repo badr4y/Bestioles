@@ -10,11 +10,15 @@
 
 using namespace std;
 
+class Bestiole;
+
+class Milieu;
+
 class Comportement {
 
 public:
-    virtual void execute(Bestiole&, Milieu&);
-    virtual double getNouvelleOrientation(const std::vector<Bestiole>&); 
+    virtual void execute(Bestiole&, Milieu&)= 0;
+    virtual double getNouvelleOrientation(const std::vector<Bestiole>&)= 0; 
 };
 
 #endif
