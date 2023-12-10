@@ -11,8 +11,11 @@
 #include "Upgrades/Upgrade.h"
 #include "comportements/Comportement.h"
 #include "ComportementEnum.h"
+#include "Milieu.h"
 
 using namespace std;
+
+class Milieu;
 
 class Comportement;
 
