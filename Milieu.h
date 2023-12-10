@@ -10,8 +10,7 @@
 
 using namespace std;
 
-
-
+class Bestiole;
 
 
 class Milieu : public UImg
@@ -33,7 +32,7 @@ public :
 
    void step( void );
 
-   void addMember( const Bestiole & b ){ listeBestioles.push_back(b); listeBestioles.back().initCoords(width, height); };
+   void addMember( const Bestiole & b );
    int nbVoisins( const Bestiole & b );
 
 };

@@ -1,3 +1,6 @@
+#ifndef COMPORTEMENT_ENUM_H
+#define COMPORTEMENT_ENUM_H
+
 enum ComportementEnum
 {
   gregaire,
@@ -6,3 +9,5 @@ enum ComportementEnum
   prevoyante,
   personnalitesMultiples
 };
+
+#endif

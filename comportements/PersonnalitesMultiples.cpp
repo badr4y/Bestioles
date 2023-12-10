@@ -23,6 +23,10 @@ void PersonnalitesMultiples::setComportement( Comportement* newComportement) {
 	this->currentComportement = newComportement;
 }
 
+Comportement* PersonnalitesMultiples::getComportement(){
+	return currentComportement;
+}
+
 void PersonnalitesMultiples::changeComportement() {
 	double rand1 = (rand()%1000)/(1000.);
 	if (rand1 <= PROPORTIONGREGAIRE) {

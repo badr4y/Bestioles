@@ -19,8 +19,8 @@ public :
    static Kamikaze* getKamikaze();    
 
 public : 
-   const Bestiole& getPlusProche(const Bestiole &);
-   void execute(const Bestiole&, const Milieu&);
+   Bestiole& getPlusProche(Bestiole &, const Milieu & milieu);
+   void execute(Bestiole&, const Milieu&);
                                 
 };
 

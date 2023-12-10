@@ -19,6 +19,7 @@ private :
 public :
 	PersonnalitesMultiples();
 	void setComportement( Comportement * );
+	Comportement* getComportement();
 	void changeComportement();
 	void execute();
 

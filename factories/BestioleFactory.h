@@ -2,7 +2,8 @@
 #define _BESTIOLEFACTORY_H_
 
 #include "CreatureFactory.h"
-#include "ComportementEnum.h"
+#include "../ComportementEnum.h"
+#include "../Bestiole.h"
 
 
 class Milieu;
@@ -10,7 +11,7 @@ class Milieu;
 class BestioleFactory : public CreatureFactory
 {
 public:
-  static BestioleFactory getFactory();
+  static BestioleFactory* getFactory();
   void createPopulation();
   void createCreature(ComportementEnum comportementEnum);
   void cloneBestiole(const Bestiole& b);
@@ -20,6 +21,9 @@ public:
   double getPROPORTIONPREVOYANT() const;
   double getPROPORTIONMULTIPLE() const;
 
+  Milieu* getMilieu() const;
+  void setMilieu(Milieu* milieu);
+
 private:
   const double PROPORTIONGREGAIRE;
   const double PROPORTIONPEUREUSE;
@@ -27,9 +31,12 @@ private:
   const double PROPORTIONPREVOYANT;
   const double PROPORTIONMULTIPLE;
   const int POPULATIONINITIAL;
+  Milieu* monMilieu;
+
 
   static BestioleFactory *factoryInstance;
-
+  static bool initialized;
   BestioleFactory(double gregaire, double peureuse, double kamikaze, double prevoyant, double multiple, int population);
+
 };
 #endif

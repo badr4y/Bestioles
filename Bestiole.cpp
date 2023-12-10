@@ -17,6 +17,11 @@
 #include "Upgrades/Nageoire.h"
 
 #include "comportements/Comportement.h"
+#include "comportements/Gregaire.h"
+#include "comportements/Kamikaze.h"
+#include "comportements/Peureuse.h"
+#include "comportements/Prevoyante.h"
+#include "comportements/PersonnalitesMultiples.h"
 
 const double Bestiole::AFF_SIZE = 8.;
 const double Bestiole::MAX_VITESSE = 10.;
@@ -46,7 +51,7 @@ Bestiole::Bestiole(ComportementEnum comportementEnum) : isDead(false)
    couleur[1] = static_cast<int>(230.);
    couleur[2] = static_cast<int>(10.);
 
-   switch (comportementEnum) :
+   switch (comportementEnum)
       {
       case ComportementEnum::gregaire:
          this->comportement = Gregaire::getGregaire();
@@ -61,7 +66,9 @@ Bestiole::Bestiole(ComportementEnum comportementEnum) : isDead(false)
          this->comportement = Prevoyante::getPrevoyante();
          break;
       case ComportementEnum::personnalitesMultiples:
-         this->comportement = PersonnaliteMultiples::getPersonnalitesMultiples();
+         PersonnalitesMultiples pm = PersonnalitesMultiples();
+         pm.changeComportement();
+         this->comportement = &pm;
          break;
       }
 
@@ -242,12 +249,12 @@ bool Bestiole::jeTeVois(const Bestiole &b) const
    return (dist <= LIMITE_VUE);
 }
 
-void setOrientation(double o)
+void Bestiole::setOrientation(double o)
 {
    orientation = o;
 }
 
-double getOrientation()
+double Bestiole::getOrientation() const
 {
    return orientation;
 }
@@ -262,17 +269,49 @@ int Bestiole::getCoordy() const
    return y;
 }
 
-int Bestiole::getVitesse() const
+void Bestiole::setCoordx(int newx)
+{
+   x = newx;
+}
+
+void Bestiole::setCoordy(int newy)
+{
+   y = newy;
+}
+
+int Bestiole::getCumulX() const
+{
+   return cumulX;
+}
+
+
+int Bestiole::getCumulY() const
+{
+   return cumulY;
+}
+
+void Bestiole::setCumulX(int newCumulx)
+{
+   cumulX = newCumulx;
+}
+
+void Bestiole::setCumulY(int newCumuly)
+{
+   cumulY = newCumuly;
+}
+
+
+double Bestiole::getVitesse() const
 {
    return vitesse;
 }
 
-int Bestiole::setCurrentVitesse(double newVitesse) const
+void Bestiole::setCurrentVitesse(double newVitesse)
 {
    currentVitesse = newVitesse;
 }
 
-std::vector<Bestiole> Bestiole::capteBestioles(Milieu &monMilieu) const
+std::vector<Bestiole> Bestiole::capteBestioles(const Milieu &monMilieu) const
 {
    std::vector<Bestiole> bestiolesCaptees;
 

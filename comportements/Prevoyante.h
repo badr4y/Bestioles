@@ -1,5 +1,5 @@
-#ifndef _PREVOYANTE_H_
-#define _PREVOYANTE_H_
+#ifndef PREVOYANTE_H
+#define PREVOYANTE_H
 
 #include "Comportement.h"
 #include "../Bestiole.h"
@@ -12,18 +12,16 @@ class Prevoyante : public virtual Comportement{
 
 private :
    static Prevoyante* prevoyante;
-
 private :
    Prevoyante();
+
 public :                                           
    static Prevoyante* getPrevoyante();    
-
 public : 
-   double estimeTrajectoire(const Bestiole&, const Bestiole&);
-   double calculNouvelleDirection(const Bestiole&, const Milieu&);
-   void execute(const Bestiole&, const Milieu&);
-                                
-};
+   Bestiole bestiolePlusProche(const std::vector<Bestiole>& );
+   double calculNouvelleOrientation(const Bestiole&, const Bestiole&);
 
+   void execute(Bestiole&, const Milieu&);
+};
 
 #endif

@@ -1,20 +1,22 @@
-#ifndef _MILIEU_H_
-#define _MILIEU_H_
+#ifndef _COMPORTEMENT_H_
+#define _COMPORTEMENT_H_
 
 
-#include "../Milieu.h"
 #include "../Bestiole.h"
+#include "../Milieu.h"
 
 #include <iostream>
 #include <vector>
 
 using namespace std;
 
+class Milieu;
+class Bestiole;
+
 class Comportement {
 
 public:
     virtual void execute(Bestiole&, Milieu&);
-    virtual double getNouvelleOrientation(const std::vector<Bestiole>&); 
 };
 
 #endif

@@ -9,6 +9,7 @@
 #include <iostream>
 using namespace std;
 
+
 class Gregaire : public Comportement{
 
 private :

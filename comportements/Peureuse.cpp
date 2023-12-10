@@ -46,8 +46,9 @@ double Peureuse::getNouvelleDirection(const std::vector<Bestiole> &bestioles, co
 }
 
 void Peureuse::execute(Bestiole & bestiole, Milieu & milieu)  {
-	direction = this.getNouvelleDirection(bestiole.capteBestioles(),bestiole);
-	if (this.getDensiteBestioles(bestiole.capteBestioles())>= DENSITEBESTIOLE) {
+	std::vector<Bestiole> liste = bestiole.capteBestioles(milieu);
+	double direction = this->getNouvelleDirection(liste,bestiole);
+	if (this->getDensiteBestioles(liste)>= DENSITEBESTIOLE) {
 		bestiole.setOrientation(direction);
 		bestiole.setCurrentVitesse(bestiole.getVitesse() * COEFFPEUR);
 	}

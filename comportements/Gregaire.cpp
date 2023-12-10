@@ -1,4 +1,5 @@
 #include "Gregaire.h"
+#include "Comportement.h"
 
 #include <memory>
 #include <iostream>
@@ -9,7 +10,7 @@ Gregaire::Gregaire() {
 }
 
 Gregaire* Gregaire::getGregaire (){
-    if (gregaire ==nullptr) {
+    if (gregaire == nullptr) {
         gregaire = new Gregaire();
     }
     return (gregaire);
@@ -39,7 +40,7 @@ double Gregaire::getNouvelleOrientation(std::vector<Bestiole> const &bestioles, 
 }
 
 void Gregaire::execute(Bestiole &bestiole, Milieu &milieu){
-    direction = this->getNouvelleOrientation(bestiole.capteBestioles())
+    double direction = this->getNouvelleOrientation(bestiole.capteBestioles(milieu), bestiole);
     bestiole.setOrientation(direction);
 }
 

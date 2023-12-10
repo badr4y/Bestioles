@@ -1,9 +1,12 @@
 #include "BestioleFactory.h"
-#include "Milieu.h"
-#include "Aquarium.h"
-#include "ComportementEnum.h"
+#include "../Milieu.h"
+#include "../Aquarium.h"
+#include "../ComportementEnum.h"
+
+#include <random>
 
 BestioleFactory *BestioleFactory::factoryInstance = nullptr;
+bool BestioleFactory::initialized = false;
 
 BestioleFactory::BestioleFactory(double gregaire, double peureuse, double kamikaze, double prevoyant, double multiple, int population)
     : PROPORTIONGREGAIRE(gregaire),
@@ -13,6 +16,7 @@ BestioleFactory::BestioleFactory(double gregaire, double peureuse, double kamika
       PROPORTIONMULTIPLE(multiple),
       POPULATIONINITIAL(population)
 {
+    initialized = true;
 }
 
 double BestioleFactory::getPROPORTIONGREGAIRE() const
@@ -36,28 +40,42 @@ double BestioleFactory::getPROPORTIONMULTIPLE() const
   return PROPORTIONMULTIPLE;
 }
 
-static BestioleFactory &BestioleFactory::getFactory()
+Milieu* BestioleFactory::getMilieu() const
 {
-  if (factoryInstance == nullptr)
-  {
-    double gregaire, peureuse, kamikaze, prevoyant, multiple;
-    int population;
-    std::cout << "Enter Proportion of Gregaire: ";
-    std::cin >> gregaire;
-    std::cout << "Enter Proportion of Peureuse: ";
-    std::cin >> peureuse;
-    std::cout << "Enter Proportion of Kamikaze: ";
-    std::cin >> kamikaze;
-    std::cout << "Enter Proportion of Prevoyant: ";
-    std::cin >> prevoyant;
-    std::cout << "Enter Proportion of Multiple: ";
-    std::cin >> multiple;
-    std::cout << "Enter the initial population mass: ";
-    std::cin >> population;
-    factoryInstance = new BestioleFactory(gregaire, peureuse, kamikaze, prevoyant, multiple, population);
-  }
-  return *factoryInstance;
+   return monMilieu;
 }
+
+void BestioleFactory::setMilieu(Milieu* milieu) 
+{
+   monMilieu = milieu;
+}
+
+BestioleFactory* BestioleFactory::getFactory()
+{
+    if (!BestioleFactory::initialized)
+    {
+        double gregaire, peureuse, kamikaze, prevoyant, multiple;
+        int population;
+        std::cout << "Enter Proportion of Gregaire: ";
+        std::cin >> gregaire;
+        std::cout << "Enter Proportion of Peureuse: ";
+        std::cin >> peureuse;
+        std::cout << "Enter Proportion of Kamikaze: ";
+        std::cin >> kamikaze;
+        std::cout << "Enter Proportion of Prevoyant: ";
+        std::cin >> prevoyant;
+        std::cout << "Enter Proportion of Multiple: ";
+        std::cin >> multiple;
+        std::cout << "Enter the initial population mass: ";
+        std::cin >> population;
+
+        BestioleFactory factory = BestioleFactory(gregaire, peureuse, kamikaze, prevoyant, multiple, population);
+        BestioleFactory::factoryInstance = &factory;
+    }
+
+    return BestioleFactory::factoryInstance;
+}
+
 
 void BestioleFactory::createPopulation()
 {
@@ -71,19 +89,19 @@ void BestioleFactory::createPopulation()
 
     // Create Bestiole instances based on proportions
     for (int i = 0; i < gregaireCount; ++i)
-        Aquarium::getMilieu().addMember(Bestiole(ComportementEnum::gregaire));
+        getMilieu()->addMember(Bestiole(ComportementEnum::gregaire));
 
     for (int i = 0; i < peureuseCount; ++i)
-        Aquarium::getMilieu().addMember(Bestiole(ComportementEnum::peureuse));
+        getMilieu()->addMember(Bestiole(ComportementEnum::peureuse));
 
     for (int i = 0; i < kamikazeCount; ++i)
-        Aquarium::getMilieu().addMember(Bestiole(ComportementEnum::kamikaze));
+        getMilieu()->addMember(Bestiole(ComportementEnum::kamikaze));
 
     for (int i = 0; i < prevoyantCount; ++i)
-        Aquarium::getMilieu().addMember(Bestiole(ComportementEnum::peureuse));
+        getMilieu()->addMember(Bestiole(ComportementEnum::prevoyante));
 
     for (int i = 0; i < multipleCount; ++i)
-        Aquarium::getMilieu().addMember(Bestiole(ComportementEnum::peureuse));
+        getMilieu()->addMember(Bestiole(ComportementEnum::personnalitesMultiples));
 
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -113,17 +131,17 @@ void BestioleFactory::createPopulation()
                 break;
             }
 
-            Aquarium::getMilieu().addMember(Bestiole(randomComportement));
+            getMilieu()->addMember(Bestiole(randomComportement));
         }
 
 }
 
   void BestioleFactory::createCreature(ComportementEnum comportementEnum)
   {
-    Aquarium::getMilieu.addMember(Bestiole(comportementEnum));
+    getMilieu()->addMember(Bestiole(comportementEnum));
   }
 
   void BestioleFactory::cloneBestiole(const Bestiole& b)
   {
-    Aquarium::getMilieu.addMember(Bestiole(b));
+    getMilieu()->addMember(Bestiole(b));
   }

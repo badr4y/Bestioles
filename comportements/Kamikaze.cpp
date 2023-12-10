@@ -18,15 +18,15 @@ Kamikaze* Kamikaze::getKamikaze() {
     return kamikaze;
     }
 
-const Bestiole& Kamikaze::getPlusProche(const Bestiole & b) {
-    std::vector<Bestiole> listeBestioles = b.capteBestioles();
+Bestiole& Kamikaze::getPlusProche(Bestiole & b, const Milieu & milieu) {
+    std::vector<Bestiole> listeBestioles = b.capteBestioles(milieu);
 
     if (listeBestioles.empty()) {
         return b;  
     }
 
     double distanceMin = std::numeric_limits<double>::max();
-    Bestiole plusProche;
+    Bestiole &plusProche = listeBestioles.front();
 
     for (const auto& autreBestiole : listeBestioles) {
         // calculer la distance entre b et chaque autre bestiole
@@ -39,14 +39,14 @@ const Bestiole& Kamikaze::getPlusProche(const Bestiole & b) {
             plusProche = autreBestiole;
         }
     }
-    return plusProche&;
+    return plusProche;
 }
 
 
 
-void Kamikaze::execute(const Bestiole & bestiole,const Milieu & milieu) {
+void Kamikaze::execute(Bestiole & bestiole,const Milieu & milieu) {
     // Obtenir la bestiole la plus proche
-    Bestiole proie = getPlusProche(bestiole);
+    Bestiole proie = getPlusProche(bestiole,milieu);
 
     // Logique de déplacement de la bestiole kamikaze vers sa proie
     double dx = cos(bestiole.getOrientation()) * bestiole.getVitesse();
@@ -58,14 +58,15 @@ void Kamikaze::execute(const Bestiole & bestiole,const Milieu & milieu) {
     int cy = static_cast<int>(bestiole.getCumulY());
     bestiole.setCumulY(bestiole.getCumulY() - cy);
 
-    double nx = bestiole.getX() + dx + cx;
-    double ny = bestiole.getY() + dy + cy;
+    double nx = bestiole.getCoordx() + dx + cx;
+    double ny = bestiole.getCoordy() + dy + cy;
 
     // Vérifier les collisions
+    /*
     for (const Bestiole& autreBestiole : milieu.getListeBestioles()) {
     if (&bestiole != &autreBestiole) { // Éviter de comparer une bestiole avec elle-même
-        double distance = std::sqrt(std::pow(nx - autreBestiole.getX(), 2) +
-                                    std::pow(ny - autreBestiole.getY(), 2));
+        double distance = std::sqrt(std::pow(nx - autreBestiole.getCoordx(), 2) +
+                                    std::pow(ny - autreBestiole.getCoordy(), 2));
 
         // Vérifier si une collision a eu lieu
         if (distance < bestiole.getRayon() + autreBestiole.getRayon()) {
@@ -81,25 +82,27 @@ void Kamikaze::execute(const Bestiole & bestiole,const Milieu & milieu) {
             }
         }
     }
+    */
 
 
     // Mettre à jour la position si aucune collision n'a eu lieu
+    /*
     if ((nx < 0 ) || (nx > milieu.getXLim() - 1)) {
         bestiole.setOrientation(M_PI - bestiole.getOrientation());
         bestiole.setCumulX(0.0);
     } else {
-        bestiole.setX(static_cast<int>(nx));
-        bestiole.setCumulX(bestiole.getCumulX() + nx - bestiole.getX());
+        bestiole.setCoordx(static_cast<int>(nx));
+        bestiole.setCumulX(bestiole.getCumulX() + nx - bestiole.getCoordx());
     }
 
     if ((ny < 0) || (ny > milieu.getYLim() - 1)) {
         bestiole.setOrientation(-bestiole.getOrientation());
         bestiole.setCumulY(0.0);
     } else {
-        bestiole.setY(static_cast<int>(ny));
-        bestiole.setCumulY(bestiole.getCumulY() + ny - bestiole.getY());
+        bestiole.setCoordy(static_cast<int>(ny));
+        bestiole.setCumulY(bestiole.getCumulY() + ny - bestiole.getCoordy());
     }
-}
+    */
 }
 
 

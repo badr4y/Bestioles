@@ -42,6 +42,11 @@ void Milieu::step( void )
 
 }
 
+void Milieu::addMember( const Bestiole & b ){
+   listeBestioles.push_back(b);
+   listeBestioles.back().initCoords(width, height); 
+}
+
 
 int Milieu::nbVoisins( const Bestiole & b )
 {

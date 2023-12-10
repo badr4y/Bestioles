@@ -12,45 +12,44 @@ Prevoyante* Prevoyante::getPrevoyante() {
     return prevoyante;
     }
 
-double Prevoyante::estimeTrajectoire(const Bestiole& bestiole, const Bestiole& autreBestiole)  {
-    // distance relative 
-    double dx = autreBestiole.getX() - bestiole.getX();
-    double dy = autreBestiole.getY() - bestiole.getY();
 
-    double distance = std::sqrt(dx * dx + dy * dy);
-    return distance;
+Bestiole Prevoyante::bestiolePlusProche(const std::vector<Bestiole>& bestioles) {
+    //le cas où bestioles est vide est traite dans la methode execute()
+    Bestiole bestioleProche = bestioles[0];
 
-    // Direction relative (angle par rapport à l'axe x)
-    //double angle = std::atan2(dy, dx);
-    //return distance * std::cos(angle - bestiole.getOrientation());
-}
+    double distanceSquared = std::pow(bestioleProche.getCoordx() - bestioles[0].getCoordx(), 2) +
+                             std::pow(bestioleProche.getCoordy() - bestioles[0].getCoordy(), 2);
 
+    for (size_t i = 1; i < bestioles.size(); ++i) {
+        double currentDistanceSquared = std::pow(bestioleProche.getCoordx() - bestioles[i].getCoordx(), 2) +
+                                        std::pow(bestioleProche.getCoordy() - bestioles[i].getCoordy(), 2);
 
-
-
-double Prevoyante::calculNouvelleDirection(const Bestiole& bestiole, const Milieu& milieu)  {
-    // Initialisation de la somme des directions relatives et du nombre de bestioles prises en compte
-    double sommeDirections = 0.0;
-    int count = 0;
-
-    // Parcourir les bestioles dans le milieu
-    for (const Bestiole& autreBestiole : milieu.getListeBestioles()) { //pourquoi parcourir toutes les bestioles ?
-        if (&bestiole != &autreBestiole) { // Éviter de comparer une bestiole avec elle-même
-            // Estimer la trajectoire de l'autre bestiole par rapport à la bestiole prévoyante
-            double trajectoire = estimeTrajectoire(bestiole, autreBestiole);
-            sommeDirections += trajectoire;
-            count++;
+        if (currentDistanceSquared < distanceSquared) {
+            bestioleProche = bestioles[i];
+            distanceSquared = currentDistanceSquared;
         }
     }
-
-    // Calcul de la nouvelle direction moyenne basée sur les trajectoires estimées
-    double nouvelleDirection = (count > 0) ? sommeDirections / count : 0.0;
-
-    return nouvelleDirection;
+    
+    return bestioleProche;
 }
 
-void Prevoyante::execute(const Bestiole& bestiole, const Milieu& milieu) {
-    double nouvelleDirection = calculNouvelleDirection(bestiole, milieu);
-    bestiole.ajusterTrajectoire(nouvelleDirection);
+
+double Prevoyante::calculNouvelleOrientation(const Bestiole& bestiole, const Bestiole& autreBestiole)  {
+    // Initialisation de la somme des directions relatives et du nombre de bestioles prises en compte
+    double dx = autreBestiole.getCoordx()-bestiole.getCoordx();
+    double dy = autreBestiole.getCoordy()-bestiole.getCoordy();
+    double nouvelleOrientation = M_PI/2 - atan2(dx, dy);  // atan2(x, y) fait arctan(x/y)
+
+    return nouvelleOrientation;
 }
 
+
+void Prevoyante::execute(Bestiole& bestiole, const Milieu& milieu) {
+
+    std::vector<Bestiole> bestiolesCaptees = bestiole.capteBestioles(milieu);
+    if (!bestiolesCaptees.empty()) {
+        Bestiole bestioleProche = bestiolePlusProche(bestiolesCaptees);
+        double nouvelleOrientation = calculNouvelleOrientation(bestiole, bestioleProche);
+        bestiole.setOrientation(nouvelleOrientation);
+    }
+}

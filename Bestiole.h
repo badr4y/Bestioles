@@ -7,6 +7,7 @@
 #include <iostream>
 #include <vector>
 #include <utility>
+#include "Milieu.h"
 #include "Upgrades/Upgrade.h"
 #include "comportements/Comportement.h"
 #include "ComportementEnum.h"
@@ -14,6 +15,7 @@
 using namespace std;
 
 class Comportement;
+
 
 class Bestiole
 {
@@ -60,15 +62,22 @@ public:                                         // Forme canonique :
 
    int getCoordx() const;
    int getCoordy() const;
-   double getVitesse();
+   void setCoordx(int newx);
+   void setCoordy(int newy);
+   int getCumulX() const;
+   int getCumulY() const;
+   void setCumulX(int newCumulx);
+   void setCumulY(int newCumuly);
+
+   double getVitesse() const;
    void setCurrentVitesse(double newVitesse);
-   double getOrientation();
+   double getOrientation() const;
    void setOrientation(double newOrientation);
 
    bool getIsDead() const;
    void markAsDead();
 
-   std::vector<Bestiole> capteBestioles(Milieu &monMilieu) const;
+   std::vector<Bestiole> capteBestioles(const Milieu &monMilieu) const;
    double getCamouflage() const;
    double getProbaMortCollision() const;
    double getVitesseReelle() const;

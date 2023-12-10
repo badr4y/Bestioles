@@ -4,12 +4,11 @@
 class CreatureFactory
 {
 
-private:
+protected:
   CreatureFactory();
 
 public:
   virtual void createPopulation() = 0;
-  virtual void createCreature() = 0;
   virtual ~CreatureFactory() = default;
 };
 
