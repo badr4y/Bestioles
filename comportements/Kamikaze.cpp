@@ -16,93 +16,56 @@ Kamikaze* Kamikaze::getKamikaze() {
     if (kamikaze == nullptr )
         kamikaze = new Kamikaze();
     return kamikaze;
-    }
-
-Bestiole& Kamikaze::getPlusProche(Bestiole & b, const Milieu & milieu) {
-    std::vector<Bestiole> listeBestioles = b.capteBestioles(milieu);
-
-    if (listeBestioles.empty()) {
-        return b;  
-    }
-
-    double distanceMin = std::numeric_limits<double>::max();
-    Bestiole &plusProche = listeBestioles.front();
-
-    for (const auto& autreBestiole : listeBestioles) {
-        // calculer la distance entre b et chaque autre bestiole
-        double distance = std::sqrt(std::pow(b.getCoordx() - autreBestiole.getCoordx(), 2) +
-                                    std::pow(b.getCoordy() - autreBestiole.getCoordy(), 2));
-
-        // mettre à jour la bestiole la plus proche si la distance est plus petite
-        if (distance < distanceMin) {
-            distanceMin = distance;
-            plusProche = autreBestiole;
-        }
-    }
-    return plusProche;
 }
 
 
+Bestiole Kamikaze::bestiolePlusProche(const Bestiole& bestiole, const std::vector<Bestiole>& listeBestioles) {
+    //le cas où bestioles est vide est traite dans la methode execute()
+    
+    Bestiole bestioleProche = listeBestioles[0];
+    double distanceSquared = std::pow(bestiole.getCoordx() - bestioleProche.getCoordx(), 2) +
+                             std::pow(bestiole.getCoordy() - bestioleProche.getCoordy(), 2);
 
-void Kamikaze::execute(Bestiole & bestiole, Milieu & milieu) {
-    // Obtenir la bestiole la plus proche
-    Bestiole proie = getPlusProche(bestiole,milieu);
+    for (size_t i = 1; i < listeBestioles.size(); ++i) {
+        double currentDistanceSquared = std::pow(bestiole.getCoordx() - listeBestioles[i].getCoordx(), 2) +
+                                        std::pow(bestiole.getCoordy() - listeBestioles[i].getCoordy(), 2);
 
-    // Logique de déplacement de la bestiole kamikaze vers sa proie
-    double dx = cos(bestiole.getOrientation()) * bestiole.getVitesse();
-    double dy = -sin(bestiole.getOrientation()) * bestiole.getVitesse();
-
-    int cx = static_cast<int>(bestiole.getCumulX());
-    bestiole.setCumulX(bestiole.getCumulX() - cx);
-
-    int cy = static_cast<int>(bestiole.getCumulY());
-    bestiole.setCumulY(bestiole.getCumulY() - cy);
-
-    double nx = bestiole.getCoordx() + dx + cx;
-    double ny = bestiole.getCoordy() + dy + cy;
-
-    // Vérifier les collisions
-    /*
-    for (const Bestiole& autreBestiole : milieu.getListeBestioles()) {
-    if (&bestiole != &autreBestiole) { // Éviter de comparer une bestiole avec elle-même
-        double distance = std::sqrt(std::pow(nx - autreBestiole.getCoordx(), 2) +
-                                    std::pow(ny - autreBestiole.getCoordy(), 2));
-
-        // Vérifier si une collision a eu lieu
-        if (distance < bestiole.getRayon() + autreBestiole.getRayon()) {
-            // Simuler la collision
-            if (rand() % 2 == 0) {
-                // La bestiole meurt avec une probabilité de 50%
-                bestiole.~Bestiole();
-            } else {
-                // La bestiole rebondit dans la direction opposée
-                bestiole.setOrientation(M_PI + bestiole.getOrientation());
-                bestiole.setCumulX(0.0);
-                bestiole.setCumulY(0.0);
-            }
+        if (currentDistanceSquared < distanceSquared) {
+            bestioleProche = listeBestioles[i];
+            distanceSquared = currentDistanceSquared;
         }
     }
-    */
+    
+    return bestioleProche;
+}
 
-
-    // Mettre à jour la position si aucune collision n'a eu lieu
-    /*
-    if ((nx < 0 ) || (nx > milieu.getXLim() - 1)) {
-        bestiole.setOrientation(M_PI - bestiole.getOrientation());
-        bestiole.setCumulX(0.0);
-    } else {
-        bestiole.setCoordx(static_cast<int>(nx));
-        bestiole.setCumulX(bestiole.getCumulX() + nx - bestiole.getCoordx());
+double Kamikaze::calculNouvelleOrientation(const Bestiole& bestiole, const Bestiole& bestioleProie)  {
+    
+    double dx = bestioleProie.getCoordx()-bestiole.getCoordx();
+    double dy = bestioleProie.getCoordy()-bestiole.getCoordy();
+    double nouvelleOrientation;
+    if (dy>0){
+        nouvelleOrientation= M_PI/2 - atan2(dx, dy);  // atan2(x, y) fait arctan(x/y)
+    } else if (dy<0){
+        nouvelleOrientation = M_PI/2 + atan2(dx, dy);  
+    } else{
+        if(dx>0){nouvelleOrientation = 0;}
+        else if(dx<0){nouvelleOrientation = M_PI;}
     }
 
-    if ((ny < 0) || (ny > milieu.getYLim() - 1)) {
-        bestiole.setOrientation(-bestiole.getOrientation());
-        bestiole.setCumulY(0.0);
-    } else {
-        bestiole.setCoordy(static_cast<int>(ny));
-        bestiole.setCumulY(bestiole.getCumulY() + ny - bestiole.getCoordy());
-    }
-    */
+    return nouvelleOrientation;
+}
+
+
+void Kamikaze::execute(Bestiole & bestiole, Milieu & milieu) {
+    //une bestiole kamikaze cherche à provoquer une collision avec la bestiole la plus proche
+
+    std::vector<Bestiole> listeBestioles = bestiole.capteBestioles(milieu);
+    if (!listeBestioles.empty()) {
+        Bestiole proie = bestiolePlusProche(bestiole, listeBestioles);
+        double nouvelleOrientation = calculNouvelleOrientation(bestiole, proie);
+        bestiole.setOrientation(nouvelleOrientation);
+    }  
 }
 
 

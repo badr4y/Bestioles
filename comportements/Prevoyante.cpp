@@ -13,19 +13,19 @@ Prevoyante* Prevoyante::getPrevoyante() {
     }
 
 
-Bestiole Prevoyante::bestiolePlusProche(const std::vector<Bestiole>& bestioles) {
+Bestiole Prevoyante::bestiolePlusProche(const Bestiole& bestiole, const std::vector<Bestiole>& listeBestioles) {
     //le cas où bestioles est vide est traite dans la methode execute()
-    Bestiole bestioleProche = bestioles[0];
+    
+    Bestiole bestioleProche = listeBestioles[0];
+    double distanceSquared = std::pow(bestiole.getCoordx() - bestioleProche.getCoordx(), 2) +
+                             std::pow(bestiole.getCoordy() - bestioleProche.getCoordy(), 2);
 
-    double distanceSquared = std::pow(bestioleProche.getCoordx() - bestioles[0].getCoordx(), 2) +
-                             std::pow(bestioleProche.getCoordy() - bestioles[0].getCoordy(), 2);
-
-    for (size_t i = 1; i < bestioles.size(); ++i) {
-        double currentDistanceSquared = std::pow(bestioleProche.getCoordx() - bestioles[i].getCoordx(), 2) +
-                                        std::pow(bestioleProche.getCoordy() - bestioles[i].getCoordy(), 2);
+    for (size_t i = 1; i < listeBestioles.size(); ++i) {
+        double currentDistanceSquared = std::pow(bestiole.getCoordx() - listeBestioles[i].getCoordx(), 2) +
+                                        std::pow(bestiole.getCoordy() - listeBestioles[i].getCoordy(), 2);
 
         if (currentDistanceSquared < distanceSquared) {
-            bestioleProche = bestioles[i];
+            bestioleProche = listeBestioles[i];
             distanceSquared = currentDistanceSquared;
         }
     }
@@ -35,7 +35,7 @@ Bestiole Prevoyante::bestiolePlusProche(const std::vector<Bestiole>& bestioles) 
 
 
 double Prevoyante::calculNouvelleOrientation(const Bestiole& bestiole, const Bestiole& autreBestiole)  {
-    // Initialisation de la somme des directions relatives et du nombre de bestioles prises en compte
+
     double dx = autreBestiole.getCoordx()-bestiole.getCoordx();
     double dy = autreBestiole.getCoordy()-bestiole.getCoordy();
     double nouvelleOrientation = M_PI/2 - atan2(dx, dy);  // atan2(x, y) fait arctan(x/y)
@@ -45,10 +45,10 @@ double Prevoyante::calculNouvelleOrientation(const Bestiole& bestiole, const Bes
 
 
 void Prevoyante::execute(Bestiole& bestiole, Milieu& milieu) {
-
+    //une bestiole prevoyante ajuste sa trajectoire à celles des bestioles proches pour eviter les collisions
     std::vector<Bestiole> bestiolesCaptees = bestiole.capteBestioles(milieu);
     if (!bestiolesCaptees.empty()) {
-        Bestiole bestioleProche = bestiolePlusProche(bestiolesCaptees);
+        Bestiole bestioleProche = bestiolePlusProche(bestiole, bestiolesCaptees);
         double nouvelleOrientation = calculNouvelleOrientation(bestiole, bestioleProche);
         bestiole.setOrientation(nouvelleOrientation);
     }

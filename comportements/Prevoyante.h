@@ -18,7 +18,7 @@ private :
 public :                                           
    static Prevoyante* getPrevoyante();    
 public : 
-   Bestiole bestiolePlusProche(const std::vector<Bestiole>& );
+   Bestiole bestiolePlusProche(const Bestiole&, const std::vector<Bestiole>& );
    double calculNouvelleOrientation(const Bestiole&, const Bestiole&);
 
    void execute(Bestiole&, Milieu&);
