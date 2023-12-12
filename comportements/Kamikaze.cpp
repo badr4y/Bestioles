@@ -8,15 +8,29 @@
 // initialisation du singleton kamikaze
 //pointeur statique ==> unique ==> sûr 
 // evite problemes de concurrences d'environnement multithreadés
-Kamikaze* Kamikaze::kamikaze = nullptr;
+Kamikaze *Kamikaze::kamikaze = nullptr;
+bool Kamikaze::initialized = false;
 
-Kamikaze::Kamikaze() {}
+Kamikaze::Kamikaze() {
+    initialized = true;
+}
 
 Kamikaze* Kamikaze::getKamikaze() {
-    if (kamikaze == nullptr )
-        kamikaze = new Kamikaze();
-    return kamikaze;
+    if (!Kamikaze::initialized){
+        // Libérer la mémoire précédente si factoryInstance est déjà alloué
+        if (kamikaze != nullptr) {
+            delete kamikaze;
+        }
+        Kamikaze::kamikaze = new Kamikaze();
+    }
+    return Kamikaze::kamikaze;
 }
+
+//Kamikaze* Kamikaze::getKamikaze() {
+//    if (kamikaze == nullptr )
+//        kamikaze = new Kamikaze();
+//    return kamikaze;
+//}
 
 
 Bestiole Kamikaze::bestiolePlusProche(const Bestiole& bestiole, const std::vector<Bestiole>& listeBestioles) {
