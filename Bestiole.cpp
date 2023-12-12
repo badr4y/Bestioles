@@ -72,6 +72,9 @@ Bestiole::Bestiole(ComportementEnum comportementEnum) : isDead(false)
          break;
       }
 
+   cout << "comportement defini ?" << endl;
+   cout << (comportement != nullptr) << endl; // Oui
+
    Yeux yeux;
    Oreilles oreilles;
    // Camouflage camouflage;
@@ -96,7 +99,12 @@ Bestiole::Bestiole(const Bestiole &b)
    memcpy(couleur, b.couleur, 3 * sizeof(T));
    stepsToDeath = b.stepsToDeath;
 
+   comportement = b.getComportement();
+
    upgrades = b.upgrades; // deepcopy je crois
+
+   cout << "comportement defini ?" << endl;
+   cout << (comportement != nullptr) << endl;
 }
 
 Bestiole::~Bestiole(void)
@@ -166,7 +174,11 @@ void Bestiole::markAsDead()
 void Bestiole::action(Milieu &monMilieu)
 {
 
+   cout << "Debut appel Action bestiole" << endl;
+
    std::vector<Bestiole> bestiolesCaptees = capteBestioles(monMilieu);
+
+   cout << "Fin création liste voisins bestiole" << endl;
 
    if (bestiolesCaptees.size() == 0)
    { // devient noir si il ne voit aucune bestiole et devient rouge si il voit une ou plusieurs bestioles
@@ -181,14 +193,23 @@ void Bestiole::action(Milieu &monMilieu)
       couleur[2] = static_cast<int>(10.);
    }
 
+   cout << "Fin maj couleur bestiole et Juste avant l'appel à execute" << endl;
+
+   cout << (comportement != nullptr) << endl;
+
    comportement->execute(*this, monMilieu);
-   
+
+   cout << "Appel à execute fini" << endl;
+
    bouge(monMilieu.getWidth(), monMilieu.getHeight());
    stepsToDeath = stepsToDeath - 1;
    if (stepsToDeath == 0)
    {
       markAsDead();
    }
+
+   cout << "Fin appel Action bestiole" << endl;
+
 }
 
 void Bestiole::draw(UImg &support)
@@ -300,6 +321,11 @@ void Bestiole::setCumulX(int newCumulx)
 void Bestiole::setCumulY(int newCumuly)
 {
    cumulY = newCumuly;
+}
+
+Comportement* Bestiole::getComportement() const
+{
+   return comportement;
 }
 
 

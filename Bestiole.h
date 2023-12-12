@@ -72,6 +72,8 @@ public:                                         // Forme canonique :
    void setCumulX(int newCumulx);
    void setCumulY(int newCumuly);
 
+   Comportement* getComportement() const;
+
    double getVitesse() const;
    void setCurrentVitesse(double newVitesse);
    double getOrientation() const;

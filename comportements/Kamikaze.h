@@ -12,13 +12,11 @@ class Kamikaze : public virtual Comportement{
 
 private :
    static Kamikaze* kamikaze;
-private :
+   static bool initialized;
    Kamikaze();
 
 public :                                           
-   static Kamikaze* getKamikaze();    
-   
-public : 
+   static Kamikaze* getKamikaze();
    Bestiole bestiolePlusProche(const Bestiole&, const std::vector<Bestiole>&);
    double calculNouvelleOrientation(const Bestiole&, const Bestiole&);
 

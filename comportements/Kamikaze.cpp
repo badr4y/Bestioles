@@ -18,7 +18,7 @@ Kamikaze::Kamikaze() {
 Kamikaze* Kamikaze::getKamikaze() {
     if (!Kamikaze::initialized){
         // Libérer la mémoire précédente si factoryInstance est déjà alloué
-        if (kamikaze != nullptr) {
+        if (!Kamikaze::initialized) {
             delete kamikaze;
         }
         Kamikaze::kamikaze = new Kamikaze();
@@ -72,6 +72,9 @@ double Kamikaze::calculNouvelleOrientation(const Bestiole& bestiole, const Besti
 
 
 void Kamikaze::execute(Bestiole & bestiole, Milieu & milieu) {
+
+    cout << "Appel à execute de kamikaze" << endl;
+
     //une bestiole kamikaze cherche à provoquer une collision avec la bestiole la plus proche
 
     std::vector<Bestiole> listeBestioles = bestiole.capteBestioles(milieu);
@@ -79,7 +82,9 @@ void Kamikaze::execute(Bestiole & bestiole, Milieu & milieu) {
         Bestiole proie = bestiolePlusProche(bestiole, listeBestioles);
         double nouvelleOrientation = calculNouvelleOrientation(bestiole, proie);
         bestiole.setOrientation(nouvelleOrientation);
-    }  
+    }
+
+    cout << "Fin appel à execute de kamikaze" << endl;
 }
 
 
