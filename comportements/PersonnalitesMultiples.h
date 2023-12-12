@@ -14,6 +14,7 @@ private :
 	static const double PROPORTIONPEUREUSE;
 	static const double PROPORTIONKAMIKAZE;
 	static const double PROPORTIONPREVOYANTE;
+	static const double CHGTCOMPORTEMENT;
 
 private :
 	Comportement* currentComportement;

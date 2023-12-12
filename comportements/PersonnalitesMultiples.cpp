@@ -8,11 +8,14 @@
 #include <stdlib.h>
 #include <memory>
 
-
+// Initialisation des proportions de chaque comportement
 const double PersonnalitesMultiples::PROPORTIONGREGAIRE = 0.25 ;
 const double PersonnalitesMultiples::PROPORTIONPEUREUSE = 0.5 ;
 const double PersonnalitesMultiples::PROPORTIONKAMIKAZE = 0.75 ;
 const double PersonnalitesMultiples::PROPORTIONPREVOYANTE = 1. ;
+
+// Initialisation proportion de changer de comportement
+const double PersonnalitesMultiples::CHGTCOMPORTEMENT = 0.01 ;
 
 
 PersonnalitesMultiples::PersonnalitesMultiples() {
@@ -20,14 +23,17 @@ PersonnalitesMultiples::PersonnalitesMultiples() {
 }
 
 void PersonnalitesMultiples::setComportement( Comportement* newComportement) {
+	// Setter du comportement actuel
 	this->currentComportement = newComportement;
 }
 
 Comportement* PersonnalitesMultiples::getComportement(){
+	// Getter du comportement actuel
 	return currentComportement;
 }
 
 void PersonnalitesMultiples::changeComportement() {
+	// On calcule le nouveau comportement selon les probabilités
 	double rand1 = (rand()%1000)/(1000.);
 	if (rand1 <= PROPORTIONGREGAIRE) {
 		this->setComportement(Gregaire::getGregaire());
@@ -44,16 +50,9 @@ void PersonnalitesMultiples::changeComportement() {
 }
 
 void PersonnalitesMultiples::execute(Bestiole & bestiole, Milieu & milieu) {
-	if (this->currentComportement==Gregaire::getGregaire()) {
-		Gregaire::getGregaire()->execute(bestiole, milieu);
+	double rand1 = (rand()%1000)/(1000.);
+	if (rand1 <= CHGTCOMPORTEMENT)  {
+		this->changeComportement();
 	}
-	else if (this->currentComportement==Peureuse::getPeureuse()) {
-		Peureuse::getPeureuse()->execute(bestiole, milieu);
-	}
-	else if (this->currentComportement==Kamikaze::getKamikaze()) {
-		Kamikaze::getKamikaze()->execute(bestiole, milieu);
-	}
-	else if (this->currentComportement==Prevoyante::getPrevoyante()) {
-		Prevoyante::getPrevoyante()->execute(bestiole, milieu);
-	}
+	this->getComportement()->execute(bestiole,milieu);
 }
