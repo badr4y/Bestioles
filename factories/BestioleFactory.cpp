@@ -19,6 +19,12 @@ BestioleFactory::BestioleFactory(double gregaire, double peureuse, double kamika
     initialized = true;
 }
 
+BestioleFactory::~BestioleFactory(){
+    if (BestioleFactory::factoryInstance != nullptr) {
+        delete BestioleFactory::factoryInstance;
+    }
+}
+
 double BestioleFactory::getPROPORTIONGREGAIRE() const
 {
   return PROPORTIONGREGAIRE;
@@ -69,8 +75,13 @@ BestioleFactory* BestioleFactory::getFactory()
         std::cout << "Enter the initial population mass: ";
         std::cin >> population;
 
-        BestioleFactory factory = BestioleFactory(gregaire, peureuse, kamikaze, prevoyant, multiple, population);
-        BestioleFactory::factoryInstance = &factory;
+        // Libérer la mémoire précédente si factoryInstance est déjà alloué
+        if (factoryInstance != nullptr) {
+            delete factoryInstance;
+        }
+
+        BestioleFactory::factoryInstance = new BestioleFactory(gregaire, peureuse, kamikaze, prevoyant, multiple, population);
+
     }
 
     return BestioleFactory::factoryInstance;
@@ -79,6 +90,9 @@ BestioleFactory* BestioleFactory::getFactory()
 
 void BestioleFactory::createPopulation()
 {
+
+    std::cout << "Appel à createPopulation lancé" << std::endl;
+
     int gregaireCount = static_cast<int>(POPULATIONINITIAL * PROPORTIONGREGAIRE);
     int peureuseCount = static_cast<int>(POPULATIONINITIAL * PROPORTIONPEUREUSE);
     int kamikazeCount = static_cast<int>(POPULATIONINITIAL * PROPORTIONKAMIKAZE);
@@ -106,6 +120,8 @@ void BestioleFactory::createPopulation()
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dis(0, 4); // Distribution for indices 0 to 4
+
+    std::cout << "Population pile créée" << std::endl;
 
     for (int i = 0; i < remainingCount; ++i)
         {

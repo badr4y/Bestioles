@@ -43,6 +43,7 @@ void Milieu::step( void )
 }
 
 void Milieu::addMember( const Bestiole & b ){
+   std::cout << "Appel à addMember lancé" << std::endl;
    listeBestioles.push_back(b);
    listeBestioles.back().initCoords(width, height); 
 }

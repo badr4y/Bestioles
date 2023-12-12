@@ -181,6 +181,8 @@ void Bestiole::action(Milieu &monMilieu)
       couleur[2] = static_cast<int>(10.);
    }
 
+   comportement->execute(*this, monMilieu);
+   
    bouge(monMilieu.getWidth(), monMilieu.getHeight());
    stepsToDeath = stepsToDeath - 1;
    if (stepsToDeath == 0)

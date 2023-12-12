@@ -17,7 +17,9 @@ int main()
     Aquarium       ecosysteme(640, 480, 30);
 
     BestioleFactory::getFactory()->setMilieu(&(ecosysteme.getMilieu()));
+    std::cout << "BestioleFactory créé" << std::endl;
     BestioleFactory::getFactory()->createPopulation();
+    std::cout << "Population créée" << std::endl;
 
     /*for (int i = 1; i <= 20; ++i)
        ecosysteme.getMilieu().addMember( Bestiole() );*/

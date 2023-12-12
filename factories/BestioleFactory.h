@@ -37,6 +37,7 @@ private:
   static BestioleFactory *factoryInstance;
   static bool initialized;
   BestioleFactory(double gregaire, double peureuse, double kamikaze, double prevoyant, double multiple, int population);
+  ~BestioleFactory();
 
 };
 #endif
