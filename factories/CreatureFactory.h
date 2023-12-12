@@ -4,9 +4,6 @@
 class CreatureFactory
 {
 
-protected:
-  CreatureFactory();
-
 public:
   virtual void createPopulation() = 0;
   virtual ~CreatureFactory() = default;
