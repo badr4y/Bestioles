@@ -43,6 +43,17 @@ void PersonnalitesMultiples::changeComportement() {
 	}
 }
 
-void PersonnalitesMultiples::execute() {
-
+void PersonnalitesMultiples::execute(Bestiole & bestiole, Milieu & milieu) {
+	if (this->currentComportement==Gregaire::getGregaire()) {
+		Gregaire::getGregaire()->execute(bestiole, milieu);
+	}
+	else if (this->currentComportement==Peureuse::getPeureuse()) {
+		Peureuse::getPeureuse()->execute(bestiole, milieu);
+	}
+	else if (this->currentComportement==Kamikaze::getKamikaze()) {
+		Kamikaze::getKamikaze()->execute(bestiole, milieu);
+	}
+	else if (this->currentComportement==Prevoyante::getPrevoyante()) {
+		Prevoyante::getPrevoyante()->execute(bestiole, milieu);
+	}
 }

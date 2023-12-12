@@ -2,6 +2,8 @@
 #define _PERSONNALITESMULTIPLES_H_
 
 #include "Comportement.h"
+#include "../Bestiole.h"
+#include "../Milieu.h"
 
 #include <memory>
 
@@ -21,7 +23,7 @@ public :
 	void setComportement( Comportement * );
 	Comportement* getComportement();
 	void changeComportement();
-	void execute();
+	void execute(Bestiole &, Milieu &);
 
 
 };
