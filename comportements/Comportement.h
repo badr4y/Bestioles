@@ -16,7 +16,8 @@ class Bestiole;
 class Comportement {
 
 public:
-    virtual void execute(Bestiole&, Milieu&);
+    virtual void execute(Bestiole&, Milieu&) = 0;
+    virtual ~Comportement() = default;
 };
 
 #endif

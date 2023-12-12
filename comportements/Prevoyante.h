@@ -21,7 +21,7 @@ public :
    Bestiole bestiolePlusProche(const std::vector<Bestiole>& );
    double calculNouvelleOrientation(const Bestiole&, const Bestiole&);
 
-   void execute(Bestiole&, const Milieu&);
+   void execute(Bestiole&, Milieu&);
 };
 
 #endif

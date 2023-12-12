@@ -20,7 +20,7 @@ public :
 
 public : 
    Bestiole& getPlusProche(Bestiole &, const Milieu & milieu);
-   void execute(Bestiole&, const Milieu&);
+   void execute(Bestiole&, Milieu&);
                                 
 };
 

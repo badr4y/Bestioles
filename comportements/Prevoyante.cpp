@@ -44,7 +44,7 @@ double Prevoyante::calculNouvelleOrientation(const Bestiole& bestiole, const Bes
 }
 
 
-void Prevoyante::execute(Bestiole& bestiole, const Milieu& milieu) {
+void Prevoyante::execute(Bestiole& bestiole, Milieu& milieu) {
 
     std::vector<Bestiole> bestiolesCaptees = bestiole.capteBestioles(milieu);
     if (!bestiolesCaptees.empty()) {

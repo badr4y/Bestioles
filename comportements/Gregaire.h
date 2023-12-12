@@ -25,7 +25,7 @@ public :
    double getOrientationMoyenneVoisins(const std::vector<Bestiole>&);                            
    double getNouvelleOrientation(const std::vector<Bestiole>&,const Bestiole&); 
 
-   void execute(Bestiole&, Milieu &);                            
+   void execute(Bestiole&, Milieu &) override;                            
 };
 
 
