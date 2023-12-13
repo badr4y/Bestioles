@@ -23,9 +23,9 @@ class Comportement;
 
 class Bestiole
 {
-
+public :
+    static const double AFF_SIZE;
 private:
-   static const double AFF_SIZE;
    static const double MAX_VITESSE;
    static const double LIMITE_VUE;
    static const double P_MORT_COLLISION;

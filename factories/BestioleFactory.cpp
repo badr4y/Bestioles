@@ -167,7 +167,7 @@ void BestioleFactory::createCreature()
     else {
         comportementEnum = ComportementEnum::personnalitesMultiples;
     }
-
+    
     Aquarium::getMilieu().addMember(Bestiole(comportementEnum));
 }
 

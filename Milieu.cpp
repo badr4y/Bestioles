@@ -33,11 +33,12 @@ Milieu::~Milieu( void )
 
 void Milieu::step( void )
 {
+	double errorMargin = Bestiole::AFF_SIZE;
 	std::random_device rd;
 	std::mt19937 gen(rd());
 	std::uniform_int_distribution<> dis(1, 60);
 
-	// Generate a random number between 1 and 100
+	// Generate a random number between 1 and 60
 	int randomValue = dis(gen);
 
 	if (randomValue == 30) {
@@ -54,6 +55,32 @@ void Milieu::step( void )
 	   }
 	   else {
 		   (*it)->draw(*this);
+		   // Nouvelle boucle pour vérifier les coordonnées des autres bestioles
+		   for (auto otherIt = listeBestioles.begin(); otherIt != listeBestioles.end(); ++otherIt) {
+			   // Vérifier si ce n'est pas la même bestiole
+			   if (it != otherIt) {
+				   // Comparer les coordonnées avec une marge d'erreur
+				   if (std::abs((*it)->getCoordx() - (*otherIt)->getCoordx()) <= errorMargin &&
+					   std::abs((*it)->getCoordy() - (*otherIt)->getCoordy()) <= errorMargin) {
+					   // Faire quelque chose avec les bestioles qui ont des coordonnées proches
+					   std::random_device rd;
+					   std::mt19937 gen(rd());
+					   std::uniform_real_distribution<> dis(0.0, 1.0);
+
+					   double probaMort = (*it)->getProbaMortCollision();
+
+					   double randomValue = dis(gen);
+
+					   if (randomValue < probaMort) {
+						   (*it)->markAsDead();
+					   }
+					   else {
+						   (*it)->setOrientation(((*it)->getOrientation())+ M_PI);
+					   }
+
+				   }
+			   }
+		   }
 		   ++it;
 	   }
    }

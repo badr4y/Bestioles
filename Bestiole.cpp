@@ -85,7 +85,7 @@ Bestiole::Bestiole(ComportementEnum comportementEnum) : isDead(false)
    // upgrades.push_back(std::make_shared<Camouflage>(camouflage));
 }
 
-Bestiole::Bestiole(const Bestiole &b)
+Bestiole::Bestiole(const Bestiole &b) : isDead(false)
 {
 
    identite = ++next;
@@ -198,11 +198,11 @@ void Bestiole::action(Milieu &monMilieu)
 
    comportement->execute(*this, monMilieu);
 
-   int randomValue = std::rand() % 101 + 15;
+   int randomValue = std::rand() % 1000 + 15;
 
    // Si le nombre aléatoire est égal à 50, appel de la fonction de clonage
    if (randomValue == 50) {
-       BestioleFactory::getFactory()->cloneBestiole(*this);  // Assurez-vous que la fonction clone() est définie dans votre classe Bestiole
+       BestioleFactory::getFactory()->cloneBestiole(*this);
    }
 
    cout << "Appel à execute fini" << endl;
