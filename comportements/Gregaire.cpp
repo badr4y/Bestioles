@@ -56,7 +56,14 @@ double Gregaire::getNouvelleOrientation(const list<Bestiole>& bestioles, const B
 void Gregaire::execute(Bestiole &bestiole, Milieu &milieu){
     // On modifie l'orientation pour que la bestiole adopte le comportement
     double direction = this->getNouvelleOrientation(bestiole.capteBestioles(milieu), bestiole);
-    bestiole.setOrientation(direction);
+    if (direction == 0)
+    {
+        bestiole.setOrientation(bestiole.getOrientation());   
+    }
+    else
+    {
+        bestiole.setOrientation(direction);
+    }
 }
 
 
