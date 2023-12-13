@@ -71,7 +71,7 @@ Bestiole::Bestiole(ComportementEnum comportementEnum) : isDead(false)
          this->comportement = &pm;
          break;
       }
-   stepsToDeath = rand() % (150 - 15 + 1) + 15;
+   stepsToDeath = rand() % (1000 - 600 + 1) + 600;
    cout << "comportement defini ?" << endl;
    cout << (comportement != nullptr) << endl; // Oui
 

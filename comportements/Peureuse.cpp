@@ -5,7 +5,7 @@
 #include <memory>
 
 const double Peureuse::COEFFPEUR = 3. ;
-const int Peureuse::DENSITEBESTIOLE = 5;
+const int Peureuse::DENSITEBESTIOLE = 3;
 
 // Initialisation du pointeur
 Peureuse* Peureuse::peureuse=nullptr;
@@ -33,8 +33,9 @@ int Peureuse::getDensiteBestioles(std::list<Bestiole> const &bestioles) {
 double Peureuse::getNouvelleDirection(const std::list<Bestiole> &bestioles, const Bestiole & bestiole) {
 	double moyenneX = 0;
 	double moyenneY = 0;
-	double result = 0;
+
 	// Calcul du barycentre des bestioles proches
+	double nouvelleOrientation;
 	if (bestioles.size() != 0) {
 		for (const Bestiole& b : bestioles) {
 			moyenneX += b.getCoordx();
@@ -43,13 +44,22 @@ double Peureuse::getNouvelleDirection(const std::list<Bestiole> &bestioles, cons
 		moyenneX = moyenneX/bestioles.size();
 		moyenneY = moyenneY/bestioles.size();
 		// Direction à adopter pour aller à l'opposé du barycentre
-		result = (M_PI/2) - std::atan((moyenneX-bestiole.getCoordx())/(moyenneY -bestiole.getCoordy()));
+
+		double dx = moyenneX-bestiole.getCoordx();
+	    double dy = moyenneY-bestiole.getCoordy();
+	    if (dy>0){
+	        nouvelleOrientation= M_PI/2 - atan2(dx, dy);  // atan2(x, y) fait arctan(x/y)
+	    } else if (dy<0){
+	        nouvelleOrientation = M_PI/2 + atan2(dx, dy);  
+	    } else{
+	        if(dx>0){nouvelleOrientation = 0;}
+	        else if(dx<0){nouvelleOrientation = M_PI;}
+	    }
 	}
 	else {
-		result = bestiole.getOrientation();
+		nouvelleOrientation = bestiole.getOrientation();
 	}	
-	return result;
-
+	return nouvelleOrientation;
 
 }
 
@@ -62,7 +72,6 @@ void Peureuse::execute(Bestiole & bestiole, Milieu & milieu)  {
 		bestiole.setCurrentVitesse(bestiole.getVitesse() * COEFFPEUR);
 	}
 	else {
-		bestiole.setOrientation(direction);
 		bestiole.setCurrentVitesse(bestiole.getVitesse());
 }
 
