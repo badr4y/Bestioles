@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <cmath>
 
-const double Camouflage::PSI_MIN = 0.5;
+const double Camouflage::PSI_MIN = 0;
 const double Camouflage::PSI_MAX = 1.;
 double psi;
 

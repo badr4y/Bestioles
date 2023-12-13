@@ -5,9 +5,9 @@
 #include <cmath>
 
 const double Oreilles::GAMMA_OREILLES_MAX = 1.;
-const double Oreilles::GAMMA_OREILLES_MIN = 1.;//0.5;
+const double Oreilles::GAMMA_OREILLES_MIN = 0.;//0.5;
 const double Oreilles::DELTA_OREILLES_MAX = 60.;
-const double Oreilles::DELTA_OREILLES_MIN = 60.;//10.;
+const double Oreilles::DELTA_OREILLES_MIN = 0.;//10.;
 
 Oreilles::Oreilles(){
 	double rand1 = (rand() % 1000)/1000.;  // rand() entre 0 et RAND_MAX ; (rand() % 1000) entre 0 et 1000 ; (rand() % 1000)/1000 entre 0.000 et 1.000 

@@ -2,12 +2,12 @@
 #include <stdlib.h> // rand()
 #include <cmath>
 
-const double Yeux::ALPHA_MIN = M_PI/2;//0;
+const double Yeux::ALPHA_MIN = 0;//0;
 const double Yeux::ALPHA_MAX = M_PI/2;
 const double Yeux::GAMMA_YEUX_MAX = 1.;
-const double Yeux::GAMMA_YEUX_MIN = 1.;//0.5;
-const double Yeux::DELTA_YEUX_MAX = 100.;
-const double Yeux::DELTA_YEUX_MIN = 100;//50.;
+const double Yeux::GAMMA_YEUX_MIN = 0;//0.5;
+const double Yeux::DELTA_YEUX_MAX = 50;
+const double Yeux::DELTA_YEUX_MIN = 0;//50.;
 
 Yeux::Yeux(){
 	double rand1 = (rand() % 1000)/1000.;  // rand() entre 0 et RAND_MAX ; (rand() % 1000) entre 0 et 1000 ; (rand() % 1000)/1000 entre 0.000 et 1.000 
