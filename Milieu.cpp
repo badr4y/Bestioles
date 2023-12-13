@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <list>
+#include <factories/BestioleFactory.h>
 
 #include "Bestiole.h"
 
@@ -33,6 +34,7 @@ void Milieu::step( void )
 {
 
    cimg_forXY( *this, x, y ) fillC( x, y, 0, white[0], white[1], white[2] );
+   Bestiole
    for (list<shared_ptr<Bestiole>>::iterator it = listeBestioles.begin(); it != listeBestioles.end();)
    {
 	   (*it)->action(*this);

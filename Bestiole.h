@@ -54,8 +54,6 @@ public:                                         // Forme canonique :
    Bestiole(ComportementEnum comportementEnum); // Constructeur par defaut
    Bestiole(const Bestiole &b);                 // Constructeur de copies
    ~Bestiole(void);                             // Destructeur
-   int getStepsToDeath() const;
-   void setStepsToDeath();
                                                 // Operateur d'affectation binaire par defaut
    void action(Milieu &monMilieu);
    void draw(UImg &support);

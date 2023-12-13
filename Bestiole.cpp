@@ -250,7 +250,7 @@ void Bestiole::draw(UImg &support)
          {
             if (Oreilles *oreillesPtr = dynamic_cast<Oreilles *>(&upgrade))
             {
-               support.draw_circle(x, y, oreillesPtr->getDelta(), couleur, 1, 0xFFFFFFFF); // opacity, outline (0=none, 1=dots, 0xFFFFFFFF=full)
+                support.draw_circle(x, y, pCapteur->getDelta(), couleur, 0.1); // opacity, outline (0=none, 1=dots, 0xFFFFFFFF=full)
             }
          }
       }
