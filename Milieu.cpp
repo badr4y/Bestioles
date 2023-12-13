@@ -68,14 +68,23 @@ void Milieu::step( void )
 					   std::uniform_real_distribution<> dis(0.0, 1.0);
 
 					   double probaMort = (*it)->getProbaMortCollision();
+					   double probaMort2 = (*otherIt)->getProbaMortCollision();
 
 					   double randomValue = dis(gen);
+					   double randomValue2 = dis(gen);
 
 					   if (randomValue < probaMort) {
 						   (*it)->markAsDead();
 					   }
 					   else {
 						   (*it)->setOrientation(((*it)->getOrientation())+ M_PI);
+					   }
+
+					   if (randomValue2 < probaMort2) {
+						   (*otherIt)->markAsDead();
+					   }
+					   else {
+						   (*otherIt)->setOrientation(((*otherIt)->getOrientation()) + M_PI);
 					   }
 
 				   }
