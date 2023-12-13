@@ -15,10 +15,7 @@ int main()
 
     BestioleFactory::getFactory()->createPopulation();
 
-    /*for (int i = 1; i <= 20; ++i)
-       ecosysteme.getMilieu().addMember( Bestiole() );*/
     ecosysteme.run();
-
 
     return 0;
 

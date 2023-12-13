@@ -142,10 +142,35 @@ void BestioleFactory::createPopulation()
 
 }
 
-  void BestioleFactory::createCreature(ComportementEnum comportementEnum)
-  {
-      Aquarium::getMilieu().addMember(Bestiole(comportementEnum));
-  }
+void BestioleFactory::createCreature()
+{
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<> dis(0.0, 1.0);
+
+    double randomValue = dis(gen);
+
+    ComportementEnum comportementEnum;
+
+    if (randomValue < PROPORTIONGREGAIRE) {
+        comportementEnum = ComportementEnum::gregaire;
+    }
+    else if (randomValue < PROPORTIONGREGAIRE + PROPORTIONPEUREUSE) {
+        comportementEnum = ComportementEnum::peureuse;
+    }
+    else if (randomValue < PROPORTIONGREGAIRE + PROPORTIONPEUREUSE + PROPORTIONKAMIKAZE) {
+        comportementEnum = ComportementEnum::kamikaze;
+    }
+    else if (randomValue < PROPORTIONGREGAIRE + PROPORTIONPEUREUSE + PROPORTIONKAMIKAZE + PROPORTIONPREVOYANT) {
+        comportementEnum = ComportementEnum::prevoyante;
+    }
+    else {
+        comportementEnum = ComportementEnum::personnalitesMultiples;
+    }
+
+    Aquarium::getMilieu().addMember(Bestiole(comportementEnum));
+}
+
 
   void BestioleFactory::cloneBestiole(const Bestiole& b)
   {

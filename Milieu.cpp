@@ -4,6 +4,7 @@
 #include <ctime>
 #include <list>
 #include <factories/BestioleFactory.h>
+#include <random>
 
 #include "Bestiole.h"
 
@@ -32,9 +33,18 @@ Milieu::~Milieu( void )
 
 void Milieu::step( void )
 {
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_int_distribution<> dis(1, 60);
+
+	// Generate a random number between 1 and 100
+	int randomValue = dis(gen);
+
+	if (randomValue == 30) {
+		BestioleFactory::getFactory()->createCreature();
+	}
 
    cimg_forXY( *this, x, y ) fillC( x, y, 0, white[0], white[1], white[2] );
-   Bestiole
    for (list<shared_ptr<Bestiole>>::iterator it = listeBestioles.begin(); it != listeBestioles.end();)
    {
 	   (*it)->action(*this);
