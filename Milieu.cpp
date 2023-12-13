@@ -3,6 +3,8 @@
 #include <cstdlib>
 #include <ctime>
 #include <list>
+#include <factories/BestioleFactory.h>
+#include <random>
 
 #include "Bestiole.h"
 
@@ -31,6 +33,17 @@ Milieu::~Milieu( void )
 
 void Milieu::step( void )
 {
+	double errorMargin = Bestiole::AFF_SIZE;
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_int_distribution<> dis(1, 60);
+
+	// Generate a random number between 1 and 60
+	int randomValue = dis(gen);
+
+	if (randomValue == 30) {
+		BestioleFactory::getFactory()->createCreature();
+	}
 
    cimg_forXY( *this, x, y ) fillC( x, y, 0, white[0], white[1], white[2] );
    for (list<shared_ptr<Bestiole>>::iterator it = listeBestioles.begin(); it != listeBestioles.end();)
@@ -42,6 +55,41 @@ void Milieu::step( void )
 	   }
 	   else {
 		   (*it)->draw(*this);
+		   // Nouvelle boucle pour vérifier les coordonnées des autres bestioles
+		   for (auto otherIt = listeBestioles.begin(); otherIt != listeBestioles.end(); ++otherIt) {
+			   // Vérifier si ce n'est pas la même bestiole
+			   if (it != otherIt) {
+				   // Comparer les coordonnées avec une marge d'erreur
+				   if (std::abs((*it)->getCoordx() - (*otherIt)->getCoordx()) <= errorMargin &&
+					   std::abs((*it)->getCoordy() - (*otherIt)->getCoordy()) <= errorMargin) {
+					   // Faire quelque chose avec les bestioles qui ont des coordonnées proches
+					   std::random_device rd;
+					   std::mt19937 gen(rd());
+					   std::uniform_real_distribution<> dis(0.0, 1.0);
+
+					   double probaMort = (*it)->getProbaMortCollision();
+					   double probaMort2 = (*otherIt)->getProbaMortCollision();
+
+					   double randomValue = dis(gen);
+					   double randomValue2 = dis(gen);
+
+					   if (randomValue < probaMort) {
+						   (*it)->markAsDead();
+					   }
+					   else {
+						   (*it)->setOrientation(((*it)->getOrientation())+ M_PI);
+					   }
+
+					   if (randomValue2 < probaMort2) {
+						   (*otherIt)->markAsDead();
+					   }
+					   else {
+						   (*otherIt)->setOrientation(((*otherIt)->getOrientation()) + M_PI);
+					   }
+
+				   }
+			   }
+		   }
 		   ++it;
 	   }
    }

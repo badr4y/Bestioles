@@ -13,7 +13,7 @@ class BestioleFactory : public CreatureFactory
 public:
   static BestioleFactory* getFactory();
   void createPopulation();
-  void createCreature(ComportementEnum comportementEnum);
+  void createCreature();
   void cloneBestiole(const Bestiole& b);
   double getPROPORTIONGREGAIRE() const;
   double getPROPORTIONPEUREUSE() const;
