@@ -3,12 +3,11 @@
 #include <cmath>
 
 const double Nageoire::NU_MAX = 3;
-double nu;
 
 // CONSTRUCTEUR
 Nageoire::Nageoire() {
-    double randomNumber = (rand() % 1000) / 1000;  // rand() est entre 0 et RAND_MAX ; (rand() % 1000) est entre 0 et 1000 ; (rand() % 1000)/1000 est entre 0.000 et 1.000
-    nu = 1 + (NU_MAX - 1) * randomNumber;
+    double randomNumber = (rand() % 1000) / 1000;
+    Nageoire::nu = 1 + (NU_MAX - 1) * randomNumber;
 }
 
 bool Nageoire::isYeux() {
@@ -27,7 +26,7 @@ bool Nageoire::isNageoire() {
     return true;
 }
 
-bool Nageoire::isOreille() {
+bool Nageoire::isOreilles() {
     return false;
 }
 

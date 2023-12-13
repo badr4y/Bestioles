@@ -17,7 +17,7 @@ public:
 	bool isCamouflage();
 	bool isCarapace();
 	bool isNageoire();
-	bool isOreille();
+	bool isOreilles();
 
 	double getNu();
 

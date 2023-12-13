@@ -7,11 +7,9 @@ const double Carapace::OMEGA_MAX = 8;
 double eta;
 double omega;
 
-
-
 // CONSTRUCTEUR
 Carapace::Carapace() {
-    double randomNumber = (rand() % 1000) / 1000;  // rand() est entre 0 et RAND_MAX ; (rand() % 1000) est entre 0 et 1000 ; (rand() % 1000)/1000 est entre 0.000 et 1.000
+    double randomNumber = (rand() % 1000) / 1000;
     eta = 1 + (ETA_MAX - 1) * randomNumber;
     omega = 1 + (OMEGA_MAX - 1) * randomNumber;
 }
@@ -32,7 +30,7 @@ bool Carapace::isNageoire() {
     return false;
 }
 
-bool Carapace::isOreille() {
+bool Carapace::isOreilles() {
     return false;
 }
 

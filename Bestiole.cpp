@@ -79,10 +79,14 @@ Bestiole::Bestiole(ComportementEnum comportementEnum) : isDead(false)
 
    Yeux yeux;
    Oreilles oreilles;
-   // Camouflage camouflage;
+   Camouflage camouflage;
+   Nageoire nageoire;
+   Carapace carapace;
    upgrades.push_back(std::make_shared<Yeux>(yeux));
    upgrades.push_back(std::make_shared<Oreilles>(oreilles));
-   // upgrades.push_back(std::make_shared<Camouflage>(camouflage));
+   upgrades.push_back(std::make_shared<Camouflage>(camouflage));
+   upgrades.push_back(std::make_shared<Nageoire>(nageoire));
+   upgrades.push_back(std::make_shared<Carapace>(carapace));
 }
 
 Bestiole::Bestiole(const Bestiole &b) : isDead(false)
