@@ -16,37 +16,32 @@ Prevoyante* Prevoyante::getPrevoyante() {
 }
 
 
-Bestiole Prevoyante::bestiolePlusProche(const Bestiole& bestiole, const std::list<Bestiole>& listeBestioles) {
+std::shared_ptr<Bestiole> Prevoyante::bestiolePlusProche(const Bestiole& bestiole, const std::list<std::shared_ptr<Bestiole>>& listeBestioles) {
     //le cas où bestioles est vide est traite dans la methode execute()
-    
-        // Use an iterator to traverse the list
-        auto it = listeBestioles.begin();
-        Bestiole bestioleProche = *it;  // Initialize with the first element
-        double distanceSquared = std::pow(bestiole.getCoordx() - bestioleProche.getCoordx(), 2) +
-            std::pow(bestiole.getCoordy() - bestioleProche.getCoordy(), 2);
-
-        ++it;  // Move to the second element
-        while (it != listeBestioles.end()) {
-            double currentDistanceSquared = std::pow(bestiole.getCoordx() - it->getCoordx(), 2) +
-                std::pow(bestiole.getCoordy() - it->getCoordy(), 2);
+        
+        double currentDistanceSquared;
+        double distanceSquared = 10000000000;
+        std::shared_ptr<Bestiole> bestioleProchePtr = nullptr;
+        for (const auto& ptr : listeBestioles) {
+            currentDistanceSquared = std::pow(bestiole.getCoordx() - ptr->getCoordx(), 2) +
+                std::pow(bestiole.getCoordy() - ptr->getCoordy(), 2);
 
             if (currentDistanceSquared < distanceSquared) {
-                bestioleProche = *it;  // Update the closest bestiole
+                bestioleProchePtr = ptr;  // Update the closest bestiole
                 distanceSquared = currentDistanceSquared;
             }
 
-            ++it;  // Move to the next element
         }
 
-        return bestioleProche;
+        return bestioleProchePtr;
     
 }
 
 
-double Prevoyante::calculNouvelleOrientation(const Bestiole& bestiole, const Bestiole& autreBestiole)  {
+double Prevoyante::calculNouvelleOrientation(const Bestiole& bestiole, const std::shared_ptr<Bestiole> autreBestiole)  {
 
-    double dx = autreBestiole.getCoordx()-bestiole.getCoordx();
-    double dy = autreBestiole.getCoordy()-bestiole.getCoordy();
+    double dx = autreBestiole->getCoordx()-bestiole.getCoordx();
+    double dy = autreBestiole->getCoordy()-bestiole.getCoordy();
     double nouvelleOrientation = M_PI/2 - atan2(dx, dy);  // atan2(x, y) fait arctan(x/y)
 
     return nouvelleOrientation;
@@ -55,10 +50,10 @@ double Prevoyante::calculNouvelleOrientation(const Bestiole& bestiole, const Bes
 
 void Prevoyante::execute(Bestiole& bestiole, Milieu& milieu) {
     //une bestiole prevoyante ajuste sa trajectoire à celles des bestioles proches pour eviter les collisions
-    std::list<Bestiole> bestiolesCaptees = bestiole.capteBestioles(milieu);
+    std::list<std::shared_ptr<Bestiole>> bestiolesCaptees = bestiole.capteBestioles(milieu);
     if (!bestiolesCaptees.empty()) {
-        Bestiole bestioleProche = bestiolePlusProche(bestiole, bestiolesCaptees);
-        double nouvelleOrientation = calculNouvelleOrientation(bestiole, bestioleProche);
+        std::shared_ptr<Bestiole> bestioleProchePtr = bestiolePlusProche(bestiole, bestiolesCaptees);
+        double nouvelleOrientation = calculNouvelleOrientation(bestiole, bestioleProchePtr);
         bestiole.setOrientation(nouvelleOrientation);
     }
 }

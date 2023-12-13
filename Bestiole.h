@@ -85,7 +85,7 @@ public:                                         // Forme canonique :
    bool getIsDead() const;
    void markAsDead();
 
-   list<Bestiole> capteBestioles(const Milieu &monMilieu) const;
+   std::list<std::shared_ptr<Bestiole>> capteBestioles(const Milieu &monMilieu) const;
    double getCamouflage() const;
    double getProbaMortCollision() const;
    double getVitesseReelle() const;

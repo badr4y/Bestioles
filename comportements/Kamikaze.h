@@ -17,8 +17,8 @@ private :
 
 public :                                           
    static Kamikaze* getKamikaze();
-   Bestiole bestiolePlusProche(const Bestiole&, const list<Bestiole>&);
-   double calculNouvelleOrientation(const Bestiole&, const Bestiole&);
+   std::shared_ptr<Bestiole> bestiolePlusProche(const Bestiole&, const std::list<std::shared_ptr<Bestiole>>&);
+   double calculNouvelleOrientation(const Bestiole&, const std::shared_ptr<Bestiole>);
 
    void execute(Bestiole&, Milieu&);                           
 };

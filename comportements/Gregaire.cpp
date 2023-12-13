@@ -24,13 +24,15 @@ Gregaire* Gregaire::getGregaire (){
     return Gregaire::gregaire;
 }
 
-double Gregaire::getOrientationMoyenneVoisins(const list<Bestiole>& bestioles) {
+double Gregaire::getOrientationMoyenneVoisins(const std::list<std::shared_ptr<Bestiole>>& bestioles) {
     double result = 0;
     if (!bestioles.empty()) {
+
         // Calcul de la somme des orientations
-        for (const Bestiole& b : bestioles) {
-            result += b.getOrientation();
+        for (const auto& ptr : bestioles) {
+            result += ptr->getOrientation();
         }
+
         // On se place entre 0 et 2 PI
         while (result >= 2 * M_PI) {
             result = result - 2 * M_PI;
@@ -47,15 +49,9 @@ double Gregaire::getOrientationMoyenneVoisins(const list<Bestiole>& bestioles) {
 }
 
 
-double Gregaire::getNouvelleOrientation(const list<Bestiole>& bestioles, const Bestiole&) {
-    // La bestiole suit l'orientation moyenne des bestioles proches
-    return this->getOrientationMoyenneVoisins(bestioles);
-}
-
-
 void Gregaire::execute(Bestiole &bestiole, Milieu &milieu){
     // On modifie l'orientation pour que la bestiole adopte le comportement
-    double direction = this->getNouvelleOrientation(bestiole.capteBestioles(milieu), bestiole);
+    double direction = this->getOrientationMoyenneVoisins(bestiole.capteBestioles(milieu));
     if (direction == 0)
     {
         bestiole.setOrientation(bestiole.getOrientation());   

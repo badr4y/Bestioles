@@ -30,42 +30,41 @@ Kamikaze* Kamikaze::getKamikaze() {
 //}
 
 
-Bestiole Kamikaze::bestiolePlusProche(const Bestiole& bestiole, const list<Bestiole>& listeBestioles) {
+std::shared_ptr<Bestiole> Kamikaze::bestiolePlusProche(const Bestiole& bestiole, const std::list<std::shared_ptr<Bestiole>>& listeBestioles) {
     // The case where listeBestioles is empty is handled in the execute() method
 
-    Bestiole bestioleProche = listeBestioles.front();  // Initialize with the first element
-    double distanceSquared = std::pow(bestiole.getCoordx() - bestioleProche.getCoordx(), 2) +
-        std::pow(bestiole.getCoordy() - bestioleProche.getCoordy(), 2);
-
-    for (const Bestiole& b : listeBestioles) {
-        double currentDistanceSquared = std::pow(bestiole.getCoordx() - b.getCoordx(), 2) +
-            std::pow(bestiole.getCoordy() - b.getCoordy(), 2);
+    double distanceSquared = 1000000000;
+    double currentDistanceSquared;
+    std::shared_ptr<Bestiole> bestioleProchePtr = nullptr;
+    for (const auto& ptr : listeBestioles) {
+        currentDistanceSquared = std::pow(bestiole.getCoordx() - ptr->getCoordx(), 2) +
+        std::pow(bestiole.getCoordy() - ptr->getCoordy(), 2);
 
         if (currentDistanceSquared < distanceSquared) {
-            bestioleProche = b;
+            bestioleProchePtr = ptr;
             distanceSquared = currentDistanceSquared;
         }
     }
 
-    return bestioleProche;
+    return bestioleProchePtr;
 }
 
 
-double Kamikaze::calculNouvelleOrientation(const Bestiole& bestiole, const Bestiole& bestioleProie)  {
+double Kamikaze::calculNouvelleOrientation(const Bestiole& bestiole, const std::shared_ptr<Bestiole> bestioleProchePtr)  {
     
-    double dx = bestioleProie.getCoordx()-bestiole.getCoordx();
-    double dy = bestioleProie.getCoordy()-bestiole.getCoordy();
+    double dx = bestioleProchePtr->getCoordx()-bestiole.getCoordx();
+    double dy = bestioleProchePtr->getCoordy()-bestiole.getCoordy();
     double nouvelleOrientation;
     if (dy>0){
-        nouvelleOrientation= M_PI/2 - atan2(dx, dy);  // atan2(x, y) fait arctan(x/y)
+        nouvelleOrientation= M_PI/2 + atan2(dx, dy);  // atan2(x, y) fait arctan(x/y)
     } else if (dy<0){
-        nouvelleOrientation = M_PI/2 + atan2(dx, dy);  
+        nouvelleOrientation = M_PI/2 - atan2(dx, dy);  
     } else{
         if(dx>0){nouvelleOrientation = 0;}
         else if(dx<0){nouvelleOrientation = M_PI;}
     }
 
-    return nouvelleOrientation;
+    return nouvelleOrientation + M_PI;
 }
 
 
@@ -75,10 +74,10 @@ void Kamikaze::execute(Bestiole & bestiole, Milieu & milieu) {
 
     //une bestiole kamikaze cherche à provoquer une collision avec la bestiole la plus proche
 
-    list<Bestiole> listeBestioles = bestiole.capteBestioles(milieu);
+    std::list<std::shared_ptr<Bestiole>> listeBestioles = bestiole.capteBestioles(milieu);
     if (!listeBestioles.empty()) {
-        Bestiole proie = bestiolePlusProche(bestiole, listeBestioles);
-        double nouvelleOrientation = calculNouvelleOrientation(bestiole, proie);
+        std::shared_ptr<Bestiole> proiePtr = bestiolePlusProche(bestiole, listeBestioles);
+        double nouvelleOrientation = calculNouvelleOrientation(bestiole, proiePtr);
         bestiole.setOrientation(nouvelleOrientation);
     }
 

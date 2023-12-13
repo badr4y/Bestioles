@@ -22,9 +22,9 @@ private :
 
 public :
 	static Peureuse* getPeureuse();
-	int getDensiteBestioles(const std::list<Bestiole>&);
+	int getDensiteBestioles(const std::list<std::shared_ptr<Bestiole>>&);
 	void execute(Bestiole &,Milieu &);
-	double getNouvelleDirection(const std::list<Bestiole>&, const Bestiole&);
+	double getNouvelleDirection(const std::list<std::shared_ptr<Bestiole>>&, const Bestiole&);
 
 
 };

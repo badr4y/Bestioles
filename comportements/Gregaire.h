@@ -20,8 +20,7 @@ private :
 
 public :                                           
    static Gregaire* getGregaire();
-   double getOrientationMoyenneVoisins(const list<Bestiole>& bestioles);
-   double getNouvelleOrientation(const list<Bestiole>& bestioles, const Bestiole&);
+   double getOrientationMoyenneVoisins(const std::list<std::shared_ptr<Bestiole>>& bestioles);
 
    void execute(Bestiole&, Milieu &) override;                            
 };

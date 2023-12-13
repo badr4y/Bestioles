@@ -97,8 +97,11 @@ Bestiole::Bestiole(const Bestiole &b)
    cumulX = cumulY = 0.;
    orientation = b.orientation;
    vitesse = b.vitesse;
+   currentVitesse = b.currentVitesse;
    couleur = new T[3];
    memcpy(couleur, b.couleur, 3 * sizeof(T));
+
+   isDead = b.isDead;
    stepsToDeath = b.stepsToDeath;
 
    comportement = b.getComportement();
@@ -175,21 +178,29 @@ void Bestiole::action(Milieu &monMilieu)
 
    cout << "Debut appel Action bestiole" << endl;
 
-   std::list<Bestiole> bestiolesCaptees = capteBestioles(monMilieu);
-
-   cout << "Fin création liste voisins bestiole" << endl;
-
-   if (bestiolesCaptees.size() == 0)
+   if (comportement == Kamikaze::getKamikaze())
    { // devient noir si il ne voit aucune bestiole et devient rouge si il voit une ou plusieurs bestioles
-      couleur[0] = static_cast<int>(10.);
-      couleur[1] = static_cast<int>(10.);
-      couleur[2] = static_cast<int>(10.);
+      couleur[0] = static_cast<int>(225.);
+      couleur[1] = static_cast<int>(174.);
+      couleur[2] = static_cast<int>(123.);
    }
-   else
+   if (comportement == Peureuse::getPeureuse())
    {
-      couleur[0] = static_cast<int>(230.);
-      couleur[1] = static_cast<int>(10.);
-      couleur[2] = static_cast<int>(10.);
+      couleur[0] = static_cast<int>(164.);
+      couleur[1] = static_cast<int>(113.);
+      couleur[2] = static_cast<int>(215.);
+   }
+   if (comportement == Prevoyante::getPrevoyante())
+   {
+      couleur[0] = static_cast<int>(153.);
+      couleur[1] = static_cast<int>(204.);
+      couleur[2] = static_cast<int>(255.);
+   }
+   if (comportement == Gregaire::getGregaire())
+   {
+      couleur[0] = static_cast<int>(200.);
+      couleur[1] = static_cast<int>(255.);
+      couleur[2] = static_cast<int>(200.);
    }
 
 
@@ -198,7 +209,10 @@ void Bestiole::action(Milieu &monMilieu)
 
    comportement->execute(*this, monMilieu);
 
-   int randomValue = std::rand() % 101 + 15;
+   cout << "Fin execute" << endl;
+
+
+   int randomValue = std::rand() % 800;
 
    // Si le nombre aléatoire est égal à 50, appel de la fonction de clonage
    if (randomValue == 50) {
@@ -345,13 +359,17 @@ void Bestiole::setCurrentVitesse(double newVitesse)
    currentVitesse = newVitesse;
 }
 
-std::list<Bestiole> Bestiole::capteBestioles(const Milieu& monMilieu) const
+std::list<std::shared_ptr<Bestiole>> Bestiole::capteBestioles(const Milieu& monMilieu) const
 {
-    std::list<Bestiole> bestiolesCaptees;
+    std::list<std::shared_ptr<Bestiole>> bestiolesCaptees;
 
     for (const std::shared_ptr<Bestiole>& bPtr : monMilieu.getListeBestioles())
     {
         const Bestiole& b = *bPtr;
+
+        auto compareBestioles = [&b](const std::shared_ptr<Bestiole>& ptr) {
+            return *ptr == b;
+        };
 
         for (const std::shared_ptr<Upgrade>& u : upgrades)
         {
@@ -361,24 +379,26 @@ std::list<Bestiole> Bestiole::capteBestioles(const Milieu& monMilieu) const
             {
                 if (Capteur* capteurPtr = dynamic_cast<Capteur*>(&upgrade))
                 {
-                    if (!(b == *this) && (std::find(bestiolesCaptees.begin(), bestiolesCaptees.end(), b) == bestiolesCaptees.end()))
+                    if (!(b == *this) && (std::find_if(bestiolesCaptees.begin(), bestiolesCaptees.end(), compareBestioles) == bestiolesCaptees.end()))
                     {
                         if (capteurPtr->capte(b, x, y, orientation))
                         {
-                            bestiolesCaptees.push_back(b);
+                            bestiolesCaptees.push_back(std::make_shared<Bestiole>(b));
                         }
                     }
                 }
             }
             else
             {
-                cout << "Dynamic cast failed..." << endl;
+                std::cout << "Dynamic cast failed..." << std::endl;
             }
         }
     }
 
     return bestiolesCaptees;
 }
+
+
 
 
 
