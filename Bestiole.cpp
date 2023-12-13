@@ -23,6 +23,8 @@
 #include "comportements/Prevoyante.h"
 #include "comportements/PersonnalitesMultiples.h"
 
+#include "factories/BestioleFactory.h"
+
 const double Bestiole::AFF_SIZE = 8.;
 const double Bestiole::MAX_VITESSE = 10.;
 const double Bestiole::LIMITE_VUE = 30.;
@@ -90,8 +92,8 @@ Bestiole::Bestiole(const Bestiole &b)
 
    cout << "const Bestiole (" << identite << ") par copie" << endl;
 
-   x = b.x;
-   y = b.y;
+   x = b.x + 3;
+   y = b.y + 3;
    cumulX = cumulY = 0.;
    orientation = b.orientation;
    vitesse = b.vitesse;
@@ -190,9 +192,18 @@ void Bestiole::action(Milieu &monMilieu)
       couleur[2] = static_cast<int>(10.);
    }
 
+
+
    cout << "Fin maj couleur bestiole et Juste avant l'appel à execute" << endl;
 
    comportement->execute(*this, monMilieu);
+
+   int randomValue = std::rand() % 101 + 15;
+
+   // Si le nombre aléatoire est égal à 50, appel de la fonction de clonage
+   if (randomValue == 50) {
+       BestioleFactory::getFactory()->cloneBestiole(*this);  // Assurez-vous que la fonction clone() est définie dans votre classe Bestiole
+   }
 
    cout << "Appel à execute fini" << endl;
 

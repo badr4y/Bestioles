@@ -21,9 +21,6 @@ public:
   double getPROPORTIONPREVOYANT() const;
   double getPROPORTIONMULTIPLE() const;
 
-  Milieu* getMilieu() const;
-  void setMilieu(Milieu* milieu);
-
 private:
   const double PROPORTIONGREGAIRE;
   const double PROPORTIONPEUREUSE;
@@ -31,8 +28,6 @@ private:
   const double PROPORTIONPREVOYANT;
   const double PROPORTIONMULTIPLE;
   const int POPULATIONINITIAL;
-  Milieu* monMilieu;
-
 
   static BestioleFactory *factoryInstance;
   static bool initialized;
