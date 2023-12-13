@@ -3,14 +3,17 @@
 #include "../Milieu.h"
 
 Prevoyante* Prevoyante::prevoyante = nullptr;
+bool Prevoyante::initialized = false;
 
-Prevoyante::Prevoyante() {}
+Prevoyante::Prevoyante() {
+    initialized = true;
+}
 
 Prevoyante* Prevoyante::getPrevoyante() {
-    if (prevoyante == nullptr )
+    if (!Prevoyante::prevoyante)
         prevoyante = new Prevoyante();
-    return prevoyante;
-    }
+    return Prevoyante::prevoyante;
+}
 
 
 Bestiole Prevoyante::bestiolePlusProche(const Bestiole& bestiole, const std::vector<Bestiole>& listeBestioles) {

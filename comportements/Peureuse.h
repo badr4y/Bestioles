@@ -17,14 +17,11 @@ private :
 
 private :
 	static Peureuse* peureuse;
-
-private :
+	static bool initialized;
 	Peureuse();
 
 public :
 	static Peureuse* getPeureuse();
-
-public :
 	int getDensiteBestioles(const std::vector<Bestiole>&);
 	void execute(Bestiole &,Milieu &);
 	double getNouvelleDirection(const std::vector<Bestiole>&, const Bestiole&);

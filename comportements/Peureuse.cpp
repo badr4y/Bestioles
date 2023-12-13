@@ -9,6 +9,7 @@ const int Peureuse::DENSITEBESTIOLE = 5;
 
 // Initialisation du pointeur
 Peureuse* Peureuse::peureuse=nullptr;
+bool Peureuse::initialized = false;
 
 Peureuse::Peureuse() {
 	std::cout << "Comportement peureuse créé" << std::endl;
@@ -17,10 +18,10 @@ Peureuse::Peureuse() {
 Peureuse* Peureuse::getPeureuse() {
 	// Méthode statique permettant d'accéder au singleton, 
     // En créant le comportement s'il n'existe pas encore
-	if ((peureuse)==nullptr)  {
+	if (!Peureuse::initialized)  {
 		peureuse = new Peureuse();
 	}
-	return (peureuse);
+	return Peureuse::peureuse;
 }
 
 int Peureuse::getDensiteBestioles(std::vector<Bestiole> const &bestioles) {
