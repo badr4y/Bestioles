@@ -1,6 +1,7 @@
 #include "Kamikaze.h"
 #include "../Bestiole.h"
 #include "../Milieu.h"
+#include <list>
 
 #include <limits>
 
@@ -29,25 +30,26 @@ Kamikaze* Kamikaze::getKamikaze() {
 //}
 
 
-Bestiole Kamikaze::bestiolePlusProche(const Bestiole& bestiole, const std::vector<Bestiole>& listeBestioles) {
-    //le cas où bestioles est vide est traite dans la methode execute()
-    
-    Bestiole bestioleProche = listeBestioles[0];
-    double distanceSquared = std::pow(bestiole.getCoordx() - bestioleProche.getCoordx(), 2) +
-                             std::pow(bestiole.getCoordy() - bestioleProche.getCoordy(), 2);
+Bestiole Kamikaze::bestiolePlusProche(const Bestiole& bestiole, const list<Bestiole>& listeBestioles) {
+    // The case where listeBestioles is empty is handled in the execute() method
 
-    for (size_t i = 1; i < listeBestioles.size(); ++i) {
-        double currentDistanceSquared = std::pow(bestiole.getCoordx() - listeBestioles[i].getCoordx(), 2) +
-                                        std::pow(bestiole.getCoordy() - listeBestioles[i].getCoordy(), 2);
+    Bestiole bestioleProche = listeBestioles.front();  // Initialize with the first element
+    double distanceSquared = std::pow(bestiole.getCoordx() - bestioleProche.getCoordx(), 2) +
+        std::pow(bestiole.getCoordy() - bestioleProche.getCoordy(), 2);
+
+    for (const Bestiole& b : listeBestioles) {
+        double currentDistanceSquared = std::pow(bestiole.getCoordx() - b.getCoordx(), 2) +
+            std::pow(bestiole.getCoordy() - b.getCoordy(), 2);
 
         if (currentDistanceSquared < distanceSquared) {
-            bestioleProche = listeBestioles[i];
+            bestioleProche = b;
             distanceSquared = currentDistanceSquared;
         }
     }
-    
+
     return bestioleProche;
 }
+
 
 double Kamikaze::calculNouvelleOrientation(const Bestiole& bestiole, const Bestiole& bestioleProie)  {
     
@@ -73,7 +75,7 @@ void Kamikaze::execute(Bestiole & bestiole, Milieu & milieu) {
 
     //une bestiole kamikaze cherche à provoquer une collision avec la bestiole la plus proche
 
-    std::vector<Bestiole> listeBestioles = bestiole.capteBestioles(milieu);
+    list<Bestiole> listeBestioles = bestiole.capteBestioles(milieu);
     if (!listeBestioles.empty()) {
         Bestiole proie = bestiolePlusProche(bestiole, listeBestioles);
         double nouvelleOrientation = calculNouvelleOrientation(bestiole, proie);

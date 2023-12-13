@@ -6,7 +6,8 @@
 #include "Bestiole.h"
 
 #include <iostream>
-#include <vector>
+#include <list>
+
 
 using namespace std;
 
@@ -20,7 +21,7 @@ private :
    static const T          white[];
 
    int                     width, height;
-   std::vector<Bestiole>   listeBestioles;
+   list<shared_ptr<Bestiole>>   listeBestioles;
 
 public :
    Milieu( int _width, int _height );
@@ -28,7 +29,7 @@ public :
 
    int getWidth( void ) const { return width; };
    int getHeight( void ) const { return height; };
-   std::vector<Bestiole> getListeBestioles() const {return listeBestioles; };
+   const list<shared_ptr<Bestiole>>& getListeBestioles() const{ return listeBestioles; };
 
    void step( void );
 

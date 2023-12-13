@@ -17,7 +17,7 @@ private :
 
 public :                                           
    static Kamikaze* getKamikaze();
-   Bestiole bestiolePlusProche(const Bestiole&, const std::vector<Bestiole>&);
+   Bestiole bestiolePlusProche(const Bestiole&, const list<Bestiole>&);
    double calculNouvelleOrientation(const Bestiole&, const Bestiole&);
 
    void execute(Bestiole&, Milieu&);                           

@@ -46,16 +46,6 @@ double BestioleFactory::getPROPORTIONMULTIPLE() const
   return PROPORTIONMULTIPLE;
 }
 
-Milieu* BestioleFactory::getMilieu() const
-{
-   return monMilieu;
-}
-
-void BestioleFactory::setMilieu(Milieu* milieu) 
-{
-   monMilieu = milieu;
-}
-
 BestioleFactory* BestioleFactory::getFactory()
 {
     if (!BestioleFactory::initialized)
@@ -103,19 +93,19 @@ void BestioleFactory::createPopulation()
 
     // Create Bestiole instances based on proportions
     for (int i = 0; i < gregaireCount; ++i)
-        getMilieu()->addMember(Bestiole(ComportementEnum::gregaire));
+        Aquarium::getMilieu().addMember(Bestiole(ComportementEnum::gregaire));
 
     for (int i = 0; i < peureuseCount; ++i)
-        getMilieu()->addMember(Bestiole(ComportementEnum::peureuse));
+        Aquarium::getMilieu().addMember(Bestiole(ComportementEnum::peureuse));
 
     for (int i = 0; i < kamikazeCount; ++i)
-        getMilieu()->addMember(Bestiole(ComportementEnum::kamikaze));
+        Aquarium::getMilieu().addMember(Bestiole(ComportementEnum::kamikaze));
 
     for (int i = 0; i < prevoyantCount; ++i)
-        getMilieu()->addMember(Bestiole(ComportementEnum::prevoyante));
+        Aquarium::getMilieu().addMember(Bestiole(ComportementEnum::prevoyante));
 
     for (int i = 0; i < multipleCount; ++i)
-        getMilieu()->addMember(Bestiole(ComportementEnum::personnalitesMultiples));
+        Aquarium::getMilieu().addMember(Bestiole(ComportementEnum::personnalitesMultiples));
 
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -147,17 +137,17 @@ void BestioleFactory::createPopulation()
                 break;
             }
 
-            getMilieu()->addMember(Bestiole(randomComportement));
+            Aquarium::getMilieu().addMember(Bestiole(randomComportement));
         }
 
 }
 
   void BestioleFactory::createCreature(ComportementEnum comportementEnum)
   {
-    getMilieu()->addMember(Bestiole(comportementEnum));
+      Aquarium::getMilieu().addMember(Bestiole(comportementEnum));
   }
 
   void BestioleFactory::cloneBestiole(const Bestiole& b)
   {
-    getMilieu()->addMember(Bestiole(b));
+      Aquarium::getMilieu().addMember(Bestiole(b));
   }

@@ -1,6 +1,7 @@
 #include "Gregaire.h"
 #include "Comportement.h"
 
+#include <list>
 #include <memory>
 #include <iostream>
 #include <cmath>
@@ -23,19 +24,19 @@ Gregaire* Gregaire::getGregaire (){
     return Gregaire::gregaire;
 }
 
-double Gregaire::getOrientationMoyenneVoisins(std::vector<Bestiole> const & bestioles) {
+double Gregaire::getOrientationMoyenneVoisins(const list<Bestiole>& bestioles) {
     double result = 0;
-    if (bestioles.size() != 0) {
+    if (!bestioles.empty()) {
         // Calcul de la somme des orientations
-        for (size_t i = 0; i < bestioles.size(); ++i) {
-            result+= bestioles[i].getOrientation();
-    }
-        // On se place entre 0 et 2 PI
-        while (result >= 2*M_PI) {
-            result = result - 2*M_PI;
+        for (const Bestiole& b : bestioles) {
+            result += b.getOrientation();
         }
-        while (result <0) {
-            result += 2*M_PI;
+        // On se place entre 0 et 2 PI
+        while (result >= 2 * M_PI) {
+            result = result - 2 * M_PI;
+        }
+        while (result < 0) {
+            result += 2 * M_PI;
         }
         // On renvoie la moyenne de l'orientation
         return result / bestioles.size();
@@ -45,10 +46,12 @@ double Gregaire::getOrientationMoyenneVoisins(std::vector<Bestiole> const & best
     }
 }
 
-double Gregaire::getNouvelleOrientation(std::vector<Bestiole> const &bestioles, const Bestiole&) {
+
+double Gregaire::getNouvelleOrientation(const list<Bestiole>& bestioles, const Bestiole&) {
     // La bestiole suit l'orientation moyenne des bestioles proches
     return this->getOrientationMoyenneVoisins(bestioles);
 }
+
 
 void Gregaire::execute(Bestiole &bestiole, Milieu &milieu){
     // On modifie l'orientation pour que la bestiole adopte le comportement

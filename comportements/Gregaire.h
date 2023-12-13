@@ -5,6 +5,7 @@
 #include "../Bestiole.h"
 #include "../Milieu.h"
 
+#include <list>
 #include <memory>
 #include <iostream>
 using namespace std;
@@ -19,8 +20,8 @@ private :
 
 public :                                           
    static Gregaire* getGregaire();
-   double getOrientationMoyenneVoisins(const std::vector<Bestiole>&);                            
-   double getNouvelleOrientation(const std::vector<Bestiole>&,const Bestiole&); 
+   double getOrientationMoyenneVoisins(const list<Bestiole>& bestioles);
+   double getNouvelleOrientation(const list<Bestiole>& bestioles, const Bestiole&);
 
    void execute(Bestiole&, Milieu &) override;                            
 };

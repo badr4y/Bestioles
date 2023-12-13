@@ -71,7 +71,7 @@ Bestiole::Bestiole(ComportementEnum comportementEnum) : isDead(false)
          this->comportement = &pm;
          break;
       }
-
+   stepsToDeath = rand() % (150 - 15 + 1) + 15;
    cout << "comportement defini ?" << endl;
    cout << (comportement != nullptr) << endl; // Oui
 
@@ -173,7 +173,7 @@ void Bestiole::action(Milieu &monMilieu)
 
    cout << "Debut appel Action bestiole" << endl;
 
-   std::vector<Bestiole> bestiolesCaptees = capteBestioles(monMilieu);
+   std::list<Bestiole> bestiolesCaptees = capteBestioles(monMilieu);
 
    cout << "Fin création liste voisins bestiole" << endl;
 
@@ -334,45 +334,42 @@ void Bestiole::setCurrentVitesse(double newVitesse)
    currentVitesse = newVitesse;
 }
 
-std::vector<Bestiole> Bestiole::capteBestioles(const Milieu &monMilieu) const
+std::list<Bestiole> Bestiole::capteBestioles(const Milieu& monMilieu) const
 {
-   std::vector<Bestiole> bestiolesCaptees;
+    std::list<Bestiole> bestiolesCaptees;
 
-   for (const std::shared_ptr<Upgrade> &u : upgrades)
-   {
-      Upgrade &upgrade = *u;
+    for (const std::shared_ptr<Bestiole>& bPtr : monMilieu.getListeBestioles())
+    {
+        const Bestiole& b = *bPtr;
 
-      if (upgrade.isYeux() || upgrade.isOreilles())
-      {
+        for (const std::shared_ptr<Upgrade>& u : upgrades)
+        {
+            Upgrade& upgrade = *u;
 
-         if (Capteur *capteurPtr = dynamic_cast<Capteur *>(&upgrade))
-         {
-
-            for (const Bestiole &b : monMilieu.getListeBestioles())
+            if (upgrade.isYeux() || upgrade.isOreilles())
             {
-
-               if (!(b == *this))
-               { // if not the current bestiole
-
-                  if ((std::find(bestiolesCaptees.begin(), bestiolesCaptees.end(), b) == bestiolesCaptees.end()))
-                  { // if not in bestiolesCaptees already
-
-                     if (capteurPtr->capte(b, x, y, orientation))
-                     {
-                        bestiolesCaptees.push_back(b);
-                     }
-                  }
-               }
+                if (Capteur* capteurPtr = dynamic_cast<Capteur*>(&upgrade))
+                {
+                    if (!(b == *this) && (std::find(bestiolesCaptees.begin(), bestiolesCaptees.end(), b) == bestiolesCaptees.end()))
+                    {
+                        if (capteurPtr->capte(b, x, y, orientation))
+                        {
+                            bestiolesCaptees.push_back(b);
+                        }
+                    }
+                }
             }
-         }
-         else
-         {
-            cout << "Dynamic cast failed..." << endl;
-         }
-      }
-   }
-   return bestiolesCaptees;
+            else
+            {
+                cout << "Dynamic cast failed..." << endl;
+            }
+        }
+    }
+
+    return bestiolesCaptees;
 }
+
+
 
 double Bestiole::getCamouflage() const
 {

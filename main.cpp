@@ -1,32 +1,25 @@
 #include "Aquarium.h"
 #include "Milieu.h"
 #include "Bestiole.h"
-#include "Upgrades/Upgrade.h"
-#include "Upgrades/Capteur.h"
-#include "Upgrades/Yeux.h"
 #include "factories/BestioleFactory.h"
 
 #include <iostream>
 
 using namespace std;
 
+class BestioleFactory;
 
 int main()
 {
-
     Aquarium       ecosysteme(640, 480, 30);
 
-    BestioleFactory::getFactory()->setMilieu(&(ecosysteme.getMilieu()));
-    std::cout << "BestioleFactory créé" << std::endl;
     BestioleFactory::getFactory()->createPopulation();
-    std::cout << "Population créée" << std::endl;
 
     /*for (int i = 1; i <= 20; ++i)
        ecosysteme.getMilieu().addMember( Bestiole() );*/
     ecosysteme.run();
 
 
-
-   return 0;
+    return 0;
 
 }

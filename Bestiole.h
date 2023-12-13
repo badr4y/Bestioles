@@ -6,6 +6,7 @@
 #include <memory>
 #include <iostream>
 #include <vector>
+#include <list>
 #include <utility>
 #include "Milieu.h"
 #include "Upgrades/Upgrade.h"
@@ -44,7 +45,7 @@ private:
 
    T *couleur;
 
-   std::vector<std::shared_ptr<Upgrade>> upgrades;
+   list<std::shared_ptr<Upgrade>> upgrades;
 
 private:
    void bouge(int xLim, int yLim);
@@ -53,6 +54,8 @@ public:                                         // Forme canonique :
    Bestiole(ComportementEnum comportementEnum); // Constructeur par defaut
    Bestiole(const Bestiole &b);                 // Constructeur de copies
    ~Bestiole(void);                             // Destructeur
+   int getStepsToDeath() const;
+   void setStepsToDeath();
                                                 // Operateur d'affectation binaire par defaut
    void action(Milieu &monMilieu);
    void draw(UImg &support);
@@ -82,7 +85,7 @@ public:                                         // Forme canonique :
    bool getIsDead() const;
    void markAsDead();
 
-   std::vector<Bestiole> capteBestioles(const Milieu &monMilieu) const;
+   list<Bestiole> capteBestioles(const Milieu &monMilieu) const;
    double getCamouflage() const;
    double getProbaMortCollision() const;
    double getVitesseReelle() const;

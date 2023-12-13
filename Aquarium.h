@@ -15,18 +15,18 @@ class Milieu;
 class Aquarium : public CImgDisplay
 {
 
-private :
-	Milieu* flotte;
+private:
+	static Milieu* flotte; // Make it a static member
 
-   int            delay;
+	int            delay;
 
-public :
-   Aquarium( int width, int height, int _delay );
-   ~Aquarium( void );
+public:
+	Aquarium(int width, int height, int _delay);
+	~Aquarium(void);
 
-   Milieu& getMilieu(void) { return *flotte; }
+	static Milieu& getMilieu(void) { return *flotte; }
 
-   void run( void );
+	void run(void);
 
 };
 

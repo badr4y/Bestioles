@@ -24,21 +24,21 @@ Peureuse* Peureuse::getPeureuse() {
 	return Peureuse::peureuse;
 }
 
-int Peureuse::getDensiteBestioles(std::vector<Bestiole> const &bestioles) {
+int Peureuse::getDensiteBestioles(std::list<Bestiole> const &bestioles) {
 	// La densité est ici définie par le nombre de bestioles proches
 	return bestioles.size();
 }
 
 
-double Peureuse::getNouvelleDirection(const std::vector<Bestiole> &bestioles, const Bestiole & bestiole) {
+double Peureuse::getNouvelleDirection(const std::list<Bestiole> &bestioles, const Bestiole & bestiole) {
 	double moyenneX = 0;
 	double moyenneY = 0;
 	double result = 0;
 	// Calcul du barycentre des bestioles proches
 	if (bestioles.size() != 0) {
-		for (size_t i = 0; i < bestioles.size(); ++i) {
-			moyenneX += bestioles[i].getCoordx();
-			moyenneY += bestioles[i].getCoordy();
+		for (const Bestiole& b : bestioles) {
+			moyenneX += b.getCoordx();
+			moyenneY += b.getCoordy();
 		}
 		moyenneX = moyenneX/bestioles.size();
 		moyenneY = moyenneY/bestioles.size();
@@ -55,7 +55,7 @@ double Peureuse::getNouvelleDirection(const std::vector<Bestiole> &bestioles, co
 
 void Peureuse::execute(Bestiole & bestiole, Milieu & milieu)  {
 	// On modifie l'orientation pour que la bestiole adopte le comportement
-	std::vector<Bestiole> liste = bestiole.capteBestioles(milieu);
+	std::list<Bestiole> liste = bestiole.capteBestioles(milieu);
 	double direction = this->getNouvelleDirection(liste,bestiole);
 	if (this->getDensiteBestioles(liste)>= DENSITEBESTIOLE) {
 		bestiole.setOrientation(direction);
