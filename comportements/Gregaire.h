@@ -14,14 +14,11 @@ class Gregaire : public Comportement{
 
 private :
    static Gregaire* gregaire;
-
-private :
+   static bool initialized;
    Gregaire();
 
 public :                                           
-   static Gregaire* getGregaire();    
-
-public : 
+   static Gregaire* getGregaire();
    double getOrientationMoyenneVoisins(const std::vector<Bestiole>&);                            
    double getNouvelleOrientation(const std::vector<Bestiole>&,const Bestiole&); 
 

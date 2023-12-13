@@ -7,18 +7,20 @@
 
 // Initialisation du pointeur 
 Gregaire* Gregaire::gregaire=nullptr;
+bool Gregaire::initialized = false;
 
 Gregaire::Gregaire() {
     std::cout << "Création du comportement Grégaire" << std::endl;
+    initialized = true;
 }
 
 Gregaire* Gregaire::getGregaire (){
     // Méthode statique permettant d'accéder au singleton, 
     // En créant le comportement s'il n'existe pas encore
-    if (gregaire == nullptr) {
+    if (!Gregaire::initialized) {
         gregaire = new Gregaire();
     }
-    return (gregaire);
+    return Gregaire::gregaire;
 }
 
 double Gregaire::getOrientationMoyenneVoisins(std::vector<Bestiole> const & bestioles) {

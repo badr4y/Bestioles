@@ -17,10 +17,6 @@ Kamikaze::Kamikaze() {
 
 Kamikaze* Kamikaze::getKamikaze() {
     if (!Kamikaze::initialized){
-        // Libérer la mémoire précédente si factoryInstance est déjà alloué
-        if (!Kamikaze::initialized) {
-            delete kamikaze;
-        }
         Kamikaze::kamikaze = new Kamikaze();
     }
     return Kamikaze::kamikaze;

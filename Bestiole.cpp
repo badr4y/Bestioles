@@ -102,9 +102,6 @@ Bestiole::Bestiole(const Bestiole &b)
    comportement = b.getComportement();
 
    upgrades = b.upgrades; // deepcopy je crois
-
-   cout << "comportement defini ?" << endl;
-   cout << (comportement != nullptr) << endl;
 }
 
 Bestiole::~Bestiole(void)
@@ -194,8 +191,6 @@ void Bestiole::action(Milieu &monMilieu)
    }
 
    cout << "Fin maj couleur bestiole et Juste avant l'appel à execute" << endl;
-
-   cout << (comportement != nullptr) << endl;
 
    comportement->execute(*this, monMilieu);
 
