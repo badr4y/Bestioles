@@ -59,6 +59,12 @@ Définir la proportion des bestioles avec des comportements, et le nombre total 
 - Attention : Toutes les valeurs de proportions doivent être comprises entre 0 et 1, et la masse de population initiale doit être entier. La somme des proportions doit être égales à 1.0 (sinon l'utilisateur s'expose à des bugs)
 - Attention 2 : Les PersonnalitesMultiples ne sont pas stables. Il est conseillé de mettre 0 pour leur proportion car la simulation peut crash dans le cas contraire.
 
+**Les couleurs des bestioles correspondent à leur comportement :**
+- Violet pour les Grégaires
+- Vert pour les Peureuses
+- Rouge pour les Kamikazes
+- Bleu pour les Prevoyantes
+
 **Modifications supplémentaires**
 Pour modifier les paramètres des accessoires tels que les yeux, les oreilles ou autres, veuillez directement accéder et modifier les valeurs correspondantes dans les fichiers .cpp appropriés. Par exemple, modifier la valeur de ALPHA_MAX (secteur angulaire maximal couvert par les yeux des bestioles) des Yeux dans Yeux.cpp.
 
