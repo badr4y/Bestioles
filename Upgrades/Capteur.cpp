@@ -34,9 +34,7 @@ bool Capteur::capte(const Bestiole& b, int x, int y, double orientation) {
     if (dist != 0. && dist <= delta) {
         // La distance est suffisemment faible pour être capté
         // Sinon le reste du calcul est inutile
-
-        cout << orientation << endl;
-
+        
         double angle = std::atan2(-(by - y), bx - x);
 
         double alpha;

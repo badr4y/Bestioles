@@ -54,9 +54,10 @@ Définir la proportion des bestioles avec des comportements, et le nombre total 
     2. Entrer la proportion de Peureuse :
     3. Entrer la proportion de Kamikazi :
     4. Entrer la proportion de Prévoyant :
-    5. Entrer la proportion de Multiple :
+    5. Entrer la proportion de Multiple : 0
     6. Entrer la masse de population initiale :
-- Attention! Toutes les valeurs de proportions doivent être comprises entre 0 et 1, et la masse de population initiale doit être entier.
+- Attention : Toutes les valeurs de proportions doivent être comprises entre 0 et 1, et la masse de population initiale doit être entier.
+- Attention 2 : Les PersonnalitesMultiples ne sont pas stables. Il est conseillé de mettre 0 pour leur proportion car la simulation peut crash dans le cas contraire.
 
 **Modifications supplémentaires**
 Pour modifier les paramètres des accessoires tels que les yeux, les oreilles ou autres, veuillez directement accéder et modifier les valeurs correspondantes dans les fichiers .cpp appropriés. Par exemple, modifier la valeur de ALPHA_MAX (secteur angulaire maximal couvert par les yeux des bestioles) des Yeux dans Yeux.cpp.
