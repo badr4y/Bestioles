@@ -183,28 +183,31 @@ void Bestiole::action(Milieu &monMilieu)
    cout << "Debut appel Action bestiole" << endl;
 
    if (comportement == Kamikaze::getKamikaze())
-   { // devient noir si il ne voit aucune bestiole et devient rouge si il voit une ou plusieurs bestioles
-      couleur[0] = static_cast<int>(225.);
-      couleur[1] = static_cast<int>(174.);
-      couleur[2] = static_cast<int>(123.);
+   { // Set color to red for Kamikaze
+       couleur[0] = 179;
+       couleur[1] = 12;
+       couleur[2] = 12;
    }
-   if (comportement == Peureuse::getPeureuse())
+   else if (comportement == Peureuse::getPeureuse())
    {
-      couleur[0] = static_cast<int>(164.);
-      couleur[1] = static_cast<int>(113.);
-      couleur[2] = static_cast<int>(215.);
+       // Set color to green for Peureuse
+       couleur[0] = 179;
+       couleur[1] = 87;
+       couleur[2] = 12;
    }
-   if (comportement == Prevoyante::getPrevoyante())
+   else if (comportement == Prevoyante::getPrevoyante())
    {
-      couleur[0] = static_cast<int>(153.);
-      couleur[1] = static_cast<int>(204.);
-      couleur[2] = static_cast<int>(255.);
+       // Set color to blue for Prevoyante
+       couleur[0] = 66;
+       couleur[1] = 135;
+       couleur[2] = 245;
    }
-   if (comportement == Gregaire::getGregaire())
+   else if (comportement == Gregaire::getGregaire())
    {
-      couleur[0] = static_cast<int>(200.);
-      couleur[1] = static_cast<int>(255.);
-      couleur[2] = static_cast<int>(200.);
+       // Set color to purple for Gregaire
+       couleur[0] = 133;
+       couleur[1] = 68;
+       couleur[2] = 121;
    }
 
 
@@ -268,7 +271,7 @@ void Bestiole::draw(UImg &support)
          {
             if (Oreilles *oreillesPtr = dynamic_cast<Oreilles *>(&upgrade))
             {
-                support.draw_circle(x, y, oreillesPtr->getDelta(), couleur, 1, 0xFFFFFFFF); // opacity, outline (0=none, 1=dots, 0xFFFFFFFF=full)
+                support.draw_circle(x, y, oreillesPtr->getDelta(), couleur, 0.2); // opacity, outline (0=none, 1=dots, 0xFFFFFFFF=full)
             }
          }
       }
