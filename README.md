@@ -56,7 +56,7 @@ Définir la proportion des bestioles avec des comportements, et le nombre total 
     4. Entrer la proportion de Prévoyant :
     5. Entrer la proportion de Multiple : 0
     6. Entrer la masse de population initiale :
-- Attention : Toutes les valeurs de proportions doivent être comprises entre 0 et 1, et la masse de population initiale doit être entier. La somme des proportion doit être égales à 1.0 (sinon l'utilisateur s'expose à des bugs)
+- Attention : Toutes les valeurs de proportions doivent être comprises entre 0 et 1, et la masse de population initiale doit être entier. La somme des proportions doit être égales à 1.0 (sinon l'utilisateur s'expose à des bugs)
 - Attention 2 : Les PersonnalitesMultiples ne sont pas stables. Il est conseillé de mettre 0 pour leur proportion car la simulation peut crash dans le cas contraire.
 
 **Modifications supplémentaires**
