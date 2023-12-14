@@ -17,17 +17,13 @@ Kamikaze::Kamikaze() {
 }
 
 Kamikaze* Kamikaze::getKamikaze() {
+    // Méthode statique permettant d'accéder au singleton, 
+    // En créant le comportement s'il n'existe pas encore
     if (!Kamikaze::initialized){
         Kamikaze::kamikaze = new Kamikaze();
     }
     return Kamikaze::kamikaze;
 }
-
-//Kamikaze* Kamikaze::getKamikaze() {
-//    if (kamikaze == nullptr )
-//        kamikaze = new Kamikaze();
-//    return kamikaze;
-//}
 
 
 std::shared_ptr<Bestiole> Kamikaze::bestiolePlusProche(const Bestiole& bestiole, const std::list<std::shared_ptr<Bestiole>>& listeBestioles) {

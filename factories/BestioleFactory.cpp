@@ -47,6 +47,8 @@ double BestioleFactory::getPROPORTIONMULTIPLE() const
 }
 
 BestioleFactory* BestioleFactory::getFactory()
+    // Méthode statique permettant d'accéder au singleton, 
+    // En créant la factory si elle n'existe pas encore
 {
     if (!BestioleFactory::initialized)
     {
@@ -79,6 +81,7 @@ BestioleFactory* BestioleFactory::getFactory()
 
 
 void BestioleFactory::createPopulation()
+    // Initialisation initiale de la population
 {
 
     std::cout << "Appel à createPopulation lancé" << std::endl;
@@ -111,7 +114,6 @@ void BestioleFactory::createPopulation()
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dis(0, 4); // Distribution for indices 0 to 4
 
-    std::cout << "Population pile créée" << std::endl;
 
     for (int i = 0; i < remainingCount; ++i)
         {
@@ -143,6 +145,7 @@ void BestioleFactory::createPopulation()
 }
 
 void BestioleFactory::createCreature()
+    // Creation de Bestioles en continu
 {
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -173,6 +176,7 @@ void BestioleFactory::createCreature()
 
 
   void BestioleFactory::cloneBestiole(const Bestiole& b)
+    // Clonage d'une bestiole
   {
       Aquarium::getMilieu().addMember(Bestiole(b));
   }

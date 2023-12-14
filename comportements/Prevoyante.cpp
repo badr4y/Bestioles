@@ -10,6 +10,8 @@ Prevoyante::Prevoyante() {
 }
 
 Prevoyante* Prevoyante::getPrevoyante() {
+    // Méthode statique permettant d'accéder au singleton, 
+    // En créant le comportement s'il n'existe pas encore
     if (!Prevoyante::prevoyante)
         prevoyante = new Prevoyante();
     return Prevoyante::prevoyante;
