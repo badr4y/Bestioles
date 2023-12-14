@@ -36,7 +36,7 @@ Bestiole::Bestiole(ComportementEnum comportementEnum) : isDead(false)
 
    identite = ++next;
 
-   cout << "const Bestiole (" << identite << ") par defaut" << endl;
+   //cout << "const Bestiole (" << identite << ") par defaut" << endl;
 
    x = y = 0;
    cumulX = cumulY = 0.;
@@ -74,8 +74,6 @@ Bestiole::Bestiole(ComportementEnum comportementEnum) : isDead(false)
          break;
       }
    stepsToDeath = rand() % (1000 - 600 + 1) + 600;
-   cout << "comportement defini ?" << endl;
-   cout << (comportement != nullptr) << endl; // Oui
 
    Yeux yeux;
    Oreilles oreilles;
@@ -94,7 +92,7 @@ Bestiole::Bestiole(const Bestiole &b) : isDead(false)
 
    identite = ++next;
 
-   cout << "const Bestiole (" << identite << ") par copie" << endl;
+   //cout << "const Bestiole (" << identite << ") par copie" << endl;
 
    x = b.x + 3;
    y = b.y + 3;
@@ -118,7 +116,7 @@ Bestiole::~Bestiole(void)
 
    delete[] couleur;
 
-   cout << "dest Bestiole" << endl;
+   //cout << "dest Bestiole" << endl;
 }
 
 void Bestiole::initCoords(int xLim, int yLim)
@@ -180,8 +178,6 @@ void Bestiole::markAsDead()
 void Bestiole::action(Milieu &monMilieu)
 {
 
-   cout << "Debut appel Action bestiole" << endl;
-
    if (comportement == Kamikaze::getKamikaze())
    { // Set color to red for Kamikaze
        couleur[0] = 179;
@@ -211,12 +207,7 @@ void Bestiole::action(Milieu &monMilieu)
    }
 
 
-
-   cout << "Fin maj couleur bestiole et Juste avant l'appel à execute" << endl;
-
    comportement->execute(*this, monMilieu);
-
-   cout << "Fin execute" << endl;
 
 
    int randomValue = std::rand() % 800;
@@ -226,16 +217,12 @@ void Bestiole::action(Milieu &monMilieu)
        BestioleFactory::getFactory()->cloneBestiole(*this);
    }
 
-   cout << "Appel à execute fini" << endl;
-
    bouge(monMilieu.getWidth(), monMilieu.getHeight());
    stepsToDeath = stepsToDeath - 1;
    if (stepsToDeath == 0)
    {
       markAsDead();
    }
-
-   cout << "Fin appel Action bestiole" << endl;
 
 }
 
@@ -277,11 +264,6 @@ void Bestiole::draw(UImg &support)
       }
    }
 
-   // support.draw_line(x, y, x+cos(orientation)*200, y-sin(orientation)*200,couleur);
-   // support.draw_line(x, y, x+cos(orientation+0.25)*200, y-sin(orientation+0.25)*200,couleur);
-   // support.draw_line(x, y, x+cos(orientation-0.25)*200, y-sin(orientation-0.25)*200,couleur);
-
-   // support.draw_circle(x, y, 100, couleur, 1, 0xFFFFFFFF); // opacity, outline (0=none, 1=dots, 0xFFFFFFFF=full)
 }
 
 bool operator==(const Bestiole &b1, const Bestiole &b2)
@@ -397,7 +379,7 @@ std::list<std::shared_ptr<Bestiole>> Bestiole::capteBestioles(const Milieu& monM
             }
             else
             {
-                std::cout << "Dynamic cast failed..." << std::endl;
+                //std::cout << "Dynamic cast failed..." << std::endl;
             }
         }
     }
@@ -432,7 +414,7 @@ double Bestiole::getCamouflage() const
          }
          else
          {
-            cout << "Dynamic cast failed..." << endl;
+            //cout << "Dynamic cast failed..." << endl;
          }
       }
    }
@@ -491,7 +473,7 @@ double Bestiole::getProbaMortCollision() const
          }
          else
          {
-            cout << "Dynamic cast failed..." << endl;
+            //cout << "Dynamic cast failed..." << endl;
          }
       }
    }

@@ -97,7 +97,7 @@ void Milieu::step( void )
 }
 
 void Milieu::addMember(const Bestiole& b) {
-	std::cout << "Appel à addMember lancé" << std::endl;
+	//std::cout << "Appel à addMember lancé" << std::endl;
 	listeBestioles.push_back(std::make_shared<Bestiole>(b));
 	listeBestioles.back()->initCoords(width, height);
 }
