@@ -19,7 +19,7 @@ const double PersonnalitesMultiples::CHGTCOMPORTEMENT = 0.01 ;
 
 
 PersonnalitesMultiples::PersonnalitesMultiples() {
-	std::cout << "Naissance d'une personnalité multiple" << std::endl;
+	//std::cout << "Naissance d'une personnalité multiple" << std::endl;
 }
 
 void PersonnalitesMultiples::setComportement( Comportement* newComportement) {

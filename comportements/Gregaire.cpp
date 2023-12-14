@@ -11,7 +11,7 @@ Gregaire* Gregaire::gregaire=nullptr;
 bool Gregaire::initialized = false;
 
 Gregaire::Gregaire() {
-    std::cout << "Création du comportement Grégaire" << std::endl;
+    //std::cout << "Création du comportement Grégaire" << std::endl;
     initialized = true;
 }
 

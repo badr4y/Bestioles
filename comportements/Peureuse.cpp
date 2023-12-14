@@ -12,7 +12,7 @@ Peureuse* Peureuse::peureuse=nullptr;
 bool Peureuse::initialized = false;
 
 Peureuse::Peureuse() {
-	std::cout << "Comportement peureuse créé" << std::endl;
+	//std::cout << "Comportement peureuse créé" << std::endl;
 }
 
 Peureuse* Peureuse::getPeureuse() {

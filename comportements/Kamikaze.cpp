@@ -66,8 +66,6 @@ double Kamikaze::calculNouvelleOrientation(const Bestiole& bestiole, const std::
 
 void Kamikaze::execute(Bestiole & bestiole, Milieu & milieu) {
 
-    cout << "Appel à execute de kamikaze" << endl;
-
     //une bestiole kamikaze cherche à provoquer une collision avec la bestiole la plus proche
 
     std::list<std::shared_ptr<Bestiole>> listeBestioles = bestiole.capteBestioles(milieu);
@@ -76,8 +74,6 @@ void Kamikaze::execute(Bestiole & bestiole, Milieu & milieu) {
         double nouvelleOrientation = calculNouvelleOrientation(bestiole, proiePtr);
         bestiole.setOrientation(nouvelleOrientation);
     }
-
-    cout << "Fin appel à execute de kamikaze" << endl;
 }
 
 
