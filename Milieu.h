@@ -6,9 +6,12 @@
 #include "Bestiole.h"
 
 #include <iostream>
-#include <vector>
+#include <list>
+
 
 using namespace std;
+
+class Bestiole;
 
 
 class Milieu : public UImg
@@ -18,7 +21,7 @@ private :
    static const T          white[];
 
    int                     width, height;
-   std::vector<Bestiole>   listeBestioles;
+   list<shared_ptr<Bestiole>>   listeBestioles;
 
 public :
    Milieu( int _width, int _height );
@@ -26,10 +29,11 @@ public :
 
    int getWidth( void ) const { return width; };
    int getHeight( void ) const { return height; };
+   const list<shared_ptr<Bestiole>>& getListeBestioles() const{ return listeBestioles; };
 
    void step( void );
 
-   void addMember( const Bestiole & b ) { listeBestioles.push_back(b); listeBestioles.back().initCoords(width, height); }
+   void addMember( const Bestiole & b );
    int nbVoisins( const Bestiole & b );
 
 };
